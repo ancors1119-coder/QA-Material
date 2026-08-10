@@ -238,6 +238,14 @@
         .pill.stop { color: var(--stop); background: var(--stop-bg); } .pill.stop::before { background: var(--stop); }
         .pill.info { color: var(--info); background: var(--info-bg); } .pill.info::before { background: var(--info); }
 
+        /* Card issue flag — 확인필요 사유를 심각도별로 축약 표시 */
+        .issue-flag { display: flex; align-items: center; gap: 6px; margin-top: 6px; padding: 6px 10px; border-radius: 8px; font-size: .76rem; font-weight: 600; line-height: 1.3; }
+        .issue-flag i { flex: 0 0 auto; }
+        .issue-flag span.txt { flex: 1 1 auto; }
+        .issue-flag.high { color: var(--stop); background: var(--stop-bg); }
+        .issue-flag.low  { color: var(--warn); background: var(--warn-bg); }
+        .issue-more { flex: 0 0 auto; font-size: .68rem; font-weight: 700; padding: 1px 7px; border-radius: 20px; background: rgba(127,127,127,.2); }
+
         /* Function / cert tags */
         .tag { display: inline-flex; align-items:center; gap:4px; font-size: .72rem; font-weight: 600; padding: 3px 8px; border-radius: 7px; background: var(--line-soft); color: var(--ink-soft); }
         .tag.cert { background: var(--rouge-50); color: var(--rouge-700); }
@@ -1453,7 +1461,7 @@ Sincerely yours, Koki Shibutani, Consumer Care, Global Chemical Business, Kao Co
           }
         },
         { name:"어성초추출물", inci:"Water, Butylene Glycol, Houttuynia Cordata Extract, Ethyl Hexanediol, 1,2-Hexanediol", cas:null, supplier:"COSEEDBIOPHARM CO., LTD.", func:"진정",
-          limit:null, certs:["Microplastic Free 인증서 오기 — 확인 필요"],
+          limit:null, certs:[],
           docs:{coa:true,msds:true,spec:true}, allergen:false,
           restrict:"Microplastic Free 인증서에 타제품명(Bifida Ferment Filtrate VG) 오기재 — 재발급 확인 필요",
           country:"한국", views:0, regs:{}, fileCount:36,
@@ -1888,7 +1896,7 @@ Total | 100.00 | - | 58.60 | - | 59.00 | - | 0.00 | - | 0.00
           }
         },
         { name:"AT 캐모마일꽃추출물", inci:"Butylene Glycol (and) Water (and) Chamomilla Recutita (Matricaria) Flower Extract", cas:null, supplier:"ATHENA CO., Ltd (아데나)", func:"진정",
-          limit:null, certs:["Animal Free·Pork Free 선언서 실체 없음(Vegan과 동일파일)","COA 미제공","원산지 정보 상충"],
+          limit:null, certs:[],
           docs:{coa:false,msds:true,spec:true}, allergen:false,
           restrict:"Animal Free·Pork Free 파일이 Vegan Statement와 완전히 동일한 오사본 — 전용 선언서 부재, 재발급 필요. 원산지 문서 간 상충(한국 단일 vs 미국·프랑스 포함). COA(로트 실측 성적서) 폴더 내 없음.",
           country:"한국(제조국, 문서상)", views:0, regs:{}, fileCount:34,
@@ -2182,7 +2190,7 @@ Document Registration No: 20260327-103 / Issuing Date: 2026.03.27. / Title: Vega
           }
         },
         { name:"ARONVIS SX", inci:"Sodium Polyacrylate", cas:null, supplier:"TOAGOSEI CO., LTD.", func:"기타",
-          limit:null, certs:["SPEC·MSDS 미제공"],
+          limit:null, certs:[],
           docs:{coa:true,msds:false,spec:false}, allergen:false,
           restrict:"이 폴더에는 정식 SPEC·MSDS 문서가 없음 — 제품소개 기술자료(TDS)와 COA·원산지증명·비동물시험증명만 존재. INCI명(Sodium Polyacrylate)은 COA 제품명 표기에서 최초 확인, CAS No.는 어느 문서에도 명시되어 있지 않음",
           country:"일본", views:0, regs:{}, fileCount:4,
@@ -2315,7 +2323,7 @@ Judgment For JSQI | - | Pass | -
           }
         },
         { name:"AN COMPLEX 1", inci:"Water, Butylene Glycol, Ethyl Hexanediol, Prunus Persica (Peach) Fruit Extract, Phellodendron Amurense Bark Extract, Morus Bombycis Root Extract, Polygonum Multiflorum Root Extract, Plantago Asiatica Extract, Lonicera Japonica (Honeysuckle) Flower Extract, Artemisia Vulgaris Extract, Glycyrrhiza Glabra (Licorice) Root Extract, Phenoxyethanol", cas:null, supplier:"COSEEDBIOPHARM CO., LTD.", func:"기타",
-          limit:null, certs:["CITES 선언서 없음","MSDS CAS매핑 오류(EN판)"],
+          limit:null, certs:[],
           docs:{coa:true,msds:true,spec:true}, allergen:false,
           restrict:"MSDS 영문판 성분표의 CAS번호 매핑 오류(국문판은 정상) 및 CITES 선언서 부재 — 확인 필요",
           country:"한국", views:0, regs:{}, fileCount:34,
@@ -2650,7 +2658,7 @@ Phenoxyethanol 122-99-6 등록 01-2119488943-21-XXXX
           }
         },
         { name:"아카시아나무꽃추출물", inci:"Water, Butylene Glycol, Ethyl Hexanediol, 1,2-Hexanediol, Robinia Pseudoacacia Flower Extract", cas:null, supplier:"COSEEDBIOPHARM CO., LTD.", func:"기타",
-          limit:null, certs:["CITES·Vegan 선언서 없음"],
+          limit:null, certs:[],
           docs:{coa:true,msds:true,spec:true}, allergen:false,
           restrict:"CITES·Vegan 전용 선언서가 이 폴더에 없음(AN Complex 1에는 있었음), MSDS 최초작성일 EN/KR 불일치 — 확인 필요",
           country:"한국", views:0, regs:{}, fileCount:31,
@@ -2903,7 +2911,7 @@ Robinia Pseudoacacia Flower Extract 89957-93-7 Y(Natural Source) 면제 <1톤
           }
         },
         { name:"알로에베라잎추출물", inci:"Water, Butylene Glycol, Aloe Barbadensis Leaf Extract, Ethyl Hexanediol, Phenoxyethanol", cas:null, supplier:"COSEEDBIOPHARM CO., LTD.", func:"보습",
-          limit:null, certs:["SPEC 시험항목 3종 COA 미확인","MSDS 개정이력 EN/KR 상충","CITES 선언서 없음"],
+          limit:null, certs:[],
           docs:{coa:true,msds:true,spec:true}, allergen:false,
           restrict:"정식 SPEC에 명시된 비소·강열잔분·증발잔류물 3개 항목이 실제 로트 COA에는 시험되지 않음. MSDS 개정이력이 EN/KR 판 간 전혀 다름 — 확인 필요",
           country:"한국", views:0, regs:{}, fileCount:35,
@@ -3204,7 +3212,7 @@ Phenoxyethanol 122-99-6 등록 01-2119488943-21-XXXX
           }
         },
         { name:"Acetyl Hexapeptide-8 Solution", inci:"Water, Acetyl Hexapeptide-8, 1,2-Hexandiol, Caprylyl Glycol, Tropolone", cas:null, supplier:"EYESEL Co., Ltd.", func:"주름개선",
-          limit:null, certs:["REACH·NMPA 미제공","HS Code 미기재"],
+          limit:null, certs:[],
           docs:{coa:true,msds:true,spec:true}, allergen:false,
           restrict:"이 폴더에는 REACH 인증서·NMPA 원료보고서·HS Code가 전혀 없음 — 다른 원료 폴더와 달리 완전 누락, 공급업체(EYESEL) 확인 필요",
           country:"한국", views:0, regs:{}, fileCount:18,
@@ -4546,7 +4554,7 @@ TSE/BSE: 비동물유래로 원료·가공보조제·첨가제에 관련물질 �
           }
         },
         { name:"Aqua Double Complex(H)", inci:"Water, Snail Secretion Filtrate, 1,2-Hexanediol, Xylitylglucoside, Anhydroxylitol, Xylitol", cas:null, supplier:"EYESEL Co., Ltd.", func:"보습", limit:null,
-          certs:["동물유래 원료 포함(달팽이점액여과물 2%) — 'Animal Free' 파일명과 실제 구성 불일치"],
+          certs:[],
           docs:{coa:true,msds:true,spec:true}, allergen:false,
           restrict:"'Animal Free' 파일명이나 실제 내용은 무관한 통합선언서(BSE/TSE/GMO/Gluten 등)이며 '동물유래 미함유' 문구 자체가 없음. Origin 인증서상 달팽이점액여과물(2%)이 동물유래로 명시되어 있어 파일명과 실제 원료 구성이 모순됨 — 비건·애니멀프리 표방 불가. 중금속·SVHC·REACH·나노물질 관련 문서가 폴더 내 전혀 없음. COA는 이미지 스캔본으로 확인 불가",
           country:"대한민국", views:0, regs:{}, fileCount:18,
@@ -4732,6 +4740,965 @@ Lot No. M260211 | 제조일 2026.02.11 | 유효기한 2027.02.10
 (비고: 이번에 확인한 원료 중 드물게 실제 로트 실측치가 포함된 COA)` }
             ]
           }
+        },
+        { name:"Ascorbic acid", inci:"Ascorbic Acid", cas:"50-81-7", supplier:"dsm-firmenich Switzerland Ltd / DSM Nutritional Products (UK) Ltd", func:"항산화제, 피부컨디셔닝제", limit:null,
+          certs:["Halal"],
+          docs:{coa:true,msds:true,spec:true}, allergen:false,
+          restrict:"Cosmos 인증서 유효기한이 2023.12.31로 기재되어 있어 폴더 내 타 문서(2025~2026년 개정판) 대비 만료된 상태로 보임 — 최신 인증서 재확보 필요. 추출부위확인서 파일은 실제로는 Technical Dossier(규제정보 요약본)이며, 본 원료는 화학합성 물질로 식물 추출부위 개념 자체가 비해당됨.",
+          country:"영국(Dalry, Ayrshire, Scotland) 제조 — 법인은 스위스(dsm-firmenich Switzerland Ltd)", views:0, regs:{}, fileCount:35,
+          detail:{
+            code:"610070", classification:"비타민류(항산화제) — 합성 아스코르빈산", hsCode:null, packaging:null,
+            specTable:[
+                {item:"외관",spec:"백색~담황색 분말"},{item:"pH(5%수용액)",spec:"2.2~2.5"},{item:"함량(Assay)",spec:"99.0~100.5%"},
+                {item:"건조감량",spec:"0.1% 이하"},{item:"강열잔분(황산회분)",spec:"0.1% 이하"},
+                {item:"중금속",spec:"10ppm 이하(납2/수은1/아연25/구리5/철2/비소3ppm 이하)"},
+                {item:"잔류용매",spec:"에탄올 120mg/kg 이하, 메탄올 60mg/kg 이하"},
+                {item:"유연물질",spec:"L-sorbosonic acid(불순물C) 0.15%이하, Methyl L-sorbosonate(불순물D) 0.15%이하, 옥살산(불순물E) 0.2%이하"}
+            ],
+            origin:{ country:"영국 Dalry(Ayrshire, Scotland) 제조 — 화학합성(2-KGA 에스테르화→MeKGA→L-아스코르빈산 재배열)", rawMaterials:["Ascorbic Acid — 합성(2-Keto-L-Gulonic Acid 에스테르화), 전구물질 소르비톨은 밀(대체:옥수수) 유래 바이오전환"] },
+            msds:{
+                versionEn:"Version 2.1, 2023.11.20 개정(최초발행 2020.12.07)", versionKr:"MSDS_2023.11.20_KR.pdf (동일 개정판)",
+                hazardEn:"유해물질·혼합물 아님(Not a hazardous substance or mixture) — 분진폭발 위험성만 명시",
+                physical:[{item:"성상",spec:"분말, 무취~약한 산미"},{item:"용해도",spec:"물에 잘 녹음(약30g/100mL), 알코올에 약간 녹음"},{item:"노출한계",spec:"TWA 14mg/m³(DSM 내부기준)"}],
+                ecotox:"PBT/vPvB 기준 불충족 확인 — 상세 생태독성정보는 SDS 12장 참조(해당 섹션 원문은 이번 정독 범위에서 미확인)"
+            },
+            regulatory:{
+                reach:"Annex IV 등록면제 대상물질(EU REACh 1907/2006) — Only Representative(OR) 지정완료, PC39(COLIPA) 용도 커버",
+                nmpaCode:"신고코드 004092-00666-2016, IECSC 등재(Y)/IECIC 등재(Y)",
+                prop65:"납≤1ppm, 수은≤0.1ppm, 카드뮴≤0.5ppm, 니켈≤2ppm, 비소≤1ppm, 메탄올≤60ppm 이내 확인 (2025.06.27)",
+                cites:"해당없음(CITES 등재 대상 아님)", bseTse:"해당없음(비동물유래, BSE/TSE Statement 확인)"
+            },
+            declarations:[
+                {type:"비건",result:"적합",note:"동물유래 원료·부산물 의도적 미함유, 화학합성 공정 확인 (Vegan Statement 2025.06.27)"},
+                {type:"할랄",result:"적합",note:"Halal Certificate 보유"},
+                {type:"Cosmos",result:"확인필요",note:"인증서 유효기한 2023.12.31로 기재 — 폴더 내 최신 문서(2025~2026)와 달리 만료 여부 재확인 필요"},
+                {type:"SVHC",result:"적합",note:"ECHA SVHC 후보물질목록상 0.1% 초과 함유 없음 확인 (2025.06.27)"},
+                {type:"Microplastic",result:"해당없음",note:"EU 2023/2055 규정상 폴리머가 아니므로 규제범위 밖 (2025.06.27)"},
+                {type:"REACH",result:"등록면제",note:"Annex IV 면제대상, OR 지정완료 (2025.06.27)"},
+                {type:"China NMPA",result:"등재완료",note:"신고코드 004092-00666-2016, IECSC/IECIC 등재 (2025.06.27)"},
+                {type:"California Prop 65",result:"적합",note:"중금속·메탄올 안전기준 이내 (2025.06.27)"},
+                {type:"향료알레르겐",result:"미함유",note:"Fragrance Allergens Statement — 확대 CAS 목록 전체 대조 게재"},
+                {type:"나노물질",result:"해당없음",note:"EC 1223/2009 Art.2(k) 나노 정의에 비해당"}
+            ],
+            note:"동일한 'Technical Dossier'(5p, Version 15: 2025-07-15, Product Code 0422460) 문서가 Alcohol Free·Animal Free·Cites·Country of origin·Gluten Free·NUT Free·Nanomaterial·RSPO·Source of origin·추출부위확인서 등 10개 파일명으로 반복 배포됨(이번 세션 중 최대 규모 중복 사례). Cosmos 인증서 유효기한이 2023.12.31로, 나머지 문서군(2025~2026 개정)과 달리 만료 상태로 보여 재확인 필요. SPEC과 Product Data Sheet는 동일 내용(Version 13, 2025.06.27)의 별도 파일명. 마케팅자료 2건(효능자료, 일반)은 폴더에 존재하나 이번 정독 범위에서 원문 대조를 완료하지 못함 — 후속 확인 필요.",
+            documents:[
+                { files:["MSDS_2023.11.20_EN.pdf","MSDS_2023.11.20_KR.pdf"], title:"Safety Data Sheet (EN/KR)", date:"Version 2.1, 2023.11.20",
+                  fullText:`Ascorbic acid — MSDS, dsm-firmenich(DSM Nutrition Korea Ltd. 발행)
+2.유해성분류: 유해물질·혼합물 아님, 그림문자/신호어/유해문구 없음. PBT·vPvB 기준 불충족. 분진폭발 위험성 있음.
+3.조성: ascorbic acid(Vitamin C) 50-81-7, 90~100%
+7.취급저장: 열·직사광선 피해 밀폐·건조 보관, 분진 발생 방지
+8.노출관리: TWA 14mg/m³(DSM 내부기준), 보호안경·니트릴장갑 착용` },
+                { files:["COA.pdf"], title:"Certificate of Analysis (COA)", date:"실측 로트 데이터 포함",
+                  fullText:`Ascorbic acid Fine Powder — COA, dsm-firmenich
+Product code 0422460 — 규격 전 항목(외관/pH/비선광도/건조감량/중금속/잔류용매/함량) 실측치 Pass 확인` },
+                { files:["Product Data Sheet_2025.06.27.pdf","SPEC_2025.06.27.pdf"], title:"Product Data Sheet / SPEC (동일문서 2개 파일명)", date:"Version 13, 2025.06.27",
+                  fullText:`Ascorbic Acid Fine Powder — Product Data Sheet, dsm-firmenich
+CAS 50-81-7 | EINECS 200-066-2 | E300 | 분자량 176.13g/mol
+외관 분말(백색~담황색) | pH 2.2-2.5(5%수용액) | 비선광도 +20.5~21.5° | 건조감량 0.1%이하 | 강열잔분 0.1%이하
+중금속 10ppm이하(납2/수은1/아연25/구리5/철2/비소3) | 옥살산 0.2%이하 | 잔류용매 에탄올120/메탄올60mg/kg이하 | 함량 99.0-100.5%
+안정성: 미개봉 원용기, 25℃미만 보관 시 제조일로부터 36개월. USP/FCC/Ph.Eur. 적합` },
+                { files:["Manufacturing Principle_2025.06.27.pdf"], title:"Manufacturing Principle", date:"Version 05, 2025.06.27",
+                  fullText:`Ascorbic acid — Manufacturing Principle, dsm-firmenich
+2-Keto-L-Gulonic Acid(2-KGA) 에스테르화 → Methyl Ester(MeKGA) → 재배열 → L-Ascorbic Acid. 화학합성 공정.` },
+                { files:["Representative Composition_2025.06.27.pdf"], title:"Representative Composition", date:"Version 02, 2025.06.27",
+                  fullText:`Ascorbic acid — Representative Composition, dsm-firmenich
+Ascorbic Acid 100.00%(Total 100.00%) — 규격 아님, 참고용` },
+                { files:["REACh Statement_2025.06.27.pdf"], title:"EU REACh Statement", date:"Version 05, 2025.06.27",
+                  fullText:`Ascorbic acid — REACh Statement, dsm-firmenich
+CAS 50-81-7, EINECS 200-066-2 — REACh Annex IV 면제대상. Only Representative(OR) 지정완료. PC39(COLIPA) 용도 커버.` },
+                { files:["SVHC Statement_2025.06.27.pdf"], title:"SVHC Statement", date:"Version 05, 2025.06.27",
+                  fullText:`Ascorbic acid — SVHC Statement, dsm-firmenich
+ECHA SVHC 후보물질목록(Candidate List) 및 Authorization List(Annex XIV) 상 물질을 0.1% 초과 함유하지 않음 확인.` },
+                { files:["Microplastic Statement_2025.06.27.pdf"], title:"Microplastic Statement", date:"Version 02, 2025.06.27",
+                  fullText:`Ascorbic acid — Microplastic Statement, dsm-firmenich
+EU 2023/2055(REACH Annex XVII 개정) 규정상 폴리머로 간주되지 않아 규제범위 밖(out of scope) 확인.` },
+                { files:["Proposition 65 Statement_2025.06.27.pdf"], title:"Proposition 65 Statement", date:"Version 03, 2025.06.27",
+                  fullText:`Ascorbic acid — Prop65 Statement, dsm-firmenich
+납≤1ppm, 수은≤0.1ppm, 카드뮴≤0.5ppm, 니켈≤2ppm, 비소≤1ppm, 메탄올≤60ppm — 제조공정 지식 기반 확인, 최종제품 기준 이내.` },
+                { files:["NMPA_2025.06.27.pdf"], title:"Regulatory Status - China (NMPA)", date:"Version 04, 2025.06.27",
+                  fullText:`Ascorbic acid — China Regulatory Status, dsm-firmenich
+신고코드(Submission Code) 004092-00666-2016 | 抗坏血酸(维生素C) 100.00% | IECSC 등재(Y) | IECIC 등재(Y)` },
+                { files:["Vegan Statement_2025.06.27.pdf"], title:"Vegan Statement", date:"Version 02, 2025.06.27",
+                  fullText:`Ascorbic acid — Vegan Statement, dsm-firmenich
+화학합성 공정으로 제조되며 동물유래 원료·부산물을 의도적으로 함유하지 않음을 확인. 비건 요구사항 법적 책임은 부인(disclaimer).` },
+                { files:["Animal Testing Statement.pdf"], title:"Animal Testing Statement", date:"날짜 미기재(2025년경)",
+                  fullText:`Ascorbic acid — Animal Testing Statement, dsm-firmenich
+화장품 목적으로는 동물실험을 실시하지 않음(DSM Nutritional Products Ltd. 대행 포함). 비화장품 목적 동물실험(대사연구, 1994년, 사료용) 이력은 별도 명시.` },
+                { files:["BSE,TSE Statement.pdf"], title:"BSE/TSE Statement", date:"날짜 미기재(2025년경)",
+                  fullText:`Ascorbic acid — BSE/TSE Statement, dsm-firmenich
+비동물유래 화학합성 원료로 BSE/TSE 위험 해당없음 확인.` },
+                { files:["CMR Statement.pdf"], title:"CMR Statement", date:"날짜 미기재(2025년경)",
+                  fullText:`Ascorbic acid — CMR Statement, dsm-firmenich
+CMR(발암성·변이원성·생식독성) 물질 EU 분류기준 관련 선언.` },
+                { files:["GMO Statement.pdf"], title:"GMO Statement", date:"날짜 미기재(2025년경)",
+                  fullText:`Ascorbic acid — GMO Statement, dsm-firmenich
+비GMO 화학합성 공정 확인(전구물질 소르비톨의 바이오전환 단계는 비-GMO 미생물 사용).` },
+                { files:["Heavy Metals Statement.pdf"], title:"Heavy Metals Statement", date:"날짜 미기재(2025년경)",
+                  fullText:`Ascorbic acid — Heavy Metals Statement, dsm-firmenich
+중금속(납/수은/아연/구리/철/비소) 규격상한 재확인 선언 — Product Data Sheet 수치와 일치.` },
+                { files:["IMPURITIY, Residual Solvent Statement.pdf"], title:"Impurity / Residual Solvent Statement", date:"날짜 미기재(2025년경)",
+                  fullText:`Ascorbic acid — Impurity/Residual Solvent Statement, dsm-firmenich
+불순물(L-sorbosonic acid 등) 및 잔류용매(에탄올/메탄올) 규격상한 재확인 — Product Data Sheet 수치와 일치.` },
+                { files:["ISO 16128 Statement.pdf"], title:"ISO 16128 Statement", date:"날짜 미기재(2025년경)",
+                  fullText:`Ascorbic acid — ISO 16128 Statement, dsm-firmenich
+천연유래지수(Natural Origin Index) 관련 선언 — 화학합성 물질 특성 반영.` },
+                { files:["Fragrance Allergens Statement.pdf"], title:"Fragrance Allergens Statement", date:"날짜 미기재(2025년경)",
+                  fullText:`Ascorbic acid — Fragrance Allergens Statement, dsm-firmenich
+EU 향료알레르겐 확대 CAS 목록 전체 대조 게재, 해당 물질 미함유 확인.` },
+                { files:["Halal Certificate.pdf"], title:"Halal Certificate", date:"날짜 미기재(2025년경)",
+                  fullText:`Ascorbic acid — Halal Certificate, dsm-firmenich
+할랄 적합 인증서.` },
+                { files:["Cosmos certificate.pdf"], title:"Cosmos Certificate", date:"유효기한 2023.12.31 기재",
+                  fullText:`Ascorbic acid — Cosmos Certificate, dsm-firmenich
+Valid until: 31/12/2023 — 폴더 내 타 문서(2025~2026 개정) 대비 만료된 것으로 보이는 인증서. 최신본 재확보 필요.` },
+                { files:["Alcohol Free(2page)_2025.07.15.pdf","Animal Free(1page)_2025.07.15.pdf","Cites(4page)_2025.07.15.pdf","Country of origin(5page)_2025.07.15.pdf","Gluten Free(2page)_2025.07.15.pdf","NUT Free(2page)_2025.07.15.pdf","Nanomaterial(3page)_2025.07.15.pdf","RSPO(1page)_2025.07.15.pdf","Source of origin(1page)_2025.07.15.pdf","추출부위확인서_2025.07.15.pdf"], title:"Technical Dossier (통합 규제정보 요약, 10개 파일 동일문서)", date:"Version 15, 2025-07-15 (Replaces Version 14: 2025-06-27)",
+                  fullText:`dsm-firmenich — Technical Dossier, Ascorbic Acid Fine Powder(Product Code 0422460)
+1.원료 출처: 합성(2-KGA 에스테르화) — 전구물질 소르비톨은 밀(대체 옥수수) 바이오전환, 식물·동물·광물 유래 아님
+2.기능: 활성성분(피부컨디셔닝·항산화제)
+3.함유가능물질: 글루텐 등 식품알레르겐 불검출/미결정, 에탄올(잔류용매 별도참조), 중금속/잔류용매(Product Data Sheet 참조)
+4.규제정보: EU화장품규정 준수선언·향료알레르겐·CMR·동물실험 각 선언서 보유, REACh 준수(Annex IV 면제), SVHC·마이크로플라스틱 규정 대응, 미국 Prop65·중국 NMPA 대응, 나노물질 비해당(EC1223/2009 Art.2(k))
+6.제품적합성: Natrue·Cosmos 인증 보유(Ecocert는 Cosmos로 대체), 코셔·할랄 보유
+8.품질기준: EFfCI GMP 준수, FSSC 22000 인증
+원산지: Dalry(United Kingdom)
+(비고: 이 문서 1건이 Alcohol Free·Animal Free·Cites·Country of origin·Gluten Free·NUT Free·Nanomaterial·RSPO·Source of origin·추출부위확인서 등 10개 파일명으로 동일하게 반복 배포됨 — 이번 세션에서 확인된 가장 큰 규모의 파일명 중복 사례)` }
+            ]
+          }
+        },
+        { name:"ACTIVONOL-M", inci:"Dipropylene Glycol, Hydroxyacetophenone, Caprylyl Glycol, Dipotassium Glycyrrhizate", cas:"110-98-5, 99-93-4, 1117-86-8, 68797-35-3", supplier:"ACTIVON CO., LTD.", func:"방부부스터(보존제 대체), 보습제", limit:"권장 사용량 1.0~2.0%(제형별 상이)",
+          certs:["HALAL"],
+          docs:{coa:true,msds:true,spec:true}, allergen:false,
+          restrict:"COA·NMPA·HALAL 인증서 3건이 이미지 스캔본으로 텍스트 추출이 되지 않아 육안 원본 확인 필요. Origin Statement(country)와 Origin Statement(source) 2개 파일이 서로 다른 이름임에도 표 내용이 완전히 동일함(제조국·유래원 정보가 한 표에 같이 기재). ISO16128상 Natural Index가 0.1~10%로 매우 낮아 원료 대부분(디프로필렌글라이콜·하이드록시아세토페논·카프릴릴글라이콜)이 석유화학(petrochemical) 유래이며, 감초 유래 디포타슘글리시리제이트(0.1%)만 식물 유래.",
+          country:"대한민국(충북 청주)", views:0, regs:{}, fileCount:37,
+          detail:{
+            code:"610072", classification:"방부부스터(Preservative Booster) — 디올/페놀류 복합 항균제", hsCode:null, packaging:"25kg HDPE Jerrycan",
+            specTable:[
+                {item:"외관",spec:"투명 액체"},{item:"수분",spec:"0.50% 이하(Karl-Fischer)"},{item:"비중(20℃)",spec:"1.042~1.052"},
+                {item:"굴절률(20℃)",spec:"1.475~1.495"},{item:"중금속",spec:"10ppm 미만(ICP-MS)"},{item:"비소",spec:"2ppm 미만(ICP-MS)"}
+            ],
+            origin:{ country:"대한민국(제조국, Certificate of Manufacturer Origin 기준)", rawMaterials:["Dipropylene Glycol — 석유화학, 대한민국","Hydroxyacetophenone — 석유화학, 미국","Caprylyl Glycol — 석유화학, 대한민국","Dipotassium Glycyrrhizate — 식물(감초 유래), 대한민국"] },
+            msds:{
+                versionEn:"Version 1.0, 2025.08.07", versionKr:null,
+                hazardEn:"Eye irritation Category 2, Aquatic Chronic Toxicity Category 3 — H319(심한 눈 자극), H412(장기적 영향 수생생물 유해), 신호어 Warning",
+                physical:[{item:"성상",spec:"투명 액체, 특이취"},{item:"녹는점/어는점",spec:"5~10℃"},{item:"비중(20℃)",spec:"1.042~1.052"},{item:"용해도",spec:"물에 3% 용해, 글리콜에 자유 혼화"}],
+                ecotox:"Hydroxyacetophenone 96h-LC50(어류)25mg/L·48h-EC50(물벼룩)50mg/L·72h-EC50(조류)11.8mg/L | Caprylyl Glycol 96h-LC50(어류)2.2~22mg/L | Dipropylene glycol 24h-LC50(어류)>5,000mg/L — 전 성분 용이생분해성(Readily biodegradable)"
+            },
+            regulatory:{
+                reach:"EU REACH 등록완료(디프로필렌글라이콜 01-2119456811-38, 하이드록시아세토페논 01-2119970711-37, 카프릴릴글라이콜 01-2119966905-22, 디포타슘글리시리제이트는 연1톤미만 계획), UK REACH도 별도 등록(4성분 모두 연1톤미만 계획톤수)",
+                nmpaCode:"NMPA 서류 보유(이미지 스캔본 — 코드 등 상세 육안 확인 필요)",
+                prop65:"적합 (2024.09.24)", cites:"해당없음 (2025.03.06)", bseTse:"해당없음(비동물유래, 2025.03.19)"
+            },
+            declarations:[
+                {type:"비건",result:"적합",note:"동물유래 원료·접촉 없음, 2009.1.1 이후 동물실험 미실시 확인 (2024.07.18)"},
+                {type:"할랄",result:"적합",note:"인증서 보유(유효기간 2025.11.26~2027.01.15) — 스캔본으로 인증기관 육안확인 필요"},
+                {type:"천연유래지수 (ISO16128)",result:"Natural Index 0.1~10% / Organic Index 0%",note:"원료 대부분 석유화학 유래로 천연지수 매우 낮음 (2024.05.10)"},
+                {type:"REACH",result:"등록완료",note:"4개 성분 개별 등록번호 확인 (EU 2024.04.24, UK 2025.10.15)"},
+                {type:"EUDR",result:"적합",note:"삼림전용 없는 책임조달 확인 (2025.08.21)"},
+                {type:"California Prop 65",result:"적합",note:"발암·생식독성 물질 미함유 (2024.09.24)"},
+                {type:"SVHC",result:"적합",note:"ECHA SVHC 후보물질 미함유 (2026.04.07)"},
+                {type:"중금속",result:"적합",note:"납10/비소2/안티몬5/카드뮴5/수은1/니켈10ppm 이하 (2024.04.24, KFDA 시험법)"},
+                {type:"Microplastic",result:"미함유",note:"EU 2023/2055 합성고분자 미립자 비해당 (2024.06.25)"},
+                {type:"IFRA",result:"적합",note:"51차 개정 기준 제한·금지물질 비해당 (2025.05.16)"}
+            ],
+            note:"COA·NMPA·HALAL Certificate 3건이 이미지 스캔본으로 pdfplumber 텍스트 추출 불가 — 로트 실측치·인증번호는 원본 육안 확인 필요. Origin Statement(country)와 Origin Statement(source) 2개 파일이 다른 제목에도 불구하고 표 내용이 완전히 동일(성분별 유래원·제조국을 한 표에 함께 기재) — 사실상 중복 문서. 소개자료(22p)에 자체 효능·안정성·임상 데이터가 상세히 포함되어 있어 소개자료·임상자료 모두 이 문서로 충족(인체첩포시험 P.C.I=0.02, 무자극, IEC KOREA 시험기관, Report No. IECK 16-K169018).",
+            documents:[
+                { files:["GHSMSDS_2025.08.07.pdf"], title:"Material Safety Data Sheet", date:"Version 1.0, 2025.08.07",
+                  fullText:`ACTIVONOL-M — MSDS, ACTIVON CO., LTD.
+2.유해성: Eye irritation Cat.2, Aquatic Chronic Toxicity Cat.3 — H319/H412, 신호어 Warning
+3.조성: Dipropylene Glycol 25~60%, Hydroxyacetophenone 25~50%, Caprylyl Glycol 10~25%, Dipotassium Glycyrrhizate ≤0.1%
+9.물리화학: 투명액체, 녹는점5~10℃, 비중1.042~1.052(20℃), 물에3%용해
+11.독성: Hydroxyacetophenone 경구LD50(rat)2,240mg/kg | Caprylyl Glycol 경구LD50(rat)>2,000mg/kg | Dipropylene glycol 경구LD50(rat)16,000mg/kg — 전성분 발암성 IARC 분류대상 아님
+12.생태독성: 전성분 용이생분해성(Readily biodegradable, OECD TG301)` },
+                { files:["SPEC_2025.06.11.pdf"], title:"Specification", date:"v1.0.0, 2025.06.11",
+                  fullText:`ACTIVONOL-M — Specification, ACTIVON CO., LTD.
+외관: 투명액체 | 냄새: 특이취 | 수분: 0.50%이하(Karl-Fischer) | 비중(20℃): 1.042~1.052(전자밀도계) | 굴절률(20℃): 1.475~1.495(ABBE) | 중금속: 10ppm미만(ICP-MS) | 비소: 2ppm미만(ICP-MS)
+유효기간: 24개월 후 재평가 | 보관조건: 원포장 밀폐, 서늘하고 건조하며 차광된 장소` },
+                { files:["TDS_2024.03.28.pdf"], title:"Technical Data Sheet", date:"Version 1.1, 2024.03.28",
+                  fullText:`ACTIVONOL-M — TDS, ACTIVON CO., LTD.
+화학명: 1,1'-oxydipropan-2-ol, 4'-hydroxyacetophenone, Octane-1,2-diol, 디포타슘글리시리제이트
+용도: 화장품용 방부부스터·보습제·핸드필개질제·용제, 시트마스크에 특히 효과적, 세균·진균 광범위 항균 스펙트럼
+권장사용량: 1.0~1.5% | 포장: 25kg HDPE Jerrycan
+보관: 직사광선·열·점화원 회피, 밀폐용기 서늘한 곳, 미개봉 시 2년 보관 가능` },
+                { files:["Composition sheet_2024.01.14.pdf"], title:"Composition Sheet", date:"2024.01.24",
+                  fullText:`ACTIVONOL-M — Composition Sheet, ACTIVON CO., LTD.
+Dipropylene Glycol(CAS110-98-5) 54.9% | Hydroxyacetophenone(CAS99-93-4) 30.0% | Caprylyl Glycol(CAS1117-86-8) 15.0% | Dipotassium Glycyrrhizate(CAS68797-35-3) 0.1%` },
+                { files:["Certificate of Manufacturer Origin_2024.04.24.pdf"], title:"Certificate of Manufacturer Origin", date:"2024.04.24",
+                  fullText:`ACTIVONOL-M — Certificate of Manufacturer Origin, ACTIVON CO., LTD.
+"제조국이 대한민국(South Korea)임을 확인"` },
+                { files:["Origin Statement(country)_2024.06.17.pdf","Origin Statement(source)_2024.06.17.pdf"], title:"Origin Statement (제목만 다른 동일 표 2건)", date:"2024.06.17",
+                  fullText:`ACTIVONOL-M — Origin Statement, ACTIVON CO., LTD.
+Hydroxyacetophenone: 석유화학, 미국 | Caprylyl Glycol: 석유화학, 대한민국 | Dipropylene Glycol: 석유화학, 대한민국 | Dipotassium Glycyrrhizate: 식물(감초), 대한민국
+(비고: "country"와 "source" 두 파일명이 서로 다른 초점을 암시하나 실제로는 동일한 1개 표(성분별 유래원+제조국)를 담은 동일 문서)` },
+                { files:["Declaration of REACH_2024.04.24.pdf"], title:"Declaration of REACH (EU)", date:"2024.04.24",
+                  fullText:`ACTIVONOL-M — EU REACH Declaration, ACTIVON CO., LTD.
+Dipropylene Glycol 01-2119456811-38-00XX | Hydroxyacetophenone 01-2119970711-37-00XX | Caprylyl Glycol 01-2119966905-22-00XX | Dipotassium Glycyrrhizate 연1톤미만 계획톤수` },
+                { files:["UK REACH Declaration_2025.10.15.pdf"], title:"UK REACH Declaration", date:"2025.10.15",
+                  fullText:`ACTIVONOL-M — UK REACH Declaration, ACTIVON CO., LTD.
+4개 성분 전부 연1톤미만(Planned tonnage band < 1t/a) 등록` },
+                { files:["ISO 16128 Statements_2024.05.10.pdf"], title:"ISO 16128 Statements", date:"2024.05.10",
+                  fullText:`ACTIVONOL-M — ISO16128 Statement, ACTIVON CO., LTD.
+Natural Index 0.1~10% | Natural Origin Index 0.1~10% | Organic Index 0% | Organic Origin Index 0%` },
+                { files:["Certificate of Heavy metals_2024.04.24.pdf"], title:"Certificate of absence of Heavy metals", date:"2024.04.24",
+                  fullText:`ACTIVONOL-M — Heavy Metals Certificate, ACTIVON CO., LTD.
+"납≤10ppm, 비소≤2ppm, 안티몬≤5ppm, 카드뮴≤5ppm, 수은≤1ppm, 니켈≤10ppm — KFDA 시험법 준수"` },
+                { files:["Impurity Statement_2025.10.23.pdf"], title:"Impurity Statement", date:"2025.10.23",
+                  fullText:`ACTIVONOL-M — Impurity Statement, ACTIVON CO., LTD.
+"불순물을 함유하지 않음을 확인"` },
+                { files:["California Proposition 65 Statement_2024.09.24.pdf"], title:"California Proposition 65 Statement", date:"2024.09.24",
+                  fullText:`ACTIVONOL-M — Prop65 Statement, ACTIVON CO., LTD.
+"캘리포니아주 발암성·생식독성 화학물질 목록상 물질 미함유"` },
+                { files:["EUDR Compliance Statement_2025.08.21.pdf"], title:"EUDR Compliance Statement", date:"2025.08.21",
+                  fullText:`ACTIVONOL-M — EUDR Statement, ACTIVON CO., LTD.
+"EU 삼림전용규정(2023/1115) 준수 — 전 원료 삼림전용·산림황폐화 없는 책임조달 확인"` },
+                { files:["SVHC_Statement_2026.04.07.pdf"], title:"SVHC Statement", date:"2026.04.07",
+                  fullText:`ACTIVONOL-M — SVHC Statement, ACTIVON CO., LTD.
+"ECHA SVHC 후보물질목록상 물질 미함유"` },
+                { files:["Nanomaterials FREE Statement_2024.06.25.pdf"], title:"Nanomaterials FREE Statement", date:"2024.06.25",
+                  fullText:`ACTIVONOL-M — Nano Statement, ACTIVON CO., LTD.
+"EC1223/2009 16조 기준 나노물질 미함유"` },
+                { files:["microparticles FREE Statement_2024.06.25.pdf"], title:"Synthetic polymer microparticles FREE Statement", date:"2024.06.25",
+                  fullText:`ACTIVONOL-M — Microplastic Statement, ACTIVON CO., LTD.
+"EU 2023/2055·REACH Annex XVII 기준 합성고분자 미립자(마이크로플라스틱) 미함유"` },
+                { files:["PFAS-Free Statement_v1.0_2026.01.28.pdf"], title:"PFAS-Free Statement", date:"v1.0, 2026.01.28",
+                  fullText:`ACTIVONOL-M — PFAS-Free Statement, ACTIVON CO., LTD.
+"의도적으로 첨가된 과불화·폴리불화 화합물(PFAS) 미함유(원료·공정 지식 기반)"` },
+                { files:["GMO-Free Statement_2025.03.19.pdf"], title:"GMO-Free Statement", date:"2025.03.19",
+                  fullText:`ACTIVONOL-M — GMO Statement, ACTIVON CO., LTD.
+"GMO-Free 제품임을 확인"` },
+                { files:["Gluten-Free Statement_2025.03.19.pdf"], title:"Gluten-Free Statement", date:"2025.03.19",
+                  fullText:`ACTIVONOL-M — Gluten-Free Statement, ACTIVON CO., LTD.
+"제조공정 중 글루텐 사용·첨가 없음"` },
+                { files:["Nut-Free Statement_2025.12.10.pdf"], title:"Nut-Free Statement", date:"2025.12.10",
+                  fullText:`ACTIVONOL-M — Nut-Free Statement, ACTIVON CO., LTD.
+"견과류·견과류 유래성분 미함유"` },
+                { files:["Pork Free Statement_2024.12.27.pdf"], title:"Porcine Free Statement", date:"2024.12.27",
+                  fullText:`ACTIVONOL-M — Pork Free Statement, ACTIVON CO., LTD.
+"제조시설이 돈육·돈유래성분과 완전 분리, 제조공정에 사용하지 않음"` },
+                { files:["BSE, TSE Free Statement_2025.03.19.pdf"], title:"BSE/TSE-Free Statement", date:"2025.03.19",
+                  fullText:`ACTIVONOL-M — BSE/TSE Statement, ACTIVON CO., LTD.
+"소·양·염소 유래 BSE/TSE 영향성분 미함유"` },
+                { files:["CMR Statement_2025.03.19.pdf"], title:"CMR Statement", date:"2025.03.19",
+                  fullText:`ACTIVONOL-M — CMR Statement, ACTIVON CO., LTD.
+"EC1272/2008 및 EC1223/2009 15조 기준 CMR물질(1A/1B/2등급) 미함유"` },
+                { files:["CITES Statement_2025.03.06.pdf"], title:"CITES Statement", date:"2025.03.06",
+                  fullText:`ACTIVONOL-M — CITES Statement, ACTIVON CO., LTD.
+"CITES 보호종 목록 비대상"` },
+                { files:["Certificate of Animal FREE_2024.05.31.pdf"], title:"Certificate of Animal FREE", date:"2024.05.31",
+                  fullText:`ACTIVONOL-M — Animal Free Certificate, ACTIVON CO., LTD.
+"동물유래성분 미함유, 제조·보관 중 동물유래물질과 접촉 없음"` },
+                { files:["Statement of Non-Animal Test_2025.03.19.pdf"], title:"Statement of Non-Animal Test", date:"2025.03.19",
+                  fullText:`ACTIVONOL-M — Non-Animal Test Statement, ACTIVON CO., LTD.
+"2009년 1월 1일 이후 어떤 목적으로도 동물실험을 실시하지 않음"` },
+                { files:["Vegan Statement_2024.07.18.pdf"], title:"Vegan Statement", date:"2024.07.18",
+                  fullText:`ACTIVONOL-M — Vegan Statement, ACTIVON CO., LTD.
+"동물유래원료·물질 미사용, 교차오염 없음, 2009.1.1 이후 동물실험 미실시, 동물 학대·착취 공정 미관여 — 비건 제품으로 간주 가능"` },
+                { files:["Alcohol FREE Statement_2024.07.31.pdf"], title:"Alcohol FREE Statement", date:"2024.07.31",
+                  fullText:`ACTIVONOL-M — Alcohol Free Statement, ACTIVON CO., LTD.
+"알코올 미함유"` },
+                { files:["Allergens-Free Statement_2026.01.15.pdf"], title:"Allergens-Free Statement (EU 확대목록)", date:"2026.01.15",
+                  fullText:`ACTIVONOL-M — Allergens-Free Statement, ACTIVON CO., LTD.
+"Regulation (EU) 2023/1545 및 EC1223/2009 Annex III 기준 향료알레르겐 미함유"` },
+                { files:["IFRA Statement_2025.05.16.pdf"], title:"IFRA Statement (51차 개정)", date:"2025.05.16",
+                  fullText:`ACTIVONOL-M — IFRA Statement, ACTIVON CO., LTD.
+"IFRA 51차 개정 기준 제한·금지물질에 해당하지 않음"` },
+                { files:["COA_2026.03.09.pdf"], title:"Certificate of Analysis (COA)", date:"2026.03.09",
+                  fullText:`ACTIVONOL-M — COA, ACTIVON CO., LTD.
+(이미지 스캔본으로 pdfplumber 텍스트 추출 불가 — 로트 실측치 원본 육안 확인 필요)` },
+                { files:["NMPA.pdf"], title:"NMPA 관련 서류", date:"날짜 미기재",
+                  fullText:`ACTIVONOL-M — NMPA 서류(5페이지), ACTIVON CO., LTD.
+(이미지 스캔본으로 pdfplumber 텍스트 추출 불가 — 등재코드 등 원본 육안 확인 필요)` },
+                { files:["HALAL Certificate_2025.11.26~2027.01.15.pdf"], title:"HALAL Certificate", date:"유효기간 2025.11.26~2027.01.15",
+                  fullText:`ACTIVONOL-M — HALAL Certificate(3페이지), ACTIVON CO., LTD.
+(이미지 스캔본으로 pdfplumber 텍스트 추출 불가 — 인증기관·인증번호는 파일명의 유효기간 외 원본 육안 확인 필요)` },
+                { files:["소개자료_2025.06.12.pdf"], title:"제품 소개자료 (효능·임상 데이터 포함, 22페이지)", date:"2025.06.12",
+                  fullText:`ACTIVONOL-M — 제품소개자료, ACTIVON CO., LTD.
+방부부스터: MIC(최소저해농도) E.coli 기준 0.5% | PET(방부력시험) PCPC/ISO11930/EP/USP51 기준 제형별(시트마스크1.0-1.2%, 토너/세럼1.0-1.5%, 로션/크림1.0-1.5%, 워시오프1.3-2.0%, 선케어1.4-1.5%) 통과
+인체첩포시험(단회, 48h, n=30 여성, IEC KOREA CO.,LTD. Report No.IECK 16-K169018): 시트마스크 2.0% 배합 시 P.C.I=0.02로 무자극(No irritant) 판정
+안정성: 동결융해(-20℃↔50℃, 5cycle) 및 고온(60/80℃,24h) 조건에서 침전·변색 없이 안정` }
+            ]
+          }
+        },
+        { name:"Activonol-3", inci:"Propanediol", cas:"504-63-2", supplier:"ACTIVON CO., LTD.", func:"보습제, 방부부스터(천연 유래 글라이콜)", limit:"권장 사용량 3.0~10.0%",
+          certs:["HALAL"],
+          docs:{coa:true,msds:true,spec:true}, allergen:false,
+          restrict:"RSPO Statement 원문은 'RSPO 인증서를 보유하지 않음(does not certify RSPO certificate)'이라고 명시하나, 동일 폴더의 소개자료는 제품명을 'Activonol-3 (RSPO MB)'로 표기하고 RSPO Mass Balance 인증·지속가능 팜유 사용을 핵심 마케팅 포인트로 강조 — 공식 선언서와 마케팅자료가 RSPO 인증 보유여부에 대해 정면으로 상충되어 재확인 필요. 'Animal Free'·'Non Animal Test' 파일 2건은 실제 내용이 Vegan Statement와 동일 문구로 전용 증명서가 아님. Origin Statement 2건('source,part,country'/'추출부위확인서')도 완전히 동일한 표를 담은 중복 문서.",
+          country:"원료(팜글리세린) 원산지 중국, 제조는 대한민국(충북 청주, ACTIVON CO., LTD. 발효공정)", views:0, regs:{}, fileCount:36,
+          detail:{
+            code:"610079", classification:"1,3-프로판다이올(천연 유래 글라이콜) — 팜글리세린 발효 공정", hsCode:null, packaging:"25kg/200kg/1,000kg 용기",
+            specTable:[
+                {item:"외관",spec:"투명 액체"},{item:"수분",spec:"0.20% 이하(Karl-Fischer)"},{item:"순도(Assay)",spec:"99.80% 이상(GC)"},
+                {item:"중금속",spec:"10ppm 미만(KP기준)"},{item:"비소",spec:"2ppm 미만(KP기준)"}
+            ],
+            origin:{ country:"팜글리세린(원료) 원산지 중국 — 제조는 대한민국(ACTIVON 청주공장)", rawMaterials:["Propanediol — 팜글리세린(Palm 열매) 발효 유래, 중국산 원료를 한국에서 발효·정제"] },
+            msds:{
+                versionEn:"Version 2.4, 2025.01.13(최초발행 2013.09.10)", versionKr:null,
+                hazardEn:"CLP(EC1272/2008) 기준 비분류(This product is not classified) — 그림문자·신호어·유해문구 없음",
+                physical:[{item:"성상",spec:"투명 무색 액체"},{item:"녹는점/어는점",spec:"-24.6℃(OECD102)"},{item:"끓는점",spec:"214~216℃(1,013hPa)"},{item:"인화점",spec:">99℃(밀폐식)"}],
+                ecotox:"어류 96h-LC50>9,720mg/L, 물벼룩 48h-EC50>7,417mg/L, 조류 72h-ErC50>10,000mg/L — 용이생분해성 71%(OECD301B,28일)"
+            },
+            regulatory:{
+                reach:"EU REACH 등록완료(Propanediol 01-2119489383-28-00XX)",
+                nmpaCode:"원료보고코드 000006-00675-9799 — 팜글리세린 발효 유래, 비소<2ppm/중금속<10ppm/세균·진균<100CFU/g",
+                prop65:"적합 (2024.08.20)", cites:"해당없음 (2024.08.20)", bseTse:"해당없음(비동물유래, 2025.06.26)"
+            },
+            declarations:[
+                {type:"비건",result:"적합",note:"동물유래 원료·접촉 없음, 2009.1.1 이후 동물실험 미실시 (2024.07.18) — 단, 'Animal Free'·'Non Animal Test' 파일명 2건도 동일 문구의 Vegan Statement로 중복 배포됨"},
+                {type:"할랄",result:"적합",note:"식물(팜) 유래, 동물성분·에탄올 미함유, 동물유래제품과 분리보관 (2024.08.20)"},
+                {type:"RSPO",result:"확인필요(상충)",note:"공식 RSPO Statement는 '인증서 미보유'로 명시하나, 소개자료는 'RSPO MB' 인증·지속가능 팜유 사용을 표방 — 상충"},
+                {type:"천연유래지수 (ISO16128)",result:"Natural Index 1 / Organic Index 0",note:"팜글리세린 발효 유래로 Natural Origin Index 만점(1) (2026.03.13)"},
+                {type:"REACH",result:"등록완료",note:"등록번호 01-2119489383-28-00XX (2024.08.20)"},
+                {type:"EUDR",result:"적합",note:"삼림전용 없는 책임조달 확인 (2026.05.20)"},
+                {type:"California Prop 65",result:"적합",note:"발암·생식독성 물질 미함유 (2024.08.20)"},
+                {type:"SVHC",result:"적합",note:"ECHA SVHC 후보물질 미함유 (2025.09.02)"},
+                {type:"중금속",result:"적합",note:"납10/비소2/안티몬5/카드뮴5/수은1/니켈10ppm 이하 (2025.01.31, MFDS 시험법)"},
+                {type:"Furocoumarin",result:"미함유",note:"베르갑텐·잔토톡신 등 선형·각형 푸로쿠마린 미함유 (2025.11.28)"}
+            ],
+            note:"'Animal Free'(2024.07.18)와 'Non Animal Test'(2024.07.18) 2개 파일명이 실제로는 서로 동일한 Vegan Statement 문서(전용 증명서 아님). 'Origin Statement(source, part, country)'와 'Origin Statement(추출부위확인서)' 2개 파일도 완전히 동일한 표(Propanediol — Palm glycerin — Palm(Fruit) — China)를 담은 중복 문서. 가장 주목할 점은 RSPO Statement 원문이 'RSPO 인증서 미보유'를 명시하는데도 소개자료는 제품명 자체를 'Activonol-3 (RSPO MB)'로 표기하며 RSPO Mass Balance 인증을 핵심 마케팅 소구점으로 사용 — 실제 인증 보유여부 확인 필요. COA는 이미지 스캔본으로 텍스트 추출 불가. Nut Free 전용 서류는 없으나 Food Allergens-Free Statement(EU1169/2011 Annex II, 견과류 포함)로 포괄 커버됨. 제조국 증명서(원산지증명서·제조국)는 폴더 내 별도 문서 없음 — MSDS 발신 주소(충북 청주)로만 간접 확인 가능.",
+            documents:[
+                { files:["GHSMSDS_2025.01.13.pdf"], title:"Material Safety Data Sheet", date:"Version 2.4, 2025.01.13",
+                  fullText:`Activonol-3 — MSDS, ACTIVON CO., LTD.
+2.유해성: CLP 기준 비분류(This product is not classified)
+3.조성: Propanediol(CAS504-63-2) 100%
+9.물리화학: 투명무색액체, 어는점-24.6℃, 끓는점214-216℃, 인화점>99℃, 분자량76.10g/mol
+11.독성: 경구LD50(rat)14.9mL/kg, 경피LD50(rat)>4,200mg/kg — 경미한 피부자극(토끼), 눈자극 없음~경미(48h내 회복)
+12.생태독성: 어류LC50>9,720mg/L, 물벼룩EC50>7,417mg/L, 조류ErC50>10,000mg/L, 용이생분해성71%(OECD301B)` },
+                { files:["SPEC_2025.07.04.pdf"], title:"Specification", date:"v2.3, 2025.07.04",
+                  fullText:`Activonol-3 — Specification, ACTIVON CO., LTD.
+외관: 투명액체 | 수분: 0.20%이하(Karl-Fischer) | 순도: 99.80%이상(GC) | 중금속: 10ppm미만 | 비소: 2ppm미만
+유효기간: 24개월 후 재평가 | 보관조건: 실온(15~25℃), 차광` },
+                { files:["TDS_2024.08.20.pdf"], title:"Technical Data Sheet", date:"v1.8, 2024.08.20",
+                  fullText:`Activonol-3 — TDS, ACTIVON CO., LTD.
+화학명: 1,3-Propanediol | 팜글리세린 발효 유래 천연 글라이콜 대체제
+용도: 보습제·방부부스터·핸드필개질제·용제, 헤어·스킨케어용 천연 글라이콜 대체
+포장: 25kg/200kg/1,000kg 용기 | 보관: 직사광선·열·점화원 회피, 미개봉 시 2년 보관 가능` },
+                { files:["Composition sheet_2024.12.23.pdf"], title:"Composition Sheet", date:"2024.12.23",
+                  fullText:`Activonol-3 — Composition Sheet, ACTIVON CO., LTD.
+Propanediol(CAS504-63-2) 100%` },
+                { files:["Origin Statement(source, part, country)_2024.07.23.pdf","Origin Statement(추출부위확인서)_2024.07.23.pdf"], title:"Origin Statement (제목만 다른 동일 표 2건)", date:"2024.07.23",
+                  fullText:`Activonol-3 — Origin Statement, ACTIVON CO., LTD.
+Propanediol: 유래원 Palm glycerin | 부위 Palm(Fruit) | 원산지 China
+(비고: "source,part,country"와 "추출부위확인서" 두 파일명이 서로 다른 문서를 암시하나 실제로는 완전히 동일한 1개 표)` },
+                { files:["Manufacturing flow chart_2025.11.20.pdf"], title:"Manufacturing Flow Chart", date:"2025.11.20",
+                  fullText:`Activonol-3 — Manufacturing Flow Chart, ACTIVON CO., LTD.
+Raw material → Fermentation(발효) → Filtration(여과) → Distillation(증류) → QC and Packing` },
+                { files:["REACH Declaration_2024.08.20.pdf"], title:"REACH Declaration", date:"2024.08.20",
+                  fullText:`Activonol-3 — REACH Declaration, ACTIVON CO., LTD.
+Propanediol 등록번호 01-2119489383-28-00XX` },
+                { files:["ISO16128_Statement_2026.03.13.pdf"], title:"ISO16128 Statement", date:"2026.03.13",
+                  fullText:`Activonol-3 — ISO16128 Statement, ACTIVON CO., LTD.
+Propanediol: Natural Index 1 / Natural Origin Index 1 / Organic Index 0 / Organic Origin Index 0 (함량 100%)` },
+                { files:["Heavy metals Statement_2025.01.31.pdf"], title:"Heavy metals Statement", date:"2025.01.31",
+                  fullText:`Activonol-3 — Heavy Metals Statement, ACTIVON CO., LTD.
+"납≤10ppm, 비소≤2ppm, 안티몬≤5ppm, 카드뮴≤5ppm, 수은≤1ppm, 니켈≤10ppm — MFDS 시험법 준수"` },
+                { files:["Impurity Statement_2024.08.20.pdf"], title:"Impurity Statement", date:"2024.08.20",
+                  fullText:`Activonol-3 — Impurity Statement, ACTIVON CO., LTD.
+"불순물 미함유"` },
+                { files:["California Proposition 65 Statement_2024.08.20.pdf"], title:"California Proposition 65 Statement", date:"2024.08.20",
+                  fullText:`Activonol-3 — Prop65 Statement, ACTIVON CO., LTD.
+"캘리포니아주 발암성·생식독성 화학물질 목록상 물질 미함유"` },
+                { files:["EUDR_Compliance_Statement_2026.05.20.pdf"], title:"EUDR Compliance Statement", date:"2026.05.20",
+                  fullText:`Activonol-3 — EUDR Statement, ACTIVON CO., LTD.
+"EU 삼림전용규정(2023/1115) 준수 — 책임조달 확인"` },
+                { files:["SVHC Statement_2025.09.02.pdf"], title:"SVHC Statement", date:"2025.09.02",
+                  fullText:`Activonol-3 — SVHC Statement, ACTIVON CO., LTD.
+"ECHA SVHC 후보물질목록상 물질 미함유"` },
+                { files:["Nanomaterials_2026.02.02.pdf"], title:"Nanomaterials-Free Statement", date:"2026.02.02",
+                  fullText:`Activonol-3 — Nano Statement, ACTIVON CO., LTD.
+"EC1223/2009 Art.2(1)(k)·Art.16 기준 나노물질 미함유"` },
+                { files:["Microplastics FREE Statement_2024.10.15.pdf"], title:"Microplastics FREE Statement", date:"2024.10.15",
+                  fullText:`Activonol-3 — Microplastic Statement, ACTIVON CO., LTD.
+"EU2023/2055 합성고분자 미립자(마이크로플라스틱) 비함유 예상"` },
+                { files:["PFAS-Free Statement_2025.11.19.pdf"], title:"PFAS-Free Statement", date:"2025.11.19",
+                  fullText:`Activonol-3 — PFAS-Free Statement, ACTIVON CO., LTD.
+"의도적으로 첨가된 PFAS 미함유(분석시험 근거 아님, 원료·공정 지식 기반)"` },
+                { files:["Non-GMO Statement_2024.08.20.pdf"], title:"Non-GMO Statement", date:"2024.08.20",
+                  fullText:`Activonol-3 — GMO Statement, ACTIVON CO., LTD.
+"Non-GMO 제품임을 확인"` },
+                { files:["Gluten FREE Statement_2024.08.20.pdf"], title:"Gluten FREE Statement", date:"2024.08.20",
+                  fullText:`Activonol-3 — Gluten-Free Statement, ACTIVON CO., LTD.
+"제조공정 중 글루텐 사용·첨가 없음"` },
+                { files:["Allergens-Free_Statement(Food)_2026.03.30.pdf"], title:"Food Allergens-Free Statement", date:"2026.03.30",
+                  fullText:`Activonol-3 — Food Allergens-Free Statement, ACTIVON CO., LTD.
+"EU1169/2011 Annex II 식품알레르겐(견과류 포함) 목록상 물질 미함유"` },
+                { files:["Pork Free_2025.01.13.pdf"], title:"Porcine Free Statement", date:"2025.01.13",
+                  fullText:`Activonol-3 — Pork Free Statement, ACTIVON CO., LTD.
+"제조시설이 돈육·돈유래성분과 완전 분리"` },
+                { files:["BSE_TSE-Free Statement_2025.06.26.pdf"], title:"BSE/TSE-Free Statement", date:"2025.06.26",
+                  fullText:`Activonol-3 — BSE/TSE Statement, ACTIVON CO., LTD.
+"소·양·염소 유래 BSE/TSE 영향성분 미함유"` },
+                { files:["CMR Statement_2024.08.20.pdf"], title:"CMR Statement", date:"2024.08.20",
+                  fullText:`Activonol-3 — CMR Statement, ACTIVON CO., LTD.
+"EC1272/2008·EC1223/2009 15조 기준 CMR물질(1A/1B/2등급) 미함유"` },
+                { files:["CITES Statement_2024.08.20.pdf"], title:"CITES Statement", date:"2024.08.20",
+                  fullText:`Activonol-3 — CITES Statement, ACTIVON CO., LTD.
+"CITES 보호종 목록 비대상"` },
+                { files:["Declaration of Denatured Alcohol_2023.12.06.pdf"], title:"Declaration of Denatured Alcohol FREE", date:"2023.12.06",
+                  fullText:`Activonol-3 — Denatured Alcohol Free Declaration, ACTIVON CO., LTD.
+"변성알코올 미함유"` },
+                { files:["Furocoumarin-Free Statement_2025.11.28.pdf"], title:"Furocoumarin-Free Statement", date:"2025.11.28",
+                  fullText:`Activonol-3 — Furocoumarin-Free Statement, ACTIVON CO., LTD.
+"베르갑텐·잔토톡신 등 선형·각형 푸로쿠마린 미함유"` },
+                { files:["Allergens Free Statement_2024.06.18.pdf"], title:"Allergens FREE Statement (향료알레르겐)", date:"2024.06.18",
+                  fullText:`Activonol-3 — Allergens Free Statement, ACTIVON CO., LTD.
+"EU2023/1545·EC1223/2009 기준 향료알레르겐 미함유"` },
+                { files:["IFRA_Statement_2026.03.30.pdf"], title:"IFRA Statement (51차 개정)", date:"2026.03.30",
+                  fullText:`Activonol-3 — IFRA Statement, ACTIVON CO., LTD.
+"IFRA 51차 개정 기준 제한·금지물질 비해당"` },
+                { files:["RSPO Statement_2024.07.23.pdf"], title:"RSPO Statement", date:"2024.07.23",
+                  fullText:`Activonol-3 — RSPO Statement, ACTIVON CO., LTD.
+"Activonol-3는 RSPO(Roundtable on Sustainable Palm Oil) 인증서를 보유하지 않음을 확인"
+(비고: 동일 폴더의 소개자료는 제품명을 'Activonol-3 (RSPO MB)'로 표기하고 RSPO 인증·지속가능 팜유를 핵심 소구점으로 광고 — 본 공식 선언서 내용과 정면 상충)` },
+                { files:["Animal Free_2024.07.18.pdf","Non Animal Test_2024.07.18.pdf","Vegan Statement_2024.07.18.pdf"], title:"Vegan Statement (3개 파일명 동일문서)", date:"2024.07.18",
+                  fullText:`Activonol-3 — Vegan Statement, ACTIVON CO., LTD.
+"동물유래원료·물질 미사용, 교차오염 없음, 2009.1.1 이후 동물실험 미실시, 동물 학대·착취 공정 미관여 — 비건 제품으로 간주 가능"
+(비고: "Animal Free"·"Non Animal Test"·"Vegan Statement" 3개 파일명이 전부 동일한 1건의 Vegan Statement 문서 — Animal Free·Non Animal Test 전용 증명서는 별도로 존재하지 않음)` },
+                { files:["COA_2025.12.05.pdf"], title:"Certificate of Analysis (COA)", date:"2025.12.05",
+                  fullText:`Activonol-3 — COA, ACTIVON CO., LTD.
+(이미지 스캔본으로 pdfplumber 텍스트 추출 불가 — 로트 실측치 원본 육안 확인 필요)` },
+                { files:["NMPA.pdf"], title:"중국 화장품원료 안전정보 (NMPA)", date:"날짜 미기재",
+                  fullText:`Activonol-3 — NMPA 원료보고, ACTIVON CO., LTD.
+원료보고코드 000006-00675-9799 | 1,3-丙二醇(Propanediol) 100% | 식물(팜, 간접래원) 발효 유래 | 비소<2ppm, 중금속<10ppm, 세균·진균 각<100CFU/g` },
+                { files:["소개자료.pdf"], title:"제품 소개자료 (RSPO MB 표기, 임상데이터 포함, 9페이지)", date:"날짜 미기재",
+                  fullText:`Activonol-3 (RSPO MB) — 제품소개자료, ACTIVON CO., LTD.
+보습효과: Corneometer 측정(n=3), 10% Activonol-3가 5%아쿠아세라마이드 대비 6시간 이상 지속되는 우수한 보습효과
+피부 마이크로바이옴 개선: 유익균(S.epidermidis) 증진·유해균(S.aureus) 억제 공동배양 실험
+인체첩포시험(단회, 48h, n=32 여성, IEC KOREA Report No.21-K169042RP): 100% 원료 기준 P.C.I=0.00로 무자극(No irritant)
+규격: 순도99.80%이상, 수분0.20%이하, 중금속<20ppm(SPEC 원본의 <10ppm과 수치 상이 — 마케팅자료 오기 가능성), 비소<2ppm
+(비고: 제품명 자체를 'RSPO MB'로 표기하며 RSPO 인증 팜유 사용을 광고하나, 동일 폴더의 공식 RSPO Statement는 인증서 미보유를 명시 — 상충)` }
+            ]
+          }
+        },
+        { name:"AEROSIL R 972", inci:"Silica Dimethyl Silylate", cas:"68611-44-9", supplier:"Evonik Operations GmbH(독일) / Evonik Korea", func:"점증제, 유동성조절제, 항침전제(소수화 발열법 실리카)", limit:null,
+          certs:["VEGAN(한국비건인증원)"],
+          docs:{coa:true,msds:true,spec:true}, allergen:false,
+          restrict:"Evonik의 'Product Safety Information'(9페이지, 2021.10, 문서번호 M1180) 1건이 Animal Testing·GMO·Heavy Metal·Prop65·TSE,BSE 등 5개 파일명으로 동일하게 중복 배포됨(전 자료 중 최다 중복). 'Animal Free'와 'Vegan' 2개 파일명도 한국비건인증원의 동일한 Vegan Ingredients Declaration 1건으로 중복. COA·Flow Chart·Origin(Manufacture) 3건은 이미지 스캔본으로 텍스트 추출 불가.",
+          country:"독일(Essen, 제조) — 국내 유통은 Evonik Korea", views:0, regs:{}, fileCount:18,
+          detail:{
+            code:"610080", classification:"합성 무기물(소수화 발열법 실리카, Fumed Silica) — 화장품용 점증·유동성조절제", hsCode:"382499", packaging:null,
+            specTable:[
+                {item:"비표면적",spec:"90~130 m²/g(ISO9277)"},{item:"pH",spec:"3.6~5.0(ISO787-9)"},{item:"건조감량",spec:"0.5% 이하(ISO787-2)"},
+                {item:"Al2O3",spec:"0.050% 이하"},{item:"Fe2O3",spec:"0.010% 이하"},{item:"TiO2",spec:"0.030% 이하"},{item:"탄소함량",spec:"0.6~1.2%"},
+                {item:"탬핑밀도",spec:"45~70 g/l"},{item:"SiO2 함량(전형값)",spec:">99.8%"}
+            ],
+            origin:{ country:"화학적으로 합성(클로로실란의 산수소염 화염 가수분해) — 동식물 유래 원료 미사용, Origin(Manufacture) 파일은 이미지 스캔본으로 육안 확인 필요", rawMaterials:["Silica Dimethyl Silylate — 발열법 실리카(Fumed Silica)의 소수화(디메틸디클로로실란 반응) 표면처리, 100% 합성"] },
+            msds:{
+                versionEn:"Version 1.22, 2024.03.22 개정(최초발행 2019.02.22)", versionKr:null,
+                hazardEn:"CLP(EC1272/2008) 기준 비분류(Not classified) — 그림문자·신호어 없음, PBT/vPvB 비해당",
+                physical:[{item:"성상",spec:"백색 분말, 무취"},{item:"밀도",spec:"약 2.2 g/cm³(20℃)"},{item:"pH",spec:"3.6~5.5(20℃, 40g/l 현탁액)"},{item:"자연발화온도",spec:">600℃(VDI2263)"}],
+                ecotox:"경구LD50(rat)>5,000mg/kg, 경피LD50(rabbit)>5,000mg/kg, 흡입LC50(rat,4h)>5.01mg/l — 피부·눈자극 없음(OECD404/유사법), 발암성·변이원성·생식독성 근거 없음"
+            },
+            regulatory:{
+                reach:"EU REACH 등록완료(01-2119379499-16-0000), UK-REACH 등록완료(UK-01-2509930461-7-0035) — 상세는 REACH(11p) 전용문서 보유",
+                nmpaCode:"중국 IECSC(화학물질 목록) 등재 확인 — 단, 화장품원료 전용 NMPA 신고코드 문서는 폴더에 없음",
+                prop65:"적합 — 캘리포니아주 목록물질 의도적 미사용 확인 (Product Safety Information, 2021.10)", cites:"해당없음(비생물유래 합성 무기물)", bseTse:"해당없음(화학합성, 동식물 유래 원료 미사용)"
+            },
+            declarations:[
+                {type:"비건",result:"적합",note:"한국비건인증원(Korea Agency of Vegan Certification) Vegan Ingredients Declaration 보유 (2022.10.04) — 'Animal Free' 파일명도 동일 문서"},
+                {type:"동물실험",result:"미실시",note:"화장품 목적 동물실험 실시한 바 없으며 향후 계획 없음 (Product Safety Information)"},
+                {type:"CMR",result:"미함유",note:"CLP Annex VI Table3.1/3.2 기준 CMR물질 없음(NONE) (2017.05.19)"},
+                {type:"SVHC",result:"적합",note:"SVHC 미등재 물질, 함량 0.1% 미만 확인 — 전용 SVHC(12p) 문서 보유 (2024.03.22)"},
+                {type:"중금속",result:"적합",note:"카드뮴/크롬/수은/납 각≤1ppm, 철≤10ppm, 구리/니켈 각≤1ppm, 비소/안티몬/셀레늄/바륨 각≤1ppm, 총함량 100ppm 미만(EU포장지침 94/62/EU 기준)"},
+                {type:"파라벤",result:"미함유",note:"Evonik Korea 확인서 (2022.11.15)"},
+                {type:"프탈레이트",result:"미함유",note:"Evonik Korea 확인서 (2022.11.15)"},
+                {type:"PFAS",result:"미함유",note:"PFOA/PFNA/PFHxS/PFOS 등 의도적 미사용·미첨가 확인 (Product Safety Information)"},
+                {type:"REACH",result:"등록완료",note:"EU 01-2119379499-16-0000, UK UK-01-2509930461-7-0035"},
+                {type:"글로벌 재고목록",result:"다수 등재",note:"호주AICS·캐나다DSL·중국IECSC·유럽EC·일본ENCS·한국KECI·뉴질랜드NZIoC·필리핀PICCS·대만TCSI·터키KKDIK(사전등록)·미국TSCA 등재"}
+            ],
+            note:"'Product Safety Information'(9페이지, Evonik, 2021.10, 문서번호 M1180) 1건이 Animal Testing(4page)·GMO(5page)·Heavy Metal(8page)·Prop 65(6page)·TSE,BSE(5page) 등 실제 페이지수 표기가 제각각인 5개 파일명으로 반복 배포됨 — 문서 하나에 동물실험·GMO·중금속·Prop65·TSE/BSE·알레르겐·글로벌 등재현황 등 규제정보 대부분이 통합되어 있음. 'Animal Free'와 'Vegan' 2개 파일도 한국비건인증원의 동일한 1건(Vegan Ingredients Declaration, 2022.10.04)으로 중복. COA·Flow Chart·Origin(Manufacture) 3건은 이미지 스캔본으로 pdfplumber 텍스트 추출 불가. Nut Free·Gluten Free·향료알레르겐(26/81+)·불순물 관련 항목은 전용 증명서 없이 Product Safety Information 문서 내 일반 알레르겐·물질선언(ALBA-list, EU1169/2011 등) 섹션에서 포괄적으로만 언급됨. NMPA는 중국 화학물질목록(IECSC) 등재만 확인되고 화장품원료 전용 신고코드 문서는 없음.",
+            documents:[
+                { files:["MSDS_2024.03.22_EN.PDF"], title:"Safety Data Sheet", date:"Version 1.22, 2024.03.22(최초 2019.02.22)",
+                  fullText:`AEROSIL R 972 — MSDS, Evonik Operations GmbH
+2.유해성: CLP 기준 비분류(Not classified), PBT/vPvB 비해당
+3.조성: Silane, dichlorodimethyl-, reaction products with silica(CAS68611-44-9) — REACH 01-2119379499-16-0000, UK-REACH UK-01-2509930461-7-0035
+9.물리화학: 백색분말·무취, 밀도2.2g/cm³(20℃), pH3.6-5.5(40g/l현탁), 자연발화온도>600℃, 분해온도>300℃
+11.독성: 경구LD50(rat)>5,000mg/kg, 경피LD50(rabbit)>5,000mg/kg, 흡입LC50(rat,4h)>5.01mg/l — 피부·눈 비자극, 감작성 없음(LLNA/Maximization Test), 발암성·변이원성·생식독성 근거 없음` },
+                { files:["SPEC_2022.03.03.pdf"], title:"Product Specification (Spec.Code K00)", date:"Version 1, Valid from 2013.01.01, 인쇄 2022.03.03",
+                  fullText:`AEROSIL R 972 — Product Specification, Evonik Operations GmbH
+비표면적 90-130m²/g(ISO9277) | pH 3.6-5.0(ISO787-9) | 건조감량≤0.5%(ISO787-2) | Al2O3≤0.050% | Fe2O3≤0.010% | TiO2≤0.030% | 탄소함량 0.6-1.2% | 탬핑밀도 45-70g/l | HCl함량≤0.050% | SiO2 전형값 >99.8%` },
+                { files:["Composition_2024.09.19.pdf"], title:"Certification of Composition", date:"2024.09.19",
+                  fullText:`AEROSIL R 972 — Certification of Composition, Evonik Operations GmbH
+SILICA DIMETHYL SILYLATE 100%` },
+                { files:["CMR_2017.05.19.pdf"], title:"CMR Statement", date:"2017.05.19",
+                  fullText:`AEROSIL R 972 — CMR Statement
+CLP Annex VI Table3.1(CMR 1,2등급)·Table3.2(CMR 1,2,3등급) 기준 CMR물질 함유량: NONE` },
+                { files:["REACH(11page)_2024.03.22_EN.PDF"], title:"REACH 등록정보 (11페이지)", date:"2024.03.22",
+                  fullText:`AEROSIL R 972 — REACH Registration Information, Evonik Operations GmbH
+EU REACH 등록번호 01-2119379499-16-0000, UK-REACH UK-01-2509930461-7-0035 — 상세 등록내역·용도군(Use category)·노출시나리오 문서(11페이지)` },
+                { files:["SVHC(12page)_2024.03.22_EN.PDF"], title:"SVHC 정보 (12페이지)", date:"2024.03.22",
+                  fullText:`AEROSIL R 972 — SVHC Information, Evonik Operations GmbH
+ECHA SVHC 후보물질목록 대비 확인 — 0.1% 초과 함유 SVHC 물질 없음 확인 (12페이지 상세 대조자료)` },
+                { files:["Paraben free_2022.11.15.pdf"], title:"Paraben Free Statement", date:"2022.11.15",
+                  fullText:`AEROSIL R 972 — Paraben Free Statement, Evonik Korea
+"파라벤 미함유 제품임을 확인"` },
+                { files:["Phthalate free_2022.11.15.pdf"], title:"Phthalate Free Statement", date:"2022.11.15",
+                  fullText:`AEROSIL R 972 — Phthalate Free Statement, Evonik Korea
+"프탈레이트 미함유 제품임을 확인"` },
+                { files:["Animal Testing(4page)_2021.10.pdf","GMO(5page)_2021.10.pdf","Heavy Metal(8page)_2021.10.pdf","Prop 65(6page)_2021.10.pdf","TSE,BSE(5page)_2021.10.pdf"], title:"Product Safety Information (통합 규제정보, 5개 파일명 동일문서, 9페이지)", date:"2021.10, 문서번호 M1180",
+                  fullText:`AEROSIL R 972 — Product Safety Information, Evonik Operations GmbH (CAS68611-44-9)
+동물실험: 화장품 목적 실시한 바 없음, 향후 계획 없음 | 비건: 동물유래 원료 의도적 미사용으로 비건 간주 가능
+GMO: 미사용, GMO 무접촉 | TSE/BSE: 화학합성으로 동식물유래 원료 미사용
+알레르겐: 순물질로 ALBA-list(글루텐함유곡물·견과류·갑각류 등)·EU1169/2011 대상 물질 의도적 미사용(단, 정식 시험항목은 아님)
+중금속: 카드뮴/크롬/수은/납 각≤1ppm, 철≤10ppm, 구리/니켈 각≤1ppm, 비소/안티몬/셀레늄/바륨 각≤1ppm, 총함량<100ppm(EU포장지침94/62/EU기준)
+Prop65: 캘리포니아 목록물질 의도적 미사용 | SVHC: 미등재, REACH PBT/vPvB 비해당
+글로벌 등재현황: 호주AICS·캐나다DSL·중국IECSC·유럽EC·일본ENCS·한국KECI·뉴질랜드NZIoC·필리핀PICCS·대만TCSI·터키KKDIK(사전등록)·미국TSCA 등재
+(비고: 이 9페이지 문서 1건이 Animal Testing(4page)·GMO(5page)·Heavy Metal(8page)·Prop65(6page)·TSE,BSE(5page)로 파일명·페이지수 표기가 제각각인 채 5회 중복 배포됨)` },
+                { files:["Animal Free(2page)_2022.10.04.pdf","Vegan_2022.10.04.pdf"], title:"Vegan Ingredients Declaration (한국비건인증원, 2개 파일명 동일문서)", date:"2022.10.04",
+                  fullText:`AEROSIL R 972(Silica Dimethyl Silylate) — Vegan Ingredients Declaration, 한국비건인증원(Korea Agency of Vegan Certification And Services) 제출용, Evonik 작성
+"제조공정 중 동물유래 원료 직간접 미포함·미사용, 동물실험 미실시(향후 계획 없음), 동물유래 원료와의 교차오염 방지 최선"
+(비고: "Animal Free"와 "Vegan" 2개 파일명이 완전히 동일한 1건의 문서)` },
+                { files:["COA_2025.07.02.pdf"], title:"Certificate of Analysis (COA)", date:"2025.07.02",
+                  fullText:`AEROSIL R 972 — COA, Evonik
+(이미지 스캔본으로 pdfplumber 텍스트 추출 불가 — 로트 실측치 원본 육안 확인 필요)` },
+                { files:["Flow Chart_2024.10.pdf"], title:"Manufacturing Flow Chart", date:"2024.10",
+                  fullText:`AEROSIL R 972 — Flow Chart
+(이미지 스캔본으로 pdfplumber 텍스트 추출 불가 — 원본 육안 확인 필요)` },
+                { files:["Origin(Manufacture)_2016.08.08.pdf"], title:"Origin(제조국) 증명 서류", date:"2016.08.08",
+                  fullText:`AEROSIL R 972 — Origin(Manufacture)
+(이미지 스캔본으로 pdfplumber 텍스트 추출 불가 — 제조국 원본 육안 확인 필요, MSDS 발신 주소는 독일 Essen)` }
+            ]
+          }
+        },
+        { name:"ABS Ginger Mint Extract Cooling PF", inci:"Water & Zingiber Officinale (Ginger) Root Extract & Mentha Piperita (Peppermint) Leaf Extract", cas:"7732-18-5 & 84696-15-1 & 84082-70-2", supplier:"Active Concepts, LLC(미국)", func:"청량감 부여제(쿨링), 피부컨디셔닝제", limit:"권장 사용량 1.0~10.0%",
+          certs:[],
+          docs:{coa:true,msds:true,spec:true}, allergen:false,
+          restrict:"5개의 서로 다른 통합양식 문서가 총 28개(37개 중 76%) 파일명으로 반복 배포됨(역대 최다 파일 재사용 사례): 'Certificate of Compliance'(3p)가 Alcohol Free·CITES·CMR·EG·Gluten Free·Impurity·Micro Plastic·NANO·Prop65·REACH·RSPO·SVHC 등 12개 파일명, 'Certificate of Origin'(1p)이 GMO·ISO16128·Non Animal Test·Origin·Origin(Source)·TSE,BSE·Vegan·추출부위확인서 등 8개 파일명, 'Compositional Breakdown'(5p)이 Allergen·Composition·IFRA 3개 파일명, 'Technical Data Sheet'(3p, 마케팅자료)가 Technical Data Sheet·소개자료·별첨 New TDS-v4 3개 파일명, 'Pork Free Statement'가 Animal Free·PORK FREE 2개 파일명. RSPO·Impurity·IFRA·HALAL 파일은 제목과 달리 전용 인증 내용이 없어 확인 필요.",
+          country:"미국(Lincolnton, NC)", views:0, regs:{}, fileCount:37,
+          detail:{
+            code:"610083", classification:"복합 식물추출물(생강뿌리·페퍼민트잎) 기반 쿨링·항균부스터 원료", hsCode:null, packaging:null,
+            specTable:[
+                {item:"외관",spec:"호박색 액체"},{item:"색상(Gardner)",spec:"7 이하"},{item:"pH",spec:"4.0~6.0"},{item:"비중(25℃)",spec:"1.000~1.020"},
+                {item:"중금속",spec:"20ppm 미만(납10/비소2/카드뮴1ppm 미만)"},{item:"미생물",spec:"100CFU/g 미만, 병원균 불검출, 그람음성균 0"}
+            ],
+            origin:{ country:"미국(전 원료 미국산, Certificate of Origin 명시)", rawMaterials:["Water 78%","Zingiber Officinale(Ginger) Root Extract 10% — 식물(생강)","Mentha Piperita(Peppermint) Leaf Extract 10% — 식물(페퍼민트)","Leuconostoc/Radish Root Ferment Filtrate(Leucidal® Liquid) 2% — 박테리아/식물(천연 항균부스터)"] },
+            msds:{
+                versionEn:"Version 10, 2025.03.14 (GHS SDS)", versionKr:null,
+                hazardEn:"CLP 기준 비분류 — NFPA 704: 보건0·인화성0·반응성0(정상물질)",
+                physical:[{item:"성상",spec:"호박색 액체, 특이취"},{item:"pH",spec:"4.0~6.0"},{item:"끓는점/어는점",spec:"100℃ / 0℃"},{item:"인화점",spec:">100℃"}],
+                ecotox:"담수조류 EC10 108.33mg/L·EC20 216.87mg/L(무해), 용이생분해성 96.6%(28일)"
+            },
+            regulatory:{
+                reach:"REACH Compliant 선언(Group A 문서), 별도 등록번호 목록은 없음",
+                nmpaCode:"원료보고코드 126374-02809-7490",
+                prop65:"적합(Group A 문서, 목록물질 미함유)", cites:"해당없음(CITES 대상종 유래 아님)", bseTse:"해당없음(Certificate of Origin, 비GMO·BSE/TSE Free 확인)"
+            },
+            declarations:[
+                {type:"비건",result:"적합",note:"Certificate of Origin — Vegan Compliant 분류, 동물실험 미실시 확인"},
+                {type:"할랄",result:"확인필요(비인증)",note:"Kosher & Halal Statement — 할랄 인증시설은 아니나(비인증) 성분·공정상 할랄 포뮬레이션 사용 가능하다는 자체 확인서만 존재 (2025.06.19)"},
+                {type:"천연유래지수 (ISO16128)",result:"Natural Index 1 / Natural Origin Index 1",note:"Certificate of Origin에 근거"},
+                {type:"RSPO",result:"확인필요",note:"파일명은 RSPO이나 실제 내용은 범용 Certificate of Compliance 문서로 팜유 유래성분 비의도적 함유 언급뿐 — 정식 RSPO 인증 근거 아님"},
+                {type:"SVHC",result:"적합",note:"ECHA SVHC 후보물질목록 미함유 (기준일 2025.01.16)"},
+                {type:"California Prop 65",result:"적합",note:"목록물질 미함유"},
+                {type:"CMR",result:"미함유",note:"EC1272/2008·EC1223/2009 기준 CMR물질 없음"},
+                {type:"EUDR",result:"방침 선언",note:"Deforestation Statement — EU2023/1115 대응 지속가능 조달 방침(구체적 이행증빙보다는 서약문 성격)"},
+                {type:"향료알레르겐",result:"미함유",note:"Annex III(EU2023/1545 개정) 확대목록 전체 대조, 단 멘톨은 제조공정상 비의도적으로 최대0.50% 테르펜 형태 생성 가능 명시"},
+                {type:"식품알레르겐(Nut Free 등)",result:"미함유",note:"계란·우유·땅콩·생선·갑각류·대두·밀(글루텐)·견과류·팜유·옥수수·참깨 미함유 (Allergen Statement, 2026.04.15)"}
+            ],
+            note:"5개의 서로 다른 통합양식 문서가 총 28개 파일명으로 반복 배포된, 이번 프로젝트 중 최대 규모의 파일명 중복 사례: ①'Certificate of Compliance'(3p, REACH/CMR/Prop65/Halal/SVHC/CITES 종합)가 12개 파일명(Alcohol Free·CITES·CMR·EG·Gluten Free·Impurity·Micro Plastic·NANO·Prop65·REACH·RSPO·SVHC), ②'Certificate of Origin'(1p, 미국산·비GMO·BSE-TSE Free·비건·ISO16128)이 8개 파일명(GMO·ISO16128·Non Animal Test·Origin·Origin(Source)·TSE,BSE·Vegan·추출부위확인서), ③'Compositional Breakdown'(5p, 성분표+향료알레르겐+농약)이 3개 파일명(Allergen·Composition·IFRA), ④'Technical Data Sheet'(3p, 마케팅+효능자료)가 3개 파일명(Technical Data Sheet·소개자료·별첨 New TDS-v4), ⑤'Pork Free Statement'가 2개 파일명(Animal Free·PORK FREE). 이 중 'RSPO'·'Impurity'·'IFRA' 파일은 제목과 달리 해당 인증·항목에 대한 구체적 언급이 문서 내에 없어 실질적으로는 범용 문서 재활용에 그침. 'IFRA' 파일명은 성분표 문서일 뿐 IFRA 51차 개정 준수 여부 언급이 없음. Halal Statement는 명시적으로 '할랄 인증시설 아님'이라고 밝혀 정식 인증서가 아님을 스스로 인정.",
+            documents:[
+                { files:["GHS SDS_2025.03.14.pdf"], title:"Safety Data Sheet (GHS, 10페이지)", date:"Version 10, 2025.03.14",
+                  fullText:`ABS Ginger Mint Extract Cooling PF — SDS, Active Concepts LLC
+2.유해성: CLP 비분류, NFPA 보건0·인화0·반응0
+3.조성: Water78%, Ginger Root Extract10%, Peppermint Leaf Extract10%, Leuconostoc/Radish Root Ferment Filtrate2%
+9.물리화학: 호박색액체, pH4.0-6.0, 비중1.000-1.020, 중금속<20ppm, 미생물<100CFU/g, 끓는점100℃/어는점0℃, 인화점>100℃
+10.안정성: 통상 보관조건에서 1년간 안정, 이후 재시험 후 유효기간 연장
+11.독성: 피부·눈 비자극(Irritection Model), 비감작성(APR-Nrf2 Luciferase), 비변이원성(OECD471)
+12.생태독성: 담수조류 EC10 108.33mg/L·EC20 216.87mg/L 무해, 용이생분해성 96.6%(28일)` },
+                { files:["Specification.pdf"], title:"Product Specification", date:"Version 1, 2025.01.16",
+                  fullText:`ABS Ginger Mint Extract Cooling PF — Specification, Active Concepts LLC
+외관 호박색액체 | 색상(Gardner) 7이하 | pH 4.0-6.0 | 비중(25℃) 1.000-1.020 | 중금속<20ppm(납<10/비소<2/카드뮴<1ppm) | 미생물<100CFU/g·병원균불검출·그람음성균0` },
+                { files:["COA_2025.09.17.pdf"], title:"Certificate of Analysis (COA)", date:"제조 2025.09.17, 재시험기한 2026.09.17",
+                  fullText:`ABS Ginger Mint Extract Cooling PF — COA, Active Concepts LLC
+Lot S250922G | 외관 호박색액체(Pass) | 색상(Gardner) 5(규격7이하) | pH 5.0(규격4.0-6.0) | 비중1.004(규격1.000-1.020) | 중금속<20ppm/납<10ppm/비소<2ppm/카드뮴<1ppm 전항목 Pass | 미생물·효모곰팡이·그람음성균 전항목 Pass` },
+                { files:["Manufacturing Flow Chart.pdf"], title:"Manufacturing Flow Chart", date:"Version 1, 2025.01.16",
+                  fullText:`ABS Ginger Mint Extract Cooling PF — Manufacturing Flow Chart, Active Concepts LLC
+원료입고→수령검사→생강뿌리·페퍼민트잎 기계적 분쇄→특정 pH·온도·시간 수용성 추출→Leuconostoc/Radish Root Ferment Filtrate 첨가→여과→배치조정(재여과)→QC샘플링→포장→미생물샘플링→출하` },
+                { files:["NMPA.pdf"], title:"중국 화장품원료 안전정보 (NMPA)", date:"날짜 미기재",
+                  fullText:`ABS Ginger Mint Extract Cooling PF — NMPA 원료보고, Active Concepts LLC
+원료보고코드 126374-02809-7490 | Water78%, Ginger Root Extract10%, Peppermint Leaf Extract10%, Leuconostoc/Radish Root Ferment Filtrate2%` },
+                { files:["Heavy Metals Statement_2026.01.15.pdf"], title:"Heavy Metals Statement", date:"2026.01.15",
+                  fullText:`ABS Ginger Mint Extract Cooling PF — Heavy Metals Statement, Active Concepts LLC
+"중금속<20ppm, 크롬<20ppm, 납<10ppm, 니켈<10ppm, 코발트<10ppm, 안티몬<5ppm, 비소<2ppm, 수은<1ppm, 카드뮴<1ppm — 크롬/니켈/코발트/안티몬/수은은 SPEC 규격 항목 아님(참고치)"` },
+                { files:["Nut Free_2026.04.15.pdf"], title:"Allergen Statement (식품알레르겐)", date:"2026.04.15",
+                  fullText:`ABS Ginger Mint Extract Cooling PF — Allergen Statement, Active Concepts LLC
+"계란·우유·땅콩·생선·갑각류·대두·밀(글루텐포함)·견과류(아몬드/브라질넛/캐슈/헤이즐넛 등)·팜유/팜핵유·옥수수·참깨 미함유"` },
+                { files:["Halal Statement_2025.06.19.pdf"], title:"Kosher & Halal Statement", date:"2025.06.19",
+                  fullText:`ABS Ginger Mint Extract Cooling PF — Kosher & Halal Statement, Active Concepts LLC
+"할랄 인증시설은 아니나 유대교 코셔 프레임워크에 부합하는 방식으로 생산됨. 동물유래성분(우유·육류·지방·효소·오일·젤라틴 등, 소/물소/닭/양/돼지 유래) 미함유. 돼지·돼지유래성분·주류알코올 전용 탱크/믹서로 분리 관리하여 교차오염 없음. 할랄 포뮬레이션에 사용 가능하나 정식 할랄인증서는 아님"` },
+                { files:["EUDR.pdf"], title:"Deforestation Statement (EUDR)", date:"Version 2, 2024.08.05",
+                  fullText:`ABS Ginger Mint Extract Cooling PF — Deforestation Statement, Active Concepts LLC
+"EU 삼림전용규정(2023/1115) 대응, 지속가능 조달 관행 추진 중 — 구체적 이행 증빙보다는 방침 서약 성격의 문서"` },
+                { files:["ALCOHOL FREE(3page).pdf","CITES(2page).pdf","CMR(2page).pdf","EG(3page).pdf","Gluten Free(3page).pdf","Impuritity(2page).pdf","Micro Plastic(3page).pdf","NANO(3page).pdf","Prop 65(2page).pdf","REACH(2page).pdf","RSPO(3page).pdf","SVHC(2page).pdf"], title:"Certificate of Compliance (통합 규제선언서, 12개 파일명 동일문서, 3페이지)", date:"Version 2, 2026.03.25",
+                  fullText:`ABS Ginger Mint Extract Cooling PF — Certificate of Compliance, Active Concepts LLC
+INCI/CAS/EINECS 확인, China NMPA# 126374-02809-7490 | 글로벌 등재현황: EU·미국·호주·일본·캐나다·중국·브라질·한국·필리핀·멕시코·뉴질랜드·대만 준수
+"REACH 준수, CMR물질 없음, Prop65 목록물질 없음, 할랄법 금지물질 없음, SVHC 후보물질 없음(2025.01.16기준), CITES 대상종 미사용(2025.01.16기준)"
+"의도적 미첨가·불검출 예상 물질: 1,4-Dioxane·니트로사민·알코올/에탄올·팜유(유도체 포함)·Lilial·파라벤·염료·파라핀/석유계·DEA·농약잔류물·포름알데히드·프탈레이트·글리콜에테르·PEG·글루텐·잔류용매·락토스·실리콘·마이크로플라스틱·황산염·나노입자·VOC"
+멘톨: 비의도적 생성 가능(최대 0.50% 테르펜)
+(비고: 이 문서 1건이 ALCOHOL FREE·CITES·CMR·EG·Gluten Free·Impurity·Micro Plastic·NANO·Prop65·REACH·RSPO·SVHC 등 12개 파일명으로 반복 배포됨 — RSPO·Impurity 파일명은 문서 내 해당 항목의 전용 인증 근거가 없어 실질적 불일치)` },
+                { files:["Allergen(2page).pdf","Composition(1page).pdf","IFRA(5page).pdf"], title:"Compositional Breakdown (성분표+향료알레르겐+농약, 3개 파일명 동일문서, 5페이지)", date:"Version 1, 2025.01.16(알레르겐 리스트 별도판)",
+                  fullText:`ABS Ginger Mint Extract Cooling PF — Compositional Breakdown, Active Concepts LLC
+성분: Water78%, Ginger Root Extract10%, Peppermint Leaf Extract10%, Leuconostoc/Radish Root Ferment Filtrate(Leucidal® Liquid)2%
+향료알레르겐: Annex III(EU2023/1545 개정, EC1223/2009) 확대목록 CAS번호 전체 대조 게재, 전항목 미함유
+농약: 34종 목록(DDT·린단·말라티온 등) 전항목 미함유
+(비고: 이 문서 1건이 Allergen·Composition·IFRA 등 3개 파일명으로 반복 배포됨 — 'IFRA' 파일명이나 IFRA 51차 개정 관련 언급은 문서 내 전혀 없음)` },
+                { files:["GMO(1page).pdf","ISO 16128(1page).pdf","Non Animal Test(1page).pdf","Origin(1page).pdf","Origin(Source)(1page).pdf","TSE,BSE(1page).pdf","Vegan(1page).pdf","추출부위확인서(1page).pdf"], title:"Certificate of Origin (원산지·비건·ISO16128 종합, 8개 파일명 동일문서, 1페이지)", date:"Version 1, 2025.01.16",
+                  fullText:`ABS Ginger Mint Extract Cooling PF — Certificate of Origin, Active Concepts LLC
+"미국 내 제조, 전 원료 미국산, 비GMO 원료로 BSE/TSE Free"
+성분별 유래: Water=Water | Ginger Root Extract=식물(Zingiber officinale) | Peppermint Leaf Extract=식물(Mentha piperita) | Leuconostoc/Radish Root Ferment Filtrate=박테리아/식물
+"비건 적합 분류, 동물실험 전무 확인" | ISO16128: Natural Index 1 / Natural Origin Index 1
+(비고: 이 문서 1건이 GMO·ISO16128·Non Animal Test·Origin·Origin(Source)·TSE,BSE·Vegan·추출부위확인서 등 8개 파일명으로 반복 배포됨 — 이번 프로젝트 중 두 번째로 큰 중복군. 추출부위확인서는 부위별 상세정보 없이 '식물(종명)' 수준의 일반 정보만 포함)` },
+                { files:["Animal Free_2026.01.15.pdf","PORK FREE_2026.01.15.pdf"], title:"Pork Free Statement (2개 파일명 동일문서)", date:"2026.01.15",
+                  fullText:`ABS Ginger Mint Extract Cooling PF — Pork Free Statement, Active Concepts LLC
+"동물·돼지·돼지유래성분 미함유, 할랄인증시설 장비도 돼지유래성분과 무관"
+(비고: "Animal Free"와 "PORK FREE" 2개 파일명이 완전히 동일한 1건의 Pork Free Statement — Animal Free 전용 증명서는 별도로 존재하지 않음)` },
+                { files:["Technical Data Sheet.pdf","소개자료_EN.pdf","10405PF-ABS Ginger Mint Extract Cooling PF-New Technical Data Sheet-v4.pdf"], title:"Technical Data Sheet (마케팅·효능자료, 3개 파일명 동일문서, 3페이지)", date:"Version 4, 2023.02.08",
+                  fullText:`ABS Ginger Mint Extract Cooling PF — Technical Data Sheet, Active Concepts LLC
+생강뿌리+페퍼민트잎 추출물 기반 쿨링 원료, 천연 항균부스터(Leuconostoc/Radish Root Ferment Filtrate) 함유
+효능시험: 인체 관능평가(n=15, 24~52세) — 로션 5% 배합 시 16명 즉시 냉감 인지, 3명 1분내, 1명 4-5분내 인지
+IL-6 ELISA(섬유아세포): LPS 자극 대비 항염 효과(IL-6 감소) 확인
+ORAC Assay: Trolox(비타민E 유사체)에 비견되는 항산화력 확인
+생분해도 96.6%(28일)
+(비고: 이 문서 1건이 Technical Data Sheet·소개자료·별첨 New TDS-v4 등 3개 파일명으로 반복 배포됨)` }
+            ]
+          }
+        },
+        { name:"bEGF (1ppm)", inci:"Water, sh-Oligopeptide-1, 1,2-Hexanediol, Caprylyl Glycol, Tropolone", cas:"1,2-Hexanediol 6920-22-5 / Caprylyl Glycol 1117-86-8 / Tropolone 533-75-5 (sh-Oligopeptide-1은 펩타이드로 CAS 미부여)", supplier:"EYESEL Co., Ltd.(대한민국 화성)", func:"피부재생·주름개선(EGF 모사 펩타이드)", limit:null,
+          certs:[],
+          docs:{coa:true,msds:true,spec:true}, allergen:false,
+          restrict:"EYESEL의 통합 'Declaration of Compliance'(2p, BSE/TSE·GMO·Gluten·팜유·파라벤·26종 알레르겐·D4-D5-D6·아플라톡신·프탈레이트·CMR·마이크로플라스틱 등 종합) 1건이 Animal Free·BSE,TSE·CMR·D4,D5,D6·GMO·Gluten Free·Impurity·Microplastics 등 8개 파일명으로 반복 배포됨. Origin(Country)와 Origin(Source) 2개 파일도 완전히 동일한 원산지 표.",
+          country:"대한민국(경기 화성) — 합성·발효 원료(독일산 3종 포함)", views:0, regs:{}, fileCount:18,
+          detail:{
+            code:"610094", classification:"EGF 모사 합성 펩타이드 용액(sh-Oligopeptide-1, 1ppm)", hsCode:null, packaging:null,
+            specTable:[
+                {item:"외관",spec:"투명 액체"},{item:"냄새",spec:"미미한 냄새"},{item:"pH",spec:"4.50~6.50"},
+                {item:"비중(d20/20)",spec:"0.950~1.100"},{item:"미생물",spec:"100cfu/g 이하"}
+            ],
+            origin:{ country:"정제수·sh-Oligopeptide-1(미생물발효)는 한국산, 1,2-헥산다이올·카프릴릴글라이콜·트로폴론(합성)은 독일산", rawMaterials:["Water — 천연, 한국","sh-Oligopeptide-1 — 미생물발효, 한국","1,2-Hexanediol — 합성, 독일","Caprylyl Glycol — 합성, 독일","Tropolone — 합성, 독일"] },
+            msds:{
+                versionEn:"작성일 2026.04.14(개정이력 없음)", versionKr:null,
+                hazardEn:"함유성분 중 해당 농도에서 유해성으로 간주되는 물질 없음 — 눈/피부 자극 없음, 비감작성, 변이원성 음성",
+                physical:[{item:"성상",spec:"투명 액체, 미미한 냄새"},{item:"pH",spec:"4.50~6.50"},{item:"비중",spec:"0.950~1.100(d20/20)"}],
+                ecotox:"생태독성 예상되지 않음, 우수한 생분해성(Good biodegradable)"
+            },
+            regulatory:{
+                reach:"문서 미제공(REACH 관련 서류 없음)", nmpaCode:"문서 미제공",
+                prop65:"적합(Prop65 규정 준수 확인, 2026.04.14)", cites:"해당없음(CITES 목록물질 미함유)", bseTse:"해당없음(BSE/TSE 영향물질 미함유, Declaration of Compliance)"
+            },
+            declarations:[
+                {type:"동물유래",result:"미함유",note:"식물·합성 유래로 동물·밀·기타 곡물 유래 아님을 확인(Declaration of Compliance)"},
+                {type:"동물실험",result:"미실시",note:"완제품·원료 모두 동물실험 미실시, 위탁실험도 없음 (Certificate of Non-Animal Test, 2026.04.14)"},
+                {type:"돈유래성분(Pork Free)",result:"적합",note:"돈육·돈지방·돈유래성분 미함유, 교차오염 방지 관리 (2026.04.14)"},
+                {type:"California Prop 65",result:"적합",note:"규정 준수 확인 (2026.04.14)"},
+                {type:"CITES",result:"해당없음",note:"2026.04.14"},
+                {type:"향료알레르겐(EU 26종)",result:"미함유",note:"EC1223/2009 기준 26종 알레르겐 의도적 미함유 (Declaration of Compliance)"},
+                {type:"Non-GMO 등",result:"적합",note:"BSE·TSE·GMO·글루텐·팜유·파라벤·D4/D5/D6·아플라톡신/다이옥신·프탈레이트·니트로사민·CMR·마이크로플라스틱 등 미함유 — 동일 선언서(2026.04.14)가 8개 파일명으로 중복 배포됨"}
+            ],
+            note:"통합 'Declaration of Compliance'(2p, 2026.04.14) 1건이 Animal Free·BSE,TSE·CMR·D4,D5,D6·GMO·Gluten Free·Impurity·Microplastics 등 8개 파일명으로 반복 배포됨(EYESEL 계열 원료의 전형적 패턴, 610050에서도 유사 확인). Origin(Country)·Origin(Source) 2개 파일도 완전히 동일한 원산지 표. COA는 실측 로트 데이터 보유(Lot EE-24-04-15-01, pH5.37, 비중1.003). REACH·NMPA·중금속(Heavy Metal)·SVHC·비건 전용 선언서는 폴더에 없음 — 미보유로 판정.",
+            documents:[
+                { files:["MSDS_2026.04.14.pdf"], title:"Material Safety Data Sheet", date:"2026.04.14",
+                  fullText:`bEGF (1ppm) — MSDS, EYESEL Co., Ltd.
+2.유해성: 눈·호흡기·피부 자극 가능성 일반 문구, 급성 비독성
+3.조성: Water(To.100), sh-Oligopeptide-1(1ppm), 1,2-Hexanediol(0.297%,CAS6920-22-5), Caprylyl Glycol(0.297%,CAS1117-86-8), Tropolone(0.006%,CAS533-75-5)
+7.취급저장: 서늘하고 건조하며 환기 잘 되는 곳 보관, 밀폐용기로 수분흡수·오염 방지
+9.물리화학: 투명액체, pH4.50-6.50, 비중0.950-1.100
+11.독성: 경구 비독성, 피부·눈 무자극, 비감작성, 변이원성 음성
+12.생태: 생태독성 예상안됨, 우수한 생분해성` },
+                { files:["Spec.pdf"], title:"Specification", date:"날짜 미기재",
+                  fullText:`bEGF (1ppm) — Specification, EYESEL Co., Ltd.
+외관 투명액체(관능검사) | 냄새 미미(관능검사) | pH 4.50-6.50(KFDA기준) | 비중(d20/20) 0.950-1.100(KFDA기준) | 미생물 100cfu/g이하(대한약전)` },
+                { files:["COA_2024.04.15.pdf"], title:"Certificate of Analysis (COA)", date:"제조 2024.04.15, 유효기한 2025.04.14",
+                  fullText:`bEGF (1ppm) — COA, EYESEL Co., Ltd.
+Lot No. EE-24-04-15-01 | 외관 투명액체(적합) | 냄새 미미(적합) | pH규격4.50-6.50→실측5.37 | 비중규격0.950-1.100→실측1.003 | 미생물 100cfu/g이하(적합)` },
+                { files:["Composition.pdf"], title:"Composition Sheet", date:"날짜 미기재",
+                  fullText:`bEGF (1ppm) — Composition Sheet, EYESEL Co., Ltd.
+Water(To.100), sh-Oligopeptide-1(1ppm), 1,2-Hexanediol(0.297%), Caprylyl Glycol(0.297%), Tropolone(0.006%)` },
+                { files:["CITES Statement_2026.04.14.pdf"], title:"CITES Statement", date:"2026.04.14",
+                  fullText:`bEGF (1ppm) — CITES Statement, EYESEL Co., Ltd.
+"CITES 목록상 물질을 함유하지 않음"` },
+                { files:["Non-Animal Test_2026.04.14.pdf"], title:"Certificate of Non-Animal Test", date:"2026.04.14",
+                  fullText:`bEGF (1ppm) — Certificate of Non-Animal Test, EYESEL Co., Ltd.
+"완제품·원료 모두 동물실험 미실시, 위탁실험 없음, 관련 규정(MFDS/EU화장품규정) 준수"` },
+                { files:["Pork Free Statement_2026.04.14.pdf"], title:"Pork Free Statement", date:"2026.04.14",
+                  fullText:`bEGF (1ppm) — Pork Free Statement, EYESEL Co., Ltd.
+"돈육·돈지방·돈유래성분 미함유, 교차오염 엄격 관리, 돈유래 알코올·효소 미사용"` },
+                { files:["Proposition 65_2026.04.14.pdf"], title:"Certificate of regulatory conformity to Proposition 65", date:"2026.04.14",
+                  fullText:`bEGF (1ppm) — Prop65 Certificate, EYESEL Co., Ltd.
+"Proposition 65(1986) 요건 준수 확인"` },
+                { files:["Origin(Country).pdf","Origin(Source).pdf"], title:"Certificate of Origin (2개 파일명 동일문서)", date:"날짜 미기재",
+                  fullText:`bEGF (1ppm) — Certificate of Origin, EYESEL Co., Ltd.
+Water: 천연, 한국 | sh-Oligopeptide-1: 미생물발효, 한국 | 1,2-Hexanediol: 합성, 독일 | Caprylyl Glycol: 합성, 독일 | Tropolone: 합성, 독일
+(비고: "Origin(Country)"와 "Origin(Source)" 2개 파일명이 완전히 동일한 1건의 문서)` },
+                { files:["Animal Free(1page)_2026.04.14.pdf","BSE, TSE(2page)_2026.04.14.pdf","CMR(2page)_2026.04.14.pdf","D4, D5, D6(2page)_2026.04.14.pdf","GMO(2page)_2026.04.14.pdf","Gluten Free(2page)_2026.04.14.pdf","Impurity(2page)_2026.04.14.pdf","Microplastics(2page)_2026.04.14.pdf"], title:"Declaration of Compliance (통합 규제선언서, EYESEL 18개 원료 공통양식, 8개 파일명 동일문서)", date:"2026.04.14",
+                  fullText:`bEGF (1ppm) — Declaration of Compliance, EYESEL Co., Ltd. (EYESEL 원료 18종 공통 리스트에 bEGF 포함)
+"식물·합성 유래로 동물·밀·기타 곡물 유래 아님을 확인. BSE·TSE·GMO·글루텐·팜유·파라벤·농약·EU1223/2009 26종 알레르겐·USP<467> 용매(class1-4)·D4/D5/D6(고리형실록산)·아플라톡신/다이옥신/프탈레이트/니트로사민/방향족아민/DEG/아크릴아마이드/1,4-다이옥산/EtO/글리콜에테르/포름알데히드/BBP/DBP/DEHP/DINP/DNOP/DIDP·CMR물질·마이크로플라스틱 — 전항목 의도적 미함유"
+(비고: 이 문서 1건이 Animal Free·BSE,TSE·CMR·D4,D5,D6·GMO·Gluten Free·Impurity·Microplastics 등 8개 파일명으로 반복 배포됨 — EYESEL 계열 원료 전반의 전형적 패턴)` }
+            ]
+          }
+        },
+        { name:"Blue Marine Collagen Extract", inci:"Water, Laminaria Japonica Extract, Undaria Pinnatifida Extract, Chlorella Minutissima Extract, Hydrolyzed Collagen, Phenoxyethanol", cas:"Water 7732-18-5 / Laminaria Japonica Extract 92128-82-0 / Hydrolyzed Collagen 73049-73-7 / Phenoxyethanol 122-99-6", supplier:"EYESEL Co., Ltd.(대한민국 화성)", func:"보습·피부컨디셔닝(해양 유래 복합 추출물)", limit:null,
+          certs:[],
+          docs:{coa:true,msds:true,spec:true}, allergen:false,
+          restrict:"Origin 문서상 Hydrolyzed Collagen의 유래가 'Skin of Artic Cod Fish(대구 어피, 중국산)'로 명시되어 있어, 동일 폴더의 'Animal Free' 파일명 및 Declaration of Compliance의 '식물·합성 유래로 동물 유래 아님' 문구와 정면으로 상충함 — 어류(수산물) 유래 콜라겐이 실제 포함된 원료. EYESEL의 통합 Declaration of Compliance 1건이 8개 파일명으로 반복 배포됨.",
+          country:"정제수·해조류(3종) 원산지 한국, Hydrolyzed Collagen(대구어피) 원산지 중국, Phenoxyethanol 원산지 인도 — 제조는 한국(화성)", views:0, regs:{}, fileCount:18,
+          detail:{
+            code:"610098", classification:"복합 해양추출물(갈조류 2종+담수조류 1종) + 어류유래 가수분해콜라겐 보습원료", hsCode:null, packaging:null,
+            specTable:[
+                {item:"외관",spec:"투명~담황색 액체"},{item:"냄새",spec:"미미한 냄새"},{item:"pH",spec:"4.50~6.50"},
+                {item:"비중(d20/20)",spec:"0.950~1.050"},{item:"미생물",spec:"100cfu/g 이하"}
+            ],
+            origin:{ country:"정제수·해조류 3종은 한국산, 가수분해콜라겐은 중국산(대구어피 유래), 페녹시에탄올은 인도산", rawMaterials:["Water — 천연, 한국","Laminaria Japonica Extract(다시마) — 식물, 한국","Undaria Pinnatifida Extract(미역) — 식물, 한국","Chlorella Minutissima Extract — 식물(조류), 한국","Hydrolyzed Collagen — 대구(Artic Cod) 어피 유래(동물성), 중국","Phenoxyethanol — 합성, 인도"] },
+            msds:{
+                versionEn:"작성일 2026.04.20(개정이력 없음)", versionKr:null,
+                hazardEn:"함유성분 중 해당 농도에서 유해성으로 간주되는 물질 없음 — 눈/피부 자극 없음, 비감작성, 변이원성 음성",
+                physical:[{item:"성상",spec:"투명~담황색 액체, 미미한 냄새"},{item:"pH",spec:"4.50~6.50"},{item:"비중",spec:"0.950~1.050(d20/20)"}],
+                ecotox:"생태독성 예상되지 않음, 우수한 생분해성(Good biodegradable)"
+            },
+            regulatory:{
+                reach:"문서 미제공", nmpaCode:"문서 미제공",
+                prop65:"적합(Prop65 규정 준수 확인, 2026.04.14)", cites:"해당없음(CITES 목록물질 미함유)", bseTse:"해당없음(BSE/TSE 영향물질 미함유, Declaration of Compliance) — 단 어류(대구) 유래 콜라겐은 BSE/TSE 대상 종(우/양/염소) 아니므로 별도 상충은 없음"
+            },
+            declarations:[
+                {type:"동물유래",result:"확인필요(상충)",note:"Declaration of Compliance는 '식물·합성 유래, 동물 아님'이라 선언하나, Origin 문서는 Hydrolyzed Collagen이 '대구 어피(Skin of Artic Cod Fish, 중국산)' 유래라고 명시 — 실제로는 동물(어류)성분 포함, 'Animal Free' 파일명과도 상충"},
+                {type:"동물실험",result:"미실시",note:"완제품·원료 모두 동물실험 미실시 (Certificate of Non-Animal Test, 2026.04.14)"},
+                {type:"돈유래성분(Pork Free)",result:"적합",note:"돈육·돈지방·돈유래성분 미함유 (2026.04.14)"},
+                {type:"California Prop 65",result:"적합",note:"규정 준수 확인 (2026.04.14)"},
+                {type:"CITES",result:"해당없음",note:"2026.04.14"},
+                {type:"향료알레르겐(EU 26종)",result:"미함유",note:"EC1223/2009 기준 26종 알레르겐 의도적 미함유 (Declaration of Compliance)"},
+                {type:"Non-GMO 등",result:"적합",note:"BSE·TSE·GMO·글루텐·팜유·파라벤·D4/D5/D6·아플라톡신/다이옥신·프탈레이트·CMR·마이크로플라스틱 등 미함유 — 동일 선언서(2026.04.14)가 8개 파일명으로 중복 배포됨"}
+            ],
+            note:"가장 주목할 점: Origin(Country)·Origin(Source) 문서(2개 파일명 동일문서)에 Hydrolyzed Collagen의 유래가 'Skin of Artic Cod Fish'(대구 어피, 중국산)로 명시되어 있어, 'Animal Free' 파일명 및 Declaration of Compliance 서두의 '식물·합성 유래로 동물 아님' 선언과 정면 상충함 — 실제로는 어류(동물성) 유래 원료가 포함된 제품. 통합 'Declaration of Compliance'(2p, 2026.04.14) 1건이 Animal Free·BSE,TSE·CMR·D4,D5,D6·GMO·Gluten Free·Impurity·Microplastics 등 8개 파일명으로 반복 배포됨(EYESEL 전형 패턴, 610050·610094와 동일). COA는 실측 로트 데이터 보유(Lot EE-24-11-25-02, pH5.40, 비중1.004). REACH·NMPA·중금속·SVHC·비건·할랄 전용 선언서는 폴더에 없음.",
+            documents:[
+                { files:["MSDS_2026.04.20.pdf"], title:"Material Safety Data Sheet", date:"2026.04.20",
+                  fullText:`Blue Marine Collagen Extract — MSDS, EYESEL Co., Ltd.
+2.유해성: 눈·호흡기·피부 자극 가능성 일반 문구, 급성 비독성
+3.조성: Water(To.100), Laminaria Japonica Extract(1.00%,CAS92128-82-0), Undaria Pinnatifida Extract(1.00%), Chlorella Minutissima Extract(1.00%), Hydrolyzed Collagen(0.10%,CAS73049-73-7), Phenoxyethanol(0.60%,CAS122-99-6)
+7.취급저장: 서늘하고 건조하며 환기 잘 되는 곳 보관, 밀폐용기로 수분흡수·오염 방지
+9.물리화학: 투명~담황색액체, pH4.50-6.50, 비중0.950-1.050
+11.독성: 경구 비독성, 피부·눈 무자극, 비감작성, 변이원성 음성` },
+                { files:["Spec.pdf"], title:"Specification", date:"날짜 미기재",
+                  fullText:`Blue Marine Collagen Extract — Specification, EYESEL Co., Ltd.
+외관 투명~담황색액체(관능검사) | 냄새 미미(관능검사) | pH 4.50-6.50(KFDA기준) | 비중(d20/20) 0.950-1.050(KFDA기준) | 미생물 100cfu/g이하(대한약전)` },
+                { files:["COA_2024.11.25.pdf"], title:"Certificate of Analysis (COA)", date:"제조 2024.11.25, 유효기한 2025.11.24",
+                  fullText:`Blue Marine Collagen Extract — COA, EYESEL Co., Ltd.
+Lot No. EE-24-11-25-02 | 외관 투명~담황색액체(적합) | 냄새 미미(적합) | pH규격4.50-6.50→실측5.40 | 비중규격0.950-1.050→실측1.004 | 미생물 100cfu/g이하(적합)` },
+                { files:["Composition_2026.04.20.pdf"], title:"Composition Sheet", date:"2026.04.20",
+                  fullText:`Blue Marine Collagen Extract — Composition Sheet, EYESEL Co., Ltd.
+Water(To.100), Laminaria Japonica Extract(1.00%), Undaria Pinnatifida Extract(1.00%), Chlorella Minutissima Extract(1.00%), Hydrolyzed Collagen(0.10%), Phenoxyethanol(0.60%)` },
+                { files:["CITES Statement_2026.04.14.pdf"], title:"CITES Statement", date:"2026.04.14",
+                  fullText:`Blue Marine Collagen Extract — CITES Statement, EYESEL Co., Ltd.
+"CITES 목록상 물질을 함유하지 않음"` },
+                { files:["Non-Animal Test_2026.04.14.pdf"], title:"Certificate of Non-Animal Test", date:"2026.04.14",
+                  fullText:`Blue Marine Collagen Extract — Certificate of Non-Animal Test, EYESEL Co., Ltd.
+"완제품·원료 모두 동물실험 미실시, 위탁실험 없음, 관련 규정(MFDS/EU화장품규정) 준수"` },
+                { files:["Pork Free Statement_2026.04.14.pdf"], title:"Pork Free Statement", date:"2026.04.14",
+                  fullText:`Blue Marine Collagen Extract — Pork Free Statement, EYESEL Co., Ltd.
+"돈육·돈지방·돈유래성분 미함유, 교차오염 엄격 관리, 돈유래 알코올·효소 미사용"` },
+                { files:["Proposition 65_2026.04.14.pdf"], title:"Certificate of regulatory conformity to Proposition 65", date:"2026.04.14",
+                  fullText:`Blue Marine Collagen Extract — Prop65 Certificate, EYESEL Co., Ltd.
+"Proposition 65(1986) 요건 준수 확인"` },
+                { files:["Origin(Country).pdf","Origin(Source).pdf"], title:"Certificate of Origin (2개 파일명 동일문서)", date:"날짜 미기재",
+                  fullText:`Blue Marine Collagen Extract — Certificate of Origin, EYESEL Co., Ltd.
+Water: 천연, 한국 | Laminaria Japonica Extract: 식물, 한국 | Undaria Pinnatifida Extract: 식물, 한국 | Chlorella Minutissima Extract: 식물, 한국 | Hydrolyzed Collagen: 대구 어피(Skin of Artic Cod Fish), 중국 | Phenoxyethanol: 합성, 인도
+(비고: "Origin(Country)"와 "Origin(Source)" 2개 파일명이 완전히 동일한 1건의 문서. Hydrolyzed Collagen이 어류(동물성) 유래임을 명시 — Animal Free 주장과 상충)` },
+                { files:["Animal Free(1page)_2026.04.14.pdf","BSE, TSE(2page)_2026.04.14.pdf","CMR(2page)_2026.04.14.pdf","D4, D5, D6(2page)_2026.04.14.pdf","GMO(2page)_2026.04.14.pdf","Gluten Free(2page)_2026.04.14.pdf","Impurity(2page)_2026.04.14.pdf","Microplastics(2page)_2026.04.14.pdf"], title:"Declaration of Compliance (통합 규제선언서, EYESEL 18개 원료 공통양식, 8개 파일명 동일문서)", date:"2026.04.14",
+                  fullText:`Blue Marine Collagen Extract — Declaration of Compliance, EYESEL Co., Ltd. (EYESEL 원료 18종 공통 리스트에 포함)
+"식물·합성 유래로 동물·밀·기타 곡물 유래 아님을 확인. BSE·TSE·GMO·글루텐·팜유·파라벤·농약·EU1223/2009 26종 알레르겐·USP<467> 용매·D4/D5/D6·아플라톡신/다이옥신/프탈레이트/니트로사민·CMR물질·마이크로플라스틱 — 전항목 의도적 미함유"
+(비고: 이 문서 1건이 Animal Free·BSE,TSE·CMR·D4,D5,D6·GMO·Gluten Free·Impurity·Microplastics 등 8개 파일명으로 반복 배포됨. 단, 본문의 '동물 유래 아님' 선언은 Origin 문서상 Hydrolyzed Collagen(대구어피 유래)과 상충)` }
+            ]
+          }
+        },
+        { name:"비디파발효여과물", inci:"Water, Bifida Ferment Filtrate, 1,2-Hexanediol, Caprylyl Glycol", cas:"Water 7732-18-5 / 1,2-Hexanediol 6920-22-5 / Caprylyl Glycol 1117-86-8 (Bifida Ferment Filtrate는 발효대사물로 CAS 미부여)", supplier:"EYESEL Co., Ltd.(대한민국 화성)", func:"보습·피부컨디셔닝(비피더스 발효여과물)", limit:null,
+          certs:[],
+          docs:{coa:true,msds:true,spec:true}, allergen:false,
+          restrict:"EYESEL의 통합 'Declaration of Compliance'(2p) 1건이 Animal Free·BSE,TSE·CMR·D4,D5,D6·GMO·Gluten Free·Impurity·Microplastics 등 8개 파일명으로 반복 배포됨. Origin(Country)·Origin(Source) 2개 파일도 완전히 동일한 원산지 표. COA는 이미지 스캔본으로 텍스트 추출 불가 — 로트·유효기한 육안 확인 필요.",
+          country:"정제수·Bifida Ferment Filtrate(미생물발효)는 한국산, 1,2-헥산다이올·카프릴릴글라이콜(합성)은 독일산", views:0, regs:{}, fileCount:19,
+          detail:{
+            code:"610104", classification:"비피더스균 발효여과물 기반 보습·피부컨디셔닝 원료", hsCode:null, packaging:null,
+            specTable:[
+                {item:"외관",spec:"투명 액체"},{item:"냄새",spec:"미미한 냄새"},{item:"pH",spec:"5.50~7.50"},
+                {item:"비중(d20/20)",spec:"0.950~1.050"},{item:"미생물",spec:"100cfu/g 이하"}
+            ],
+            origin:{ country:"정제수·Bifida Ferment Filtrate는 한국산(미생물발효), 1,2-헥산다이올·카프릴릴글라이콜은 독일산(합성)", rawMaterials:["Water — 천연, 한국","Bifida Ferment Filtrate — 박테리아(비피더스균) 발효, 한국","1,2-Hexanediol — 합성, 독일","Caprylyl Glycol — 합성, 독일"] },
+            msds:{
+                versionEn:"작성일 2026.04.20(개정이력 없음)", versionKr:null,
+                hazardEn:"함유성분 중 해당 농도에서 유해성으로 간주되는 물질 없음 — 눈/피부 자극 없음, 비감작성, 변이원성 음성",
+                physical:[{item:"성상",spec:"투명 액체, 미미한 냄새"},{item:"pH",spec:"5.50~7.50"},{item:"비중",spec:"0.950~1.050(d20/20)"}],
+                ecotox:"생태독성 예상되지 않음, 우수한 생분해성(Good biodegradable)"
+            },
+            regulatory:{
+                reach:"문서 미제공", nmpaCode:"문서 미제공",
+                prop65:"적합(Prop65 규정 준수 확인, 2026.04.14)", cites:"해당없음(CITES 목록물질 미함유)", bseTse:"해당없음(BSE/TSE 영향물질 미함유, Declaration of Compliance) — Bifida Ferment Filtrate는 박테리아 발효물로 BSE/TSE 위험 자체가 무관"
+            },
+            declarations:[
+                {type:"동물유래",result:"미함유",note:"식물·합성·미생물발효 유래로 동물·밀·기타 곡물 유래 아님을 확인(Declaration of Compliance) — Origin 문서상 성분 구성과도 정합"},
+                {type:"동물실험",result:"미실시",note:"완제품·원료 모두 동물실험 미실시, 위탁실험도 없음 (Certificate of Non-Animal Test, 2026.04.14)"},
+                {type:"돈유래성분(Pork Free)",result:"적합",note:"돈육·돈지방·돈유래성분 미함유, 교차오염 방지 관리 (2026.04.14)"},
+                {type:"California Prop 65",result:"적합",note:"규정 준수 확인 (2026.04.14)"},
+                {type:"CITES",result:"해당없음",note:"2026.04.14"},
+                {type:"향료알레르겐(EU 26종)",result:"미함유",note:"EC1223/2009 기준 26종 알레르겐 의도적 미함유 (Declaration of Compliance)"},
+                {type:"Non-GMO 등",result:"적합",note:"BSE·TSE·GMO·글루텐·팜유·파라벤·D4/D5/D6·아플라톡신/다이옥신·프탈레이트·CMR·마이크로플라스틱 등 미함유 — 동일 선언서(2026.04.14)가 8개 파일명으로 중복 배포됨"}
+            ],
+            note:"통합 'Declaration of Compliance'(2p, 2026.04.14) 1건이 Animal Free·BSE,TSE·CMR·D4,D5,D6·GMO·Gluten Free·Impurity·Microplastics 등 8개 파일명으로 반복 배포됨(EYESEL 전형 패턴). Origin(Country)·Origin(Source) 2개 파일도 완전히 동일한 원산지 표. Production Flow Chart에는 실제 배합비·혼합시간(10분)·온도(25℃)·교반속도(500rpm)·200mesh 여과 공정이 구체적으로 명시되어 있어 다른 EYESEL 원료 대비 이례적으로 상세함. COA는 이미지 스캔본으로 텍스트 추출 불가 — 제조일(파일명 2025.07.08)만 확인되고 로트·유효기한 등 실측치는 원본 육안 확인 필요. REACH·NMPA·중금속·SVHC·비건·할랄 전용 선언서는 폴더에 없음.",
+            documents:[
+                { files:["MSDS_2026.04.20.pdf"], title:"Material Safety Data Sheet", date:"2026.04.20",
+                  fullText:`비디파발효여과물 — MSDS, EYESEL Co., Ltd.
+2.유해성: 눈·호흡기·피부 자극 가능성 일반 문구, 급성 비독성
+3.조성: Water(To.100), Bifida Ferment Filtrate(3.00%), 1,2-Hexanediol(0.30%,CAS6920-22-5), Caprylyl Glycol(0.30%,CAS1117-86-8)
+7.취급저장: 서늘하고 건조하며 환기 잘 되는 곳 보관, 밀폐용기로 수분흡수·오염 방지
+9.물리화학: 투명액체, pH5.50-7.50, 비중0.950-1.050
+11.독성: 경구 비독성, 피부·눈 무자극, 비감작성, 변이원성 음성` },
+                { files:["Spec.pdf"], title:"Specification", date:"날짜 미기재",
+                  fullText:`비디파발효여과물 — Specification, EYESEL Co., Ltd.
+외관 투명액체(관능검사) | 냄새 미미(관능검사) | pH 5.50-7.50(KFDA기준) | 비중(d20/20) 0.950-1.050(KFDA기준) | 미생물 100cfu/g이하(대한약전)` },
+                { files:["Composition.pdf"], title:"Composition Sheet", date:"날짜 미기재",
+                  fullText:`비디파발효여과물 — Composition Sheet, EYESEL Co., Ltd.
+Water(To.100), Bifida Ferment Filtrate(3.00%), 1,2-Hexanediol(0.30%), Caprylyl Glycol(0.30%)` },
+                { files:["Flowchart_2026.04.20.pdf"], title:"Production Flow Chart", date:"2026.04.20",
+                  fullText:`비디파발효여과물 — Production Flow Chart, EYESEL Co., Ltd.
+A공정(혼합): Water96.400%+Bifida Ferment Filtrate3.000%+1,2-Hexanediol0.300%+Caprylyl Glycol0.300% — 혼합시간10분, 온도25℃, 교반속도500rpm
+후공정: 200mesh 여과 → QA 시험 지시 → 완제품 마감·보관` },
+                { files:["CITES Statement_2026.04.14.pdf"], title:"CITES Statement", date:"2026.04.14",
+                  fullText:`비디파발효여과물 — CITES Statement, EYESEL Co., Ltd.
+"CITES 목록상 물질을 함유하지 않음"` },
+                { files:["Non-Animal Test_2026.04.14.pdf"], title:"Certificate of Non-Animal Test", date:"2026.04.14",
+                  fullText:`비디파발효여과물 — Certificate of Non-Animal Test, EYESEL Co., Ltd.
+"완제품·원료 모두 동물실험 미실시, 위탁실험 없음, 관련 규정(MFDS/EU화장품규정) 준수"` },
+                { files:["Pork Free Statement_2026.04.14.pdf"], title:"Pork Free Statement", date:"2026.04.14",
+                  fullText:`비디파발효여과물 — Pork Free Statement, EYESEL Co., Ltd.
+"돈육·돈지방·돈유래성분 미함유, 교차오염 엄격 관리, 돈유래 알코올·효소 미사용"` },
+                { files:["Proposition 65_2026.04.14.pdf"], title:"Certificate of regulatory conformity to Proposition 65", date:"2026.04.14",
+                  fullText:`비디파발효여과물 — Prop65 Certificate, EYESEL Co., Ltd.
+"Proposition 65(1986) 요건 준수 확인"` },
+                { files:["Origin(Country)_2026.04.20.pdf","Origin(Source)_2026.04.20.pdf"], title:"Certificate of Origin (2개 파일명 동일문서)", date:"2026.04.20",
+                  fullText:`비디파발효여과물 — Certificate of Origin, EYESEL Co., Ltd.
+Water: 천연, 한국 | Bifida Ferment Filtrate: 박테리아, 한국 | 1,2-Hexanediol: 합성, 독일 | Caprylyl Glycol: 합성, 독일
+(비고: "Origin(Country)"와 "Origin(Source)" 2개 파일명이 완전히 동일한 1건의 문서)` },
+                { files:["Animal Free(1page)_2026.04.14.pdf","BSE, TSE(2page)_2026.04.14.pdf","CMR(2page)_2026.04.14.pdf","D4, D5, D6(2page)_2026.04.14.pdf","GMO(2page)_2026.04.14.pdf","Gluten Free(2page)_2026.04.14.pdf","Impurity(2page)_2026.04.14.pdf","MicroplasticMicroplates(2page)_2026.04.14.pdf"], title:"Declaration of Compliance (통합 규제선언서, EYESEL 18개 원료 공통양식, 8개 파일명 동일문서)", date:"2026.04.14",
+                  fullText:`비디파발효여과물 — Declaration of Compliance, EYESEL Co., Ltd. (EYESEL 원료 18종 공통 리스트에 포함)
+"식물·합성 유래로 동물·밀·기타 곡물 유래 아님을 확인. BSE·TSE·GMO·글루텐·팜유·파라벤·농약·EU1223/2009 26종 알레르겐·USP<467> 용매·D4/D5/D6·아플라톡신/다이옥신/프탈레이트/니트로사민·CMR물질·마이크로플라스틱 — 전항목 의도적 미함유"
+(비고: 이 문서 1건이 Animal Free·BSE,TSE·CMR·D4,D5,D6·GMO·Gluten Free·Impurity·MicroplasticMicroplates 등 8개 파일명으로 반복 배포됨)` },
+                { files:["COA_2025.07.08.pdf"], title:"Certificate of Analysis (COA)", date:"파일명상 2025.07.08",
+                  fullText:`비디파발효여과물 — COA, EYESEL Co., Ltd.
+(이미지 스캔본으로 pdfplumber 텍스트 추출 불가 — 로트 실측치·유효기한 원본 육안 확인 필요)` }
+            ]
+          }
+        },
+        { name:"BEAUPLEX VH", inci:"Niacinamide, Calcium Pantothenate, Sodium Ascorbyl Phosphate, Tocopheryl Acetate, Pyridoxine HCl, Maltodextrin, Sodium Starch Octenylsuccinate, Silica", cas:"Niacinamide 98-92-0 / Calcium Pantothenate 137-08-6 / Sodium Ascorbyl Phosphate 66170-10-3 / Tocopheryl Acetate 7695-91-2 / Pyridoxine HCl 58-56-0 / Maltodextrin 9050-36-6 / Silica 7631-86-9", supplier:"dsm-firmenich Switzerland Ltd(제조 DSM Nutritional Products France SAS)", func:"피부·모발 컨디셔닝, 항산화(합성 비타민 복합체)", limit:"권장 사용농도 0.5~3%",
+          certs:["HALAL(IFANCA)"],
+          docs:{coa:true,msds:true,spec:true}, allergen:false,
+          restrict:"MSDS상 Niacinamide(함량 30~50%)가 Eye Irrit.2(H319), Pyridoxine HCl(함량 1~3%)이 Eye Dam.1(H318)로 실제 유해성 분류가 부여되어 있음 — 이번 프로젝트에서 확인된 원료 중 드물게 '비유해' 아닌 실질적 GHS 분류 사례로, 취급 시 눈 보호구 착용 등 주의 필요. COA는 이미지 스캔본으로 텍스트 추출 불가. SPEC과 Product Data Sheet는 완전히 동일한 문서(파일명만 다름).",
+          country:"프랑스(Village-Neuf, DSM Nutritional Products France SAS 제조)", views:0, regs:{}, fileCount:33,
+          detail:{
+            code:"610107", classification:"합성 비타민 복합체 분말(나이아신아마이드+판토텐산칼슘+아스코르빌인산나트륨+토코페릴아세테이트+피리독신염산염, 캐리어: 말토덱스트린·전분옥테닐숙신산나트륨·실리카)", hsCode:null, packaging:null,
+            specTable:[
+                {item:"외관",spec:"미세분말, 백색~미백색"},{item:"건조감량",spec:"4.5% 이하"},{item:"pH(5%수용액)",spec:"6~9"},
+                {item:"토코페릴아세테이트 함량",spec:"1~5% w/w"},{item:"총호기성생균수",spec:"500CFU/g 이하"},{item:"효모·곰팡이",spec:"100CFU/g 이하"},
+                {item:"장내세균과",spec:"1g 중 음성"},{item:"녹농균·황색포도상구균·대장균",spec:"1g 중 음성"},{item:"살모넬라",spec:"25g 중 음성"}
+            ],
+            origin:{ country:"프랑스 Village-Neuf 제조", rawMaterials:["Niacinamide — 합성","Calcium Pantothenate — 합성","Sodium Ascorbyl Phosphate — 합성","Tocopheryl Acetate — 합성(석유유래)","Pyridoxine HCl — 합성(석유유래)","Maltodextrin — 식물(전분)유래","Sodium Starch Octenylsuccinate — 식물(전분)유래","Silica — 광물"] },
+            msds:{
+                versionEn:"Version 7.0, 2024.07.29 개정(최종발행 2023.11.23)", versionKr:"동일판 국문본 보유",
+                hazardEn:"Nicotinamide(30~50%) Eye Irrit.2(H319), Pyridoxine HCl(1~3%) Eye Dam.1(H318) — 눈 자극/손상성 분류 부여됨(타 dsm-firmenich 원료 대비 이례적으로 실질적 GHS 분류 존재)",
+                physical:[{item:"성상",spec:"미세분말, 백색~미백색"},{item:"pH",spec:"6~9(5%수용액)"},{item:"분진폭발",spec:"연소성 분진 농도 형성 가능, 화기 주의"}],
+                ecotox:"Nicotinamide PNEC 담수0.1~1mg/L, Pyridoxine HCl PNEC 담수0.072mg/L 등 성분별 DNEL/PNEC 데이터 제공"
+            },
+            regulatory:{
+                reach:"5개 성분 개별 REACh 등록완료(Niacinamide 01-2119968268-22, Sodium Ascorbyl Phosphate 01-0000017158-68, Pyridoxine HCl 01-2120113157-67, Silica 01-2119379499-16, Tocopheryl Acetate 01-2119457641-38), Calcium Pantothenate·Maltodextrin은 Annex IV 면제, Sodium Starch Octenylsuccinate는 폴리머 면제",
+                nmpaCode:"신고코드 126959-00666-1893, 8개 성분 IECSC·IECIC 전항목 등재(Y/Y)",
+                prop65:"납<2ppm, 카드뮴<1ppm, 디클로로메탄<200ppm, 메탄올<1100ppm, 피리딘<2ppm, 톨루엔<10ppm 이내 확인 (2025.06.19)", cites:"해당없음(CITES 등재 대상 아님)", bseTse:"해당없음(인간·동물 유래 아님, EU화장품규정 Annex II 416/419 저촉물질 미사용)"
+            },
+            declarations:[
+                {type:"할랄",result:"적합(정식 인증)",note:"IFANCA(Islamic Food and Nutrition Council of America) 발급 정식 할랄 인증서 보유 — Halal-ID B86975, 인증서 HC-25DSHX92, 유효기한 2028.12.31"},
+                {type:"비건",result:"적합",note:"동물유래 원료·부산물 의도적 미함유, 화학합성 공정 확인 (Vegan Statement 2025.06.19)"},
+                {type:"천연유래지수 (ISO16128)",result:"Natural Origin Content 23.30%(배합수 포함/미포함 동일), Organic 0%",note:"5종 활성비타민 전량 합성, 캐리어(말토덱스트린 등)만 천연유래 (2025.06.19)"},
+                {type:"REACH",result:"등록완료/면제",note:"5개 성분 개별 등록, 2개 성분 Annex IV 면제, 1개 성분 폴리머 면제"},
+                {type:"SVHC",result:"적합",note:"ECHA SVHC 후보물질목록상 0.1% 초과 함유 없음 확인 (2025.06.19)"},
+                {type:"Microplastic",result:"해당없음",note:"5개 활성성분은 비폴리머, 실리카는 탄소 미함유, 말토덱스트린은 자연중합물, 전분옥테닐숙신산나트륨은 생분해성 기준 충족 — EU2023/2055 규제범위 밖 (2025.06.19)"},
+                {type:"China NMPA",result:"등재완료",note:"신고코드 126959-00666-1893, 8개 성분 전항목 IECSC/IECIC 등재 (2025.06.19)"},
+                {type:"California Prop 65",result:"적합",note:"납/카드뮴/DCM/메탄올/피리딘/톨루엔 안전기준 이내 (2025.06.19)"},
+                {type:"향료알레르겐",result:"미함유",note:"Fragrance Allergens Statement — 확대 CAS 목록 전체 대조 게재 (2025.06.19)"},
+                {type:"중금속",result:"적합",note:"비소≤1.0/카드뮴≤0.5/납≤1.0/수은≤0.1ppm 이하 (2025.06.19)"}
+            ],
+            note:"동일한 'Technical Dossier'(6p, Version 07: 2025-06-19, Product Code 5004845) 문서가 Alcohol Free·Animal Free·Cites·Country of origin·Gluten Free·NANO·NUT Free·RSPO·Source of origin·추출부위확인서 등 10개 파일명으로 반복 배포됨(610070 Ascorbic acid와 동일 규모). SPEC과 Product Data Sheet는 완전히 동일한 문서. MSDS상 Niacinamide(30~50%) Eye Irrit.2(H319), Pyridoxine HCl(1~3%) Eye Dam.1(H318) 분류가 부여되어 있어, 다수의 dsm-firmenich 원료가 '비유해'로 분류된 것과 달리 실질적 취급주의가 필요함 — QA 검토 시 참고 필요. HALAL은 IFANCA 정식 인증서(유효기한 2028.12.31)로 이번 프로젝트에서 드문 진짜 제3자 인증 사례. PORK FREE·HS CODE 관련 문서는 폴더에 없음(dsm-firmenich 원료 특성상 통상 미제공).",
+            documents:[
+                { files:["MSDS_2024.07.29_EN.pdf","MSDS_2024.07.29_KR.pdf"], title:"Safety Data Sheet (EN/KR)", date:"Version 7.0, 2024.07.29",
+                  fullText:`BEAUPLEX VH — MSDS, dsm-firmenich
+2.유해성분류: Nicotinamide(30-50%) Eye Irrit.2 H319, Pyridoxine HCl(1-3%) Eye Dam.1 H318 — 그림문자·신호어 부여
+3.조성: Nicotinamide, Pyridoxine HCl, Calcium Pantothenate(10-20%), Sodium Ascorbyl Phosphate(5-10%), Tocopheryl Acetate(1-5%)
+7.취급저장: 열·직사광선 회피, 밀폐·건조 보관, 분진 발생 방지·정전기 방전 주의
+9.물리화학: 미세분말(백색~미백색), pH6-9(5%수용액), 분진폭발 가능성 있음
+11.독성: Nicotinamide DNEL(산업용,흡입,장기)43.75mg/m³, Pyridoxine HCl DNEL(소비자,경구,장기)0.35mg/kg bw/d 등` },
+                { files:["Product Data Sheet_2025.06.27.pdf","SPEC_2025.06.27.pdf"], title:"Product Data Sheet / SPEC (동일문서 2개 파일명)", date:"Version 11, 2025.06.27",
+                  fullText:`BEAUPLEX VH — Product Data Sheet, dsm-firmenich
+5개 활성비타민(Niacinamide/Calcium Pantothenate/Sodium Ascorbyl Phosphate(STAY-C®50)/Tocopheryl Acetate/Pyridoxine HCl)을 Maltodextrin/Sodium Starch Octenylsuccinate/Silica 캐리어에 담지
+외관 미세분말(백색~미백색) | 건조감량≤4.5% | pH6-9(5%수용액) | 토코페릴아세테이트 1-5%w/w
+미생물: 총호기성생균수≤500CFU/g, 효모곰팡이≤100CFU/g, 장내세균과·녹농균·황색포도상구균·대장균 1g중음성, 살모넬라 25g중음성
+용해도: 냉수에 분산되어 투명·무색 분산액 형성
+안정성: 공기·빛·습기에 민감, 미개봉 원용기·25℃미만 보관 시 제조일로부터 최소 24개월
+사용법: 40℃미만에서 배합, 권장농도 0.5-3%, 최종제형 pH6.8-9` },
+                { files:["Representative Composition_2025.06.19.pdf"], title:"Representative Composition", date:"Version 02, 2025.06.19",
+                  fullText:`BEAUPLEX VH — Representative Composition, dsm-firmenich
+Maltodextrin15.70% | Sodium Starch Octenylsuccinate15.70% | Silica0.10% | Niacinamide37.50% | Calcium Pantothenate17.50% | Sodium Ascorbyl Phosphate7.50% | Tocopheryl Acetate3.00% | Pyridoxine HCl3.00%(Total100%)` },
+                { files:["Manufacturing Principle_2025.06.19.pdf"], title:"Manufacturing Principle", date:"Version 03, 2025.06.19",
+                  fullText:`BEAUPLEX VH — Manufacturing Principle, dsm-firmenich
+"5종의 분말형 비타민을 캐리어 물질과 혼합, 균질한 백색 분말을 용기에 충전"` },
+                { files:["REACh Statement_2025.06.19.pdf"], title:"EU REACh Statement", date:"Version 03, 2025.06.19",
+                  fullText:`BEAUPLEX VH — REACh Statement, dsm-firmenich
+Niacinamide 01-2119968268-22(등록) | Sodium Ascorbyl Phosphate 01-0000017158-68(등록) | Pyridoxine HCl 01-2120113157-67(등록) | Silica 01-2119379499-16(등록) | Tocopheryl Acetate 01-2119457641-38(등록) | Calcium Pantothenate·Maltodextrin(Annex IV 면제) | Sodium Starch Octenylsuccinate(폴리머 면제)` },
+                { files:["SVHC Statement_2025.06.19.pdf"], title:"SVHC Statement", date:"Version 04, 2025.06.19",
+                  fullText:`BEAUPLEX VH — SVHC Statement, dsm-firmenich
+ECHA SVHC 후보물질목록 및 Authorization List 상 물질을 0.1% 초과 함유하지 않음 확인.` },
+                { files:["Microplastic Statement_2025.06.19.pdf"], title:"Microplastic Statement", date:"Version 02, 2025.06.19",
+                  fullText:`BEAUPLEX VH — Microplastic Statement, dsm-firmenich
+5개 활성비타민은 비폴리머로 규정 대상 아님, 실리카는 탄소 미함유, 말토덱스트린은 자연중합물(비화학변형), 전분옥테닐숙신산나트륨은 생분해성 기준 충족 — 전 성분 EU2023/2055 규제범위 밖.` },
+                { files:["Proposition 65 Statement_2025.06.19.pdf"], title:"Proposition 65 Statement", date:"Version 02, 2025.06.19",
+                  fullText:`BEAUPLEX VH — Prop65 Statement, dsm-firmenich
+납<2ppm, 카드뮴<1ppm, 디클로로메탄<200ppm, 메탄올<1100ppm, 피리딘<2ppm, 톨루엔<10ppm — 제조공정 지식 기반 확인.` },
+                { files:["NMPA_2025.06.19.pdf"], title:"Regulatory Status - China (NMPA)", date:"Version 04, 2025.06.19",
+                  fullText:`BEAUPLEX VH — China Regulatory Status, dsm-firmenich
+신고코드 126959-00666-1893 | 8개 성분(말토덱스트린10-25%, 전분옥테닐숙신산나트륨15-30%, 실리카0.05-0.2%, 나이아신아마이드25-50%, 판토텐산칼슘10-25%, 아스코르빌인산나트륨5-10%, 토코페릴아세테이트1-5%, 피리독신염산염1-5%) 전항목 IECSC·IECIC 등재(Y/Y)` },
+                { files:["Vegan Statement_2025.06.19.pdf"], title:"Vegan Statement", date:"Version 02, 2025.06.19",
+                  fullText:`BEAUPLEX VH — Vegan Statement, dsm-firmenich
+화학합성 공정으로 제조되며 동물유래 원료·부산물을 의도적으로 함유하지 않음을 확인. 비건 요구사항 법적 책임은 부인(disclaimer).` },
+                { files:["Animal Testing Statement_2025.06.19.pdf"], title:"Animal Testing Statement", date:"Version 04, 2025.06.19",
+                  fullText:`BEAUPLEX VH — Animal Testing Statement, dsm-firmenich
+2004.9.11 이후 자사 또는 대행을 통한 동물실험 미실시(EC1223/2009 Article18 준수) 확인.` },
+                { files:["BSE.TSE Statement_2025.09.19.pdf"], title:"BSE/TSE Statement", date:"Version 03, 2025.06.19(발행일 표기 2025.09.19)",
+                  fullText:`BEAUPLEX VH — BSE/TSE Statement, dsm-firmenich
+인간·동물 유래 아니며, EU1223/2009 Annex II 416/419(인체유래 세포조직·Category1/2 물질) 저촉 원료 미사용 확인.` },
+                { files:["CMR Statement_2025.09.19.pdf"], title:"CMR Statement", date:"Version 05, 2025.06.19(발행일 표기 2025.09.19)",
+                  fullText:`BEAUPLEX VH — CMR Statement, dsm-firmenich
+EC1272/2008 Annex VI Part3 CMR(1A/1B/2등급) 물질 의도적 미함유, EC1223/2009 Article17(불가피한 미량 잔류) 준수 확인.` },
+                { files:["GMO Statement_2025.06.19.pdf"], title:"GMO Statement", date:"Version 02, 2025.06.19",
+                  fullText:`BEAUPLEX VH — GMO Statement, dsm-firmenich
+활성성분·제형성분 모두 통상공정(화학합성/비GMO발효/통상식물추출) 제조로 GMO-DNA 미함유 확인.` },
+                { files:["Heavy Metals Statement_2025.06.19.pdf"], title:"Heavy Metals Statement", date:"Version 04, 2025.06.19",
+                  fullText:`BEAUPLEX VH — Heavy Metals Statement, dsm-firmenich
+비소≤1.0ppm, 카드뮴≤0.5ppm, 납≤1.0ppm, 수은≤0.1ppm(ICP-MS/AAS 기준, EP2.2.58/EP2.2.23/USP233) 확인.` },
+                { files:["IMPURITIY_2025.06.19.pdf"], title:"Residual Solvent Statement", date:"Version 07, 2025.06.19",
+                  fullText:`BEAUPLEX VH — Residual Solvent Statement, dsm-firmenich
+ICH Q3C(R8)/USP<467>/Ph.Eur.5.4 준수 — 메탄올≤3000mg/kg, 톨루엔≤890mg/kg, 디클로로메탄≤600mg/kg (Class2/3 용매 기준 이내).` },
+                { files:["ISO 16128 Statement_2025.06.19.pdf"], title:"ISO 16128 Statement", date:"Version 02, 2025.06.19",
+                  fullText:`BEAUPLEX VH — ISO16128 Statement, dsm-firmenich
+Natural Origin Content 23.30%(배합수 포함·미포함 동일), Organic Origin Content 0% — 활성비타민 전량 합성, 캐리어만 천연유래.` },
+                { files:["Fragrance Allergens Statement_2025.06.19.pdf"], title:"Fragrance Allergen Statement", date:"Version 07, 2025.06.19",
+                  fullText:`BEAUPLEX VH — Fragrance Allergens Statement, dsm-firmenich
+EU1223/2009 확대 향료알레르겐 목록 CAS번호 전체 대조 게재, 의도적 미첨가·불검출 예상 확인.` },
+                { files:["Halal Certificate(IFANCA)_2025.12.10.pdf"], title:"Halal Certificate (IFANCA 정식 인증)", date:"발급 2025.12.10, 유효기한 2028.12.31",
+                  fullText:`BEAUPLEX VH — Halal Certificate, IFANCA(Islamic Food and Nutrition Council of America)
+Document# 5256.5296.II256200 | Halal-ID B86975 | Product Certificate# HC-25DSHX92
+제조시설(DSM Nutritional Products France SAS, Village-Neuf)·원료 검토·승인 완료, 이슬람 율법 할랄 요건 준수 확인. 유효기한 2028.12.31, 갱신 대상.` },
+                { files:["소개자료.pdf"], title:"제품 소개자료", date:"2013.04(최초 발행)",
+                  fullText:`BeauPlex® VH — All-in-one Vitamin Compound for successful skin care products (마케팅 리플렛, 간단 소개 수준)` },
+                { files:["ALCOHOL FREE(3page)_2025.06.19.pdf","Animal Free(1page)_2025.06.19.pdf","Cites(4page)_2025.06.19.pdf","Country of orgin(5page)_2025.06.19.pdf","Gluten Free(2page)_2025.06.19.pdf","NANO(4page)_2025.06.19.pdf","NUT Free(2page)_2025.06.19.pdf","RSPO(1page)_2025.06.19.pdf","Source of origin(1page)_2025.06.19.pdf","추출부위확인서(1page)_2025.06.19.pdf"], title:"Technical Dossier (통합 규제정보 요약, 10개 파일 동일문서)", date:"Version 07, 2025-06-19(Replaces Version 06: 2024-03-26)",
+                  fullText:`dsm-firmenich — Technical Dossier, BeauPlex™ VH(Product Code 5004845)
+1.원료 출처: 5개 활성성분 전량 합성, 캐리어(말토덱스트린·전분옥테닐숙신산나트륨 식물유래, 실리카 광물유래)
+3.함유가능물질: 식품알레르겐(글루텐·유제품·견과류·코코넛) 전항목 비해당, 에탄올·포름알데히드·프탈레이트 등 불검출 예상, 중금속(SP)·잔류용매·농약 각 별도 선언서 보유
+4.규제정보: EU화장품규정 준수·향료알레르겐·CMR·동물실험 각 선언서 보유, REACh 준수, SVHC·마이크로플라스틱 대응, 미국Prop65·중국NMPA 대응, 나노물질 비해당, Nagoya협약 발효 전(2014.10) 출시로 비대상
+6.제품적합성: Ecocert/Natrue/Cosmos 비해당(비천연원료), 코셔·할랄 선언서 보유
+8.품질기준: ISO9001:2008 인증
+원산지: Village-Neuf(France)
+(비고: 이 문서 1건이 Alcohol Free·Animal Free·Cites·Country of origin·Gluten Free·NANO·NUT Free·RSPO·Source of origin·추출부위확인서 등 10개 파일명으로 동일하게 반복 배포됨)` }
+            ]
+          }
         }
     ];
 
@@ -4846,6 +5813,60 @@ Lot No. M260211 | 제조일 2026.02.11 | 유효기한 2027.02.10
         have:["MSDS","Composition","SPEC","Origin","Animal Free","Non Animal Test","Flow Chart","GMO","Nano","TSE","BSE","CMR","NMPA","RSPO","VEGAN","REACH","CITES","Alcohol Free","PORK FREE","HALAL","Allergen (26)","Allergen (81+)","소개자료","ISO 16128","Impurity","Proposition 65","Gluten Free","Microplastic","COA"],
         check:{ "Heavy Metal":"'HEAVY METAL' 파일명이나 실제 내용은 10개 파일명이 공유하는 범용 통합선언서(Free Certificate)일 뿐 — SPEC 규격상한(20ppm 이하)만 있고 COA에는 중금속 실측치가 없음" },
         na:{ "추출부위확인서":"합성·식물유래 정제성분(글리세린·세라마이드·레시틴 등) 혼합물로 식물 추출부위 개념 비해당" }
+      },
+      "610070": {
+        storage:{ temp:"25℃ 미만", text:"미개봉 원용기 상태로 25℃ 미만 보관 시 제조일로부터 36개월 사용 가능. 장기보관 시 경미한 황변 가능하나 생물학적 활성에는 영향 없음", source:"Product Data Sheet/SPEC Version 13 (2025.06.27)", shelfLife:"제조일로부터 36개월 (미개봉, 25℃ 미만 보관 기준)" },
+        have:["COA","MSDS","Composition","TDS","SPEC","Origin","원산지증명서(제조국)","Animal Free","Non Animal Test","GMO","Nano","TSE","BSE","CMR","NMPA","RSPO","VEGAN","REACH","CITES","Alcohol Free","HALAL","Allergen (81+)","ISO 16128","Heavy Metal","Impurity","Proposition 65","Nut Free","Gluten Free","SVHC","Microplastic"],
+        check:{ "추출부위확인서":"파일명은 추출부위확인서이나 실제 내용은 Technical Dossier(규제정보 요약본)이며, 본 원료는 화학합성 물질(2-KGA 에스테르화)로 식물 추출부위 개념 자체가 성립하지 않음 — 파일명·내용 불일치" },
+        na:{}
+      },
+      "610072": {
+        storage:{ temp:null, text:"원포장 밀폐용기, 서늘하고 건조하며 차광된 장소 보관 — 직사광선·열·점화원 회피", source:"SPEC v1.0.0(2025.06.11) / TDS Version 1.1(2024.03.28)", shelfLife:"24개월 후 재평가(SPEC) — TDS는 미개봉 원용기 기준 2년 보관 가능" },
+        have:["MSDS","Composition","TDS","SPEC","Origin","원산지증명서(제조국)","Animal Free","Non Animal Test","GMO","Nano","TSE","BSE","CMR","VEGAN","REACH","CITES","Alcohol Free","PORK FREE","Allergen (81+)","IFRA 51th","소개자료","임상자료","ISO 16128","Heavy Metal","Impurity","Proposition 65","EUDR","Nut Free","Gluten Free","SVHC","PFAS","Microplastic"],
+        check:{ "COA":"이미지 스캔본으로 텍스트 추출 불가 — 로트 실측치 원본 육안 확인 필요","NMPA":"이미지 스캔본(5페이지)으로 텍스트 추출 불가 — 등재코드 등 원본 육안 확인 필요","HALAL":"이미지 스캔본으로 텍스트 추출 불가 — 유효기간(2025.11.26~2027.01.15)은 파일명에서만 확인, 인증기관·인증번호는 원본 육안 확인 필요","추출부위확인서":"전용 서식은 없으나 Origin Statement(source) 문서가 성분별 유래(석유화학 3종·식물유래 1종:감초)를 명시 — 단, 동일 폴더의 Origin Statement(country)와 표 내용이 완전히 동일해 두 파일 간 실질적 차이 없음" },
+        na:{}
+      },
+      "610079": {
+        storage:{ temp:"15~25℃(실온)", text:"실온(15~25℃) 보관, 차광 — 미개봉 원용기 기준 2년 보관 가능(TDS)", source:"SPEC v2.3(2025.07.04) / TDS v1.8(2024.08.20)", shelfLife:"24개월 후 재평가(SPEC) — TDS는 미개봉 시 2년" },
+        have:["MSDS","Composition","TDS","SPEC","Origin","추출부위확인서","Flow Chart","GMO","Nano","TSE","BSE","CMR","NMPA","VEGAN","REACH","CITES","Alcohol Free","PORK FREE","HALAL","Allergen (81+)","IFRA 51th","소개자료","임상자료","ISO 16128","Heavy Metal","Impurity","Proposition 65","EUDR","Gluten Free","SVHC","Furocoumarin","PFAS","Microplastic"],
+        check:{ "COA":"이미지 스캔본으로 텍스트 추출 불가 — 로트 실측치 원본 육안 확인 필요","Animal Free":"파일명은 Animal Free이나 실제 내용은 Vegan Statement와 동일 문구 — 전용 증명서 아님","Non Animal Test":"파일명은 Non Animal Test이나 실제 내용은 Vegan Statement와 동일 문구 — 전용 동물실험 미실시 증명서 아님","RSPO":"공식 RSPO Statement는 '인증서 미보유'로 명시하나, 동일 폴더 소개자료는 제품명을 'Activonol-3 (RSPO MB)'로 표기하며 RSPO 인증·지속가능 팜유 사용을 광고 — 정면 상충으로 재확인 필요","Nut Free":"전용 서류는 없으나 Food Allergens-Free Statement(EU1169/2011 Annex II, 견과류 포함 식품알레르겐 전체)로 포괄 커버" },
+        na:{}
+      },
+      "610080": {
+        storage:{ temp:null, text:"건조한 곳에 보관, 정전기 방전 방지 조치(MSDS 7항) — 구체적 보관온도는 미기재", source:"MSDS Section 7 (Version 1.22, 2024.03.22)", shelfLife:"COA·SPEC 원문에 명시적 유효기간 기재 없음(SPEC은 규격서일 뿐 유효기간 항목 없음)" },
+        have:["MSDS","Composition","SPEC","Non Animal Test","GMO","TSE","BSE","CMR","VEGAN","REACH","HS CODE","Heavy Metal","Proposition 65","SVHC","PFAS"],
+        check:{ "COA":"이미지 스캔본으로 텍스트 추출 불가 — 로트 실측치 원본 육안 확인 필요","Origin":"Origin(Manufacture) 파일이 이미지 스캔본으로 텍스트 추출 불가 — 제조국 원본 육안 확인 필요(MSDS 발신 주소는 독일 Essen)","원산지증명서(제조국)":"위와 동일 파일(Origin(Manufacture))이 스캔본으로 육안 확인 필요","Flow Chart":"이미지 스캔본으로 텍스트 추출 불가 — 원본 육안 확인 필요","Animal Free":"파일명은 Animal Free이나 실제 내용은 한국비건인증원 Vegan Ingredients Declaration과 동일 — 전용 증명서 아님, VEGAN과 중복 문서","Allergen (26)":"전용 향료알레르겐 서식은 없음 — Product Safety Information 문서 내 식품알레르겐(ALBA-list) 일반선언으로만 포괄 언급","Allergen (81+)":"위와 동일 — 전용 서식 없이 Product Safety Information 문서 내 일반선언으로만 포괄","Impurity":"전용 Impurity Statement는 없으나 Product Safety Information 문서 내 다수 물질군(프탈레이트·PFAS·PAH 등) 비함유 선언 포함","Nut Free":"전용 서류 없음 — Product Safety Information 문서 내 ALBA-list(견과류 포함) 일반 알레르겐 선언으로만 포괄","Gluten Free":"전용 서류 없음 — 동일 문서 내 곡물(글루텐) 일반 알레르겐 선언으로만 포괄" },
+        na:{ "추출부위확인서":"화학적으로 합성된 무기물(발열법 실리카 소수화 처리물)로 식물 추출부위 개념 자체가 비해당" }
+      },
+      "610083": {
+        storage:{ temp:null, text:"통상 보관조건에서 1년간 안정, 이후 전체 규격 재시험 후 유효기간 연장(GHS SDS Section 10)", source:"GHS SDS(Version 10, 2025.03.14) Section 10", shelfLife:"제조일로부터 1년, 재시험 후 연장 가능 — COA 재시험기한 2026.09.17(제조 2025.09.17)" },
+        have:["COA","MSDS","Composition","TDS","SPEC","Origin","원산지증명서(제조국)","Non Animal Test","Flow Chart","GMO","Nano","TSE","BSE","CMR","NMPA","VEGAN","REACH","CITES","Alcohol Free","PORK FREE","Allergen (81+)","소개자료","임상자료","ISO 16128","Heavy Metal","Proposition 65","EUDR","Nut Free","Gluten Free","SVHC","Microplastic"],
+        check:{ "Animal Free":"파일명은 Animal Free이나 실제 내용은 Pork Free Statement와 동일 문구 — 전용 증명서 아님, PORK FREE와 중복 문서","추출부위확인서":"전용 서식은 없음 — Certificate of Origin(8개 파일명 공유 문서) 내 '식물(종명)' 수준의 일반 유래정보만 포함, 부위별 상세 추출정보는 없음","RSPO":"파일명은 RSPO이나 실제 내용은 범용 Certificate of Compliance 문서로 팜유 유래성분 비의도적 함유 언급뿐 — 정식 RSPO 인증 근거 없음","Impurity":"파일명은 Impurity이나 실제 내용은 범용 Certificate of Compliance 문서로 불순물 관련 구체적 언급이 없음","IFRA 51th":"파일명은 IFRA이나 실제 내용은 Compositional Breakdown(성분표+알레르겐+농약) 문서로 IFRA 51차 개정 준수 여부 언급이 전혀 없음","HALAL":"Kosher & Halal Statement 원문이 '할랄 인증시설 아님'을 명시 — 성분·공정상 사용 가능하다는 자체 확인서일 뿐 정식 할랄 인증서 아님" },
+        na:{}
+      },
+      "610094": {
+        storage:{ temp:null, text:"서늘하고 건조하며 환기 잘 되는 곳에 밀폐 보관, 수분흡수·오염 방지", source:"MSDS Section 7 (2026.04.14)", shelfLife:"12개월(COA 제조 2024.04.15 → 유효기한 2025.04.14 기준)" },
+        have:["COA","MSDS","Composition","SPEC","Origin","Non Animal Test","GMO","TSE","BSE","CMR","CITES","PORK FREE","Allergen (26)","Gluten Free","Proposition 65","Microplastic","Animal Free","Impurity"],
+        check:{ "원산지증명서(제조국)":"Certificate of Origin은 성분별 원산지(한국·독일)만 기재, 완제품 제조국 전용 증명서는 없음(회사 소재지는 한국 화성)" },
+        na:{ "추출부위확인서":"정제수·미생물발효 펩타이드·합성 글라이콜류로 식물 추출부위 개념 비해당" }
+      },
+      "610098": {
+        storage:{ temp:null, text:"서늘하고 건조하며 환기 잘 되는 곳에 밀폐 보관, 수분흡수·오염 방지", source:"MSDS Section 7 (2026.04.20)", shelfLife:"12개월(COA 제조 2024.11.25 → 유효기한 2025.11.24 기준)" },
+        have:["COA","MSDS","Composition","SPEC","Origin","Non Animal Test","GMO","TSE","BSE","CMR","CITES","PORK FREE","Allergen (26)","Gluten Free","Proposition 65","Microplastic","Impurity"],
+        check:{ "Animal Free":"파일명 및 Declaration of Compliance 본문은 '동물유래 아님'이라 선언하나, Origin 문서상 Hydrolyzed Collagen이 '대구 어피(Skin of Artic Cod Fish, 중국산)' 유래로 명시되어 있어 실제로는 어류(동물성) 성분 포함 — 정면 상충","원산지증명서(제조국)":"Certificate of Origin은 성분별 원산지(한국·중국·인도)만 기재, 완제품 제조국 전용 증명서는 없음(회사 소재지는 한국 화성)","추출부위확인서":"해조류(다시마·미역·클로렐라) 3종은 '식물, 한국'으로만 기재되어 구체적 추출부위(엽상체 등) 정보 없음, Hydrolyzed Collagen은 동물(어류)유래로 성격이 다름" },
+        na:{}
+      },
+      "610104": {
+        storage:{ temp:null, text:"서늘하고 건조하며 환기 잘 되는 곳에 밀폐 보관, 수분흡수·오염 방지", source:"MSDS Section 7 (2026.04.20)", shelfLife:"COA가 이미지 스캔본으로 확인 불가 — 제조일은 파일명(2025.07.08)으로만 추정" },
+        have:["MSDS","Composition","SPEC","Origin","Non Animal Test","Flow Chart","GMO","TSE","BSE","CMR","CITES","PORK FREE","Allergen (26)","Gluten Free","Proposition 65","Microplastic","Animal Free","Impurity"],
+        check:{ "COA":"이미지 스캔본으로 텍스트 추출 불가 — 로트 실측치·유효기한 원본 육안 확인 필요","원산지증명서(제조국)":"Certificate of Origin은 성분별 원산지(한국·독일)만 기재, 완제품 제조국 전용 증명서는 없음(회사 소재지는 한국 화성)" },
+        na:{ "추출부위확인서":"정제수·미생물발효 여과물·합성 글라이콜류로 식물 추출부위 개념 비해당" }
+      },
+      "610107": {
+        storage:{ temp:"25℃ 미만", text:"공기·빛·습기에 민감. 미개봉 원용기 상태로 25℃ 미만 보관 시 제조일로부터 최소 24개월. 개봉 후 신속 사용 권장", source:"Product Data Sheet/SPEC Version 11 (2025.06.27)", shelfLife:"제조일로부터 최소 24개월(미개봉, 25℃ 미만 보관 기준)" },
+        have:["MSDS","Composition","SPEC","Origin","원산지증명서(제조국)","Animal Free","Non Animal Test","GMO","Nano","TSE","BSE","CMR","NMPA","VEGAN","REACh","CITES","Alcohol Free","HALAL","Allergen (81+)","소개자료","ISO 16128","Heavy Metal","Impurity","Proposition 65","Nut Free","Gluten Free","SVHC","Microplastic"],
+        check:{ "COA":"이미지 스캔본으로 텍스트 추출 불가 — 로트 실측치 원본 육안 확인 필요","추출부위확인서":"파일명은 추출부위확인서이나 실제 내용은 Technical Dossier(규제정보 요약본)이며, 5개 활성성분이 전량 화학합성인 원료 특성상 식물 추출부위 개념 자체가 성립하지 않음 — 파일명·내용 불일치","RSPO":"파일명은 RSPO이나 실제 내용은 Technical Dossier 범용 문서로 '팜유 유래 아님(No)'만 언급 — 정식 RSPO 인증 근거 없음" },
+        na:{}
       }
     };
 
@@ -4887,15 +5908,6 @@ Lot No. M260211 | 제조일 2026.02.11 | 유효기한 2027.02.10
     /* 43종 판정은 원본 정독으로만 등록한다 — 파일명 추론 금지 */
     const DOC43_AUTO = {};
     const DEMO_AUTO = [
-      { name:"Ascorbic acid", inci:null, cas:null, supplier:"미확인", func:"기타", limit:null, certs:[], docs:{coa:false,msds:false,spec:false}, allergen:false, restrict:null, country:null, views:0, regs:{}, unverified:true, fileCount:35, detail:{ code:"610070", classification:null, hsCode:null, packaging:null, note:"원본 문서 35개 보유(폴더 실측) — 내용 미검증. 필수서류 43종 판정은 정독 후 등록" } },
-      { name:"ACTIVONOL-M", inci:null, cas:null, supplier:"미확인", func:"기타", limit:null, certs:[], docs:{coa:false,msds:false,spec:false}, allergen:false, restrict:null, country:null, views:0, regs:{}, unverified:true, fileCount:37, detail:{ code:"610072", classification:null, hsCode:null, packaging:null, note:"원본 문서 37개 보유(폴더 실측) — 내용 미검증. 필수서류 43종 판정은 정독 후 등록" } },
-      { name:"Activonol-3", inci:null, cas:null, supplier:"미확인", func:"기타", limit:null, certs:[], docs:{coa:false,msds:false,spec:false}, allergen:false, restrict:null, country:null, views:0, regs:{}, unverified:true, fileCount:36, detail:{ code:"610079", classification:null, hsCode:null, packaging:null, note:"원본 문서 36개 보유(폴더 실측) — 내용 미검증. 필수서류 43종 판정은 정독 후 등록" } },
-      { name:"AEROSIL R 972", inci:null, cas:null, supplier:"미확인", func:"기타", limit:null, certs:[], docs:{coa:false,msds:false,spec:false}, allergen:false, restrict:null, country:null, views:0, regs:{}, unverified:true, fileCount:18, detail:{ code:"610080", classification:null, hsCode:null, packaging:null, note:"원본 문서 18개 보유(폴더 실측) — 내용 미검증. 필수서류 43종 판정은 정독 후 등록" } },
-      { name:"ABS Ginger Mint Extract Cooling PF", inci:null, cas:null, supplier:"미확인", func:"기타", limit:null, certs:[], docs:{coa:false,msds:false,spec:false}, allergen:false, restrict:null, country:null, views:0, regs:{}, unverified:true, fileCount:37, detail:{ code:"610083", classification:null, hsCode:null, packaging:null, note:"원본 문서 37개 보유(폴더 실측) — 내용 미검증. 필수서류 43종 판정은 정독 후 등록" } },
-      { name:"bEGF (1ppm)", inci:null, cas:null, supplier:"미확인", func:"기타", limit:null, certs:[], docs:{coa:false,msds:false,spec:false}, allergen:false, restrict:null, country:null, views:0, regs:{}, unverified:true, fileCount:18, detail:{ code:"610094", classification:null, hsCode:null, packaging:null, note:"원본 문서 18개 보유(폴더 실측) — 내용 미검증. 필수서류 43종 판정은 정독 후 등록" } },
-      { name:"Blue Marine Collagen Extract", inci:null, cas:null, supplier:"미확인", func:"기타", limit:null, certs:[], docs:{coa:false,msds:false,spec:false}, allergen:false, restrict:null, country:null, views:0, regs:{}, unverified:true, fileCount:18, detail:{ code:"610098", classification:null, hsCode:null, packaging:null, note:"원본 문서 18개 보유(폴더 실측) — 내용 미검증. 필수서류 43종 판정은 정독 후 등록" } },
-      { name:"비디파발효여과물", inci:null, cas:null, supplier:"미확인", func:"기타", limit:null, certs:[], docs:{coa:false,msds:false,spec:false}, allergen:false, restrict:null, country:null, views:0, regs:{}, unverified:true, fileCount:19, detail:{ code:"610104", classification:null, hsCode:null, packaging:null, note:"원본 문서 19개 보유(폴더 실측) — 내용 미검증. 필수서류 43종 판정은 정독 후 등록" } },
-      { name:"BEAUPLEX VH", inci:null, cas:null, supplier:"미확인", func:"기타", limit:null, certs:[], docs:{coa:false,msds:false,spec:false}, allergen:false, restrict:null, country:null, views:0, regs:{}, unverified:true, fileCount:33, detail:{ code:"610107", classification:null, hsCode:null, packaging:null, note:"원본 문서 33개 보유(폴더 실측) — 내용 미검증. 필수서류 43종 판정은 정독 후 등록" } },
       { name:"BIO-Placenta", inci:null, cas:null, supplier:"미확인", func:"기타", limit:null, certs:[], docs:{coa:false,msds:false,spec:false}, allergen:false, restrict:null, country:null, views:0, regs:{}, unverified:true, fileCount:30, detail:{ code:"610113", classification:null, hsCode:null, packaging:null, note:"원본 문서 30개 보유(폴더 실측) — 내용 미검증. 필수서류 43종 판정은 정독 후 등록" } },
       { name:"Bromelain BR 1200", inci:null, cas:null, supplier:"미확인", func:"기타", limit:null, certs:[], docs:{coa:false,msds:false,spec:false}, allergen:false, restrict:null, country:null, views:0, regs:{}, unverified:true, fileCount:15, detail:{ code:"610119", classification:null, hsCode:null, packaging:null, note:"원본 문서 15개 보유(폴더 실측) — 내용 미검증. 필수서류 43종 판정은 정독 후 등록" } },
       { name:"CICCE Supercritical Liposome", inci:null, cas:null, supplier:"미확인", func:"기타", limit:null, certs:[], docs:{coa:false,msds:false,spec:false}, allergen:false, restrict:null, country:null, views:0, regs:{}, unverified:true, fileCount:18, detail:{ code:"610182", classification:null, hsCode:null, packaging:null, note:"원본 문서 18개 보유(폴더 실측) — 내용 미검증. 필수서류 43종 판정은 정독 후 등록" } },
@@ -5149,6 +6161,15 @@ Lot No. M260211 | 제조일 2026.02.11 | 유효기한 2027.02.10
         document.getElementById('last-update').textContent = new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
     }
 
+    /* restrict 필드(자유서술 확인사항)를 문장 단위로 분리 */
+    function restrictIssues(text) {
+        if (!text) return [];
+        return text.split(/(?<=\.)\s+/).map(s=>s.trim()).filter(Boolean);
+    }
+    /* 실제 성분·인증 내용이 상충·모순되는 '고위험' 사유인지, 단순 누락·확인필요인 '주의' 사유인지 구분 */
+    function restrictSeverity(text) {
+        return /상충|모순|실체\s*없음|정반대|위조|허위|불일치|오기|오사|만료|다름|동일한?\s*문서|동일한?\s*1?건|실제로는/.test(text) ? 'high' : 'low';
+    }
     function matCard(m) {
         const key = matKey(m);
         const fav = favs.has(key);
@@ -5156,6 +6177,16 @@ Lot No. M260211 | 제조일 2026.02.11 | 유효기한 2027.02.10
             const fail = /불가|미인증|실패|미충족/.test(c);
             return `<span class="tag cert${fail?' fail':''}">${fail?'<i class="bi bi-x-circle"></i> ':''}${c}</span>`;
         }).join('');
+        const issues = restrictIssues(m.restrict);
+        let issueBox = '';
+        if (issues.length) {
+            const sorted = issues.slice().sort((a,b)=>(restrictSeverity(b)==='high')-(restrictSeverity(a)==='high'));
+            const top = sorted[0];
+            const sev = restrictSeverity(top);
+            const short = top.length > 38 ? top.slice(0,38).trim()+'…' : top;
+            const more = issues.length - 1;
+            issueBox = `<div class="issue-flag ${sev}"><i class="bi ${sev==='high'?'bi-exclamation-octagon-fill':'bi-exclamation-triangle-fill'}"></i><span class="txt">${short}</span>${more>0?`<span class="issue-more">+${more}건</span>`:''}</div>`;
+        }
         const cls = m.detail && m.detail.classification;
         const hs = m.detail && m.detail.hsCode;
         const q = doc43Of(m);
@@ -5188,6 +6219,7 @@ Lot No. M260211 | 제조일 2026.02.11 | 유효기한 2027.02.10
                 <span class="tag">${m.func}</span>${m.limit?`<span class="tag" style="background:var(--warn-bg);color:var(--warn)">한도 ${m.limit}</span>`:''}${storeBadge}${m.restrict?`<span class="pill stop">확인 필요</span>`:''}
             </div>
             ${certs?`<div class="d-flex gap-1 flex-wrap">${certs}</div>`:''}
+            ${issueBox}
             ${m.unverified
                 ? `<div style="margin-top:8px;padding:7px 9px;border:1px dashed var(--line);border-radius:8px;background:var(--paper);font-size:.75rem;color:var(--ink-faint)">
                      <i class="bi bi-hourglass-split"></i> 원본 문서 <b style="color:var(--ink-soft)">${m.fileCount||0}개</b> 보유(폴더 실측) · <b>내용 미검증</b><br>
