@@ -341,6 +341,93 @@
         .menu-toggle { display: none; }
         @media (max-width: 991px) { .menu-toggle { display: grid; } }
 
+        /* ── 모바일 (≤767px) ─────────────────────────────────────────
+           PC 레이아웃은 그대로 두고, 좁은 화면에서만 넘침·가독성을 보정한다. */
+        @media (max-width: 767px) {
+            /* 페이지 여백 축소 — 좁은 화면에서 26px 좌우 여백은 과하다 */
+            .page { padding: 18px 14px 40px; }
+            .page-title { font-size: 1.22rem; }
+            .page-sub { font-size: .82rem; }
+            .page-head { margin-bottom: 16px; }
+            .section-gap { margin-top: 18px; }
+
+            /* 카드 헤더: 제목과 우측 컨트롤이 한 줄에 붙어 넘치던 것을 세로로 */
+            .card-head { flex-wrap: wrap; gap: 8px; }
+            .card-head > h5 { flex: 1 1 100%; }
+            .card-head .d-flex { flex: 1 1 100%; flex-wrap: wrap; }
+
+            /* 폼 컨트롤 전폭 — 검색창·셀렉트가 화면을 넘기지 않도록 */
+            .card-head .form-control,
+            .card-head .form-select { width: 100% !important; min-width: 0; }
+            #s-search, #doc-search { width: 100% !important; }
+            #doc-item, #doc-sort, #s-sort, #c-matrix-filter { width: 100% !important; }
+
+            /* 문서 라이브러리 상단 컨트롤 묶음 */
+            #documents-view .d-flex.gap-2 > .form-control,
+            #documents-view .d-flex.gap-2 > .form-select { flex: 1 1 100%; }
+            #documents-view .btn-ghost.ms-auto { margin-left: 0 !important; width: 100%; justify-content: center; }
+
+            /* 요약줄: 한 줄 나열 → 2열 그리드 */
+            .page-sum { gap: 8px 14px; padding: 10px 12px; }
+            .page-sum .sep { display: none; }
+            .page-sum .it { flex: 1 1 44%; font-size: .78rem; }
+
+            /* 대시보드 KPI: 2×2 유지하되 숫자 축소 */
+            .stat { padding: 14px 14px; }
+            .s-num { font-size: 1.5rem; }
+            .s-label { font-size: .76rem; }
+            .s-trend { font-size: .7rem; }
+
+            /* 43종 항목별 현황: 1열 + 라벨 폭 축소 */
+            #chart-doc43-items { grid-template-columns: 1fr !important; }
+            #chart-doc43-items > div > span:first-child,
+            #c-reg-items > div > span:first-child { width: 92px !important; }
+
+            /* 공급사·제조국 막대 라벨 축소 */
+            #chart-supplier > div > span:first-child,
+            #report-supplier > div > span:first-child { width: 96px !important; }
+            #chart-country > div,
+            #rep-expiry > div > span:first-child { min-width: 0; }
+
+            /* 공급사 카드 1열 — 1fr의 암묵적 최소값(min-content)이 열을 밀어내므로 minmax(0,1fr) */
+            .sup-grid { grid-template-columns: minmax(0,1fr) !important; }
+            .sup-card { min-width: 0; overflow: hidden; }
+            .sup-card * { min-width: 0; }
+            .sup-metric { gap: 12px !important; }
+            .sup-metric > div { min-width: 0; flex: 1 1 0; }
+            .sup-metric .val { font-size: 1.15rem; }
+            .sup-metric .lbl { font-size: .68rem; white-space: nowrap; }
+            .sup-card .tag { white-space: normal; }
+
+            /* 데이터 점검 카드 1열 */
+            #adm-checks { grid-template-columns: minmax(0,1fr) !important; }
+            #chart-doc43-items { grid-template-columns: minmax(0,1fr) !important; }
+
+            /* 표: 가로 스크롤 명확히 (좁은 화면에서 셀 축소로 뭉개지지 않게) */
+            .table-responsive { -webkit-overflow-scrolling: touch; }
+            .tbl { font-size: .8rem; }
+            .tbl th, .tbl td { padding: 7px 8px; }
+
+            /* 규제 매트릭스: 원료명 열 고정폭 축소 */
+            #c-matrix-head th:first-child { min-width: 140px !important; }
+
+            /* 원재료 카드 그리드 1열 */
+            .mat-grid { grid-template-columns: 1fr !important; }
+
+            /* 상단바 */
+            .topbar { padding: 0 12px; }
+            .topbar-right { gap: 6px; }
+
+            /* 상세 사이드패널 전폭 */
+            .detail-panel, #detail-panel { width: 100% !important; max-width: 100% !important; }
+        }
+
+        /* 아주 좁은 화면 (≤400px) */
+        @media (max-width: 400px) {
+            .page-sum .it { flex: 1 1 100%; }
+            .row.g-3 > [class*="col-6"] { flex: 0 0 100%; max-width: 100%; }
+        }
+
         @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
     </style>
 </head>
@@ -774,11 +861,17 @@
                 </div>
                 <div class="col-lg-5">
                     <div class="form-card mb-3">
-                        <h5 style="font-weight:700;margin-bottom:16px"><i class="bi bi-file-earmark-arrow-up" style="color:var(--rouge-600)"></i> 품질 문서 업로드</h5>
+                        <h5 style="font-weight:700;margin-bottom:6px"><i class="bi bi-file-earmark-arrow-up" style="color:var(--rouge-600)"></i> 품질 문서 등록 안내</h5>
+                        <div style="font-size:.8rem;color:var(--ink-soft);line-height:1.8;margin-bottom:14px;padding:11px 13px;border-radius:9px;background:var(--warn-bg);border:1px solid var(--line-soft)">
+                            <b style="color:var(--warn)"><i class="bi bi-exclamation-triangle-fill"></i> 이 화면에서는 파일이 실제로 저장되지 않습니다.</b><br>
+                            원본 문서는 <b>같은 폴더의 <span class="mono">14. AI 활용 (원료파트)(원료자료)</span> 안 원료별 폴더</b>에 직접 넣고,
+                            원료 데이터의 <span class="mono">documents[].files</span> 에 파일명을 등록해야 상세창에서 열립니다.<br>
+                            <span style="color:var(--ink-faint)">현재 등록된 원본 파일 <b id="pdf-linked">-</b>건이 모두 정상 연결되어 있습니다.</span>
+                        </div>
                         <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
                             <i class="bi bi-cloud-arrow-up"></i>
-                            <div style="font-weight:700;margin-top:8px">파일을 끌어다 놓거나 클릭</div>
-                            <div style="font-size:.8rem;margin-top:4px">COA · MSDS/SDS · 규격서 · 알레르겐 선언서<br>PDF, Excel (최대 20MB)</div>
+                            <div style="font-weight:700;margin-top:8px">파일 목록 미리보기 (저장 안 됨)</div>
+                            <div style="font-size:.8rem;margin-top:4px">끌어다 놓으면 파일명·용량만 확인할 수 있습니다<br>PDF, Excel</div>
                             <input type="file" id="fileInput" hidden multiple accept=".pdf,.xlsx,.xls,.csv" onchange="handleFiles(this.files)">
                         </div>
                         <div id="file-list" class="mt-3"></div>
@@ -1072,7 +1165,7 @@
           certs:["할랄 불가","Non-GMO 미충족(옥수수)","RSPO 미인증(팜유)"],
           docs:{coa:true,msds:true,spec:true}, allergen:false, restrict:"MSDS 유해성분류 EN/KR 상이 — 확인 필요", country:"일본", views:0, regs:{}, fileCount:32,
           detail:{
-            code:"610003", classification:"비이온 계면활성제(유화제)", hsCode:"3402.13", packaging:"17kg Can, 200kg Drum",
+            code:"610003", dir:"(610003) RHEODOL AO-15V", classification:"비이온 계면활성제(유화제)", hsCode:"3402.13", packaging:"17kg Can, 200kg Drum",
             specTable:[
                 {item:"외관",spec:"황색 유상액"},{item:"산가",spec:"8.5~12.0 mgKOH/g"},{item:"검화가",spec:"149.0~160.0 mgKOH/g"},
                 {item:"중금속",spec:"20ppm 이하"},{item:"비소",spec:"2ppm 이하"},{item:"폴리옥시에틸렌",spec:"불검출"},
@@ -1677,7 +1770,7 @@ Sincerely yours, Koki Shibutani, Consumer Care, Global Chemical Business, Kao Co
           restrict:"Microplastic Free 인증서에 타제품명(Bifida Ferment Filtrate VG) 오기재 — 재발급 확인 필요",
           country:"한국", views:0, regs:{}, fileCount:36,
           detail:{
-            code:"610006", classification:"복합원료(수용성 식물추출물) — 피부컨디셔닝제", hsCode:"3824.99-9090", packaging:null,
+            code:"610006", dir:"(610006) 어성초추출물", classification:"복합원료(수용성 식물추출물) — 피부컨디셔닝제", hsCode:"3824.99-9090", packaging:null,
             specTable:[
                 {item:"외관",spec:"담황색~갈색 투명액"},{item:"냄새",spec:"고유의 냄새"},{item:"pH(원액)",spec:"5.50~7.50"},
                 {item:"비중(d20/20)",spec:"1.001~1.030"},{item:"굴절률(n20/D)",spec:"1.300~1.400"},
@@ -2112,7 +2205,7 @@ Total | 100.00 | - | 58.60 | - | 59.00 | - | 0.00 | - | 0.00
           restrict:"Animal Free·Pork Free 파일이 Vegan Statement와 완전히 동일한 오사본 — 전용 선언서 부재, 재발급 필요. 원산지 문서 간 상충(한국 단일 vs 미국·프랑스 포함). COA(로트 실측 성적서) 폴더 내 없음.",
           country:"한국(제조국, 문서상)", views:0, regs:{}, fileCount:34,
           detail:{
-            code:"610008", classification:"복합원료(수용성 식물추출물) — 피부컨디셔닝제", hsCode:"3824.99", packaging:"20kg",
+            code:"610008", dir:"(610008) AT 캐모마일꽃추출물", classification:"복합원료(수용성 식물추출물) — 피부컨디셔닝제", hsCode:"3824.99", packaging:"20kg",
             specTable:[
                 {item:"외관",spec:"엷은 황색의 투명 액상"},{item:"취",spec:"약간의 특이취"},{item:"pH",spec:"5.00~7.00"},
                 {item:"비중",spec:"0.900~1.100"},{item:"비소",spec:"1ppm 이하"},{item:"중금속(납으로서)",spec:"5ppm 이하"},
@@ -2406,7 +2499,7 @@ Document Registration No: 20260327-103 / Issuing Date: 2026.03.27. / Title: Vega
           restrict:"이 폴더에는 정식 SPEC·MSDS 문서가 없음 — 제품소개 기술자료(TDS)와 COA·원산지증명·비동물시험증명만 존재. INCI명(Sodium Polyacrylate)은 COA 제품명 표기에서 최초 확인, CAS No.는 어느 문서에도 명시되어 있지 않음",
           country:"일본", views:0, regs:{}, fileCount:4,
           detail:{
-            code:"610010", classification:"증점제/하이드로겔제(폴리아크릴산나트륨 계열 폴리머, ARONVIS X SERIES)", hsCode:null, packaging:"20kg Bag",
+            code:"610010", dir:"(610010) ARONVIS SX", classification:"증점제/하이드로겔제(폴리아크릴산나트륨 계열 폴리머, ARONVIS X SERIES)", hsCode:null, packaging:"20kg Bag",
             specTable:[
                 {item:"성상",spec:"White powder with odorless, etc (백색 무취 분말)"},
                 {item:"확인시험(1)~(5)",spec:"점조용액 / 백색침전 / 백색침전 / 담적색침전 / 나트륨염 반응"},
@@ -2539,7 +2632,7 @@ Judgment For JSQI | - | Pass | -
           restrict:"MSDS 영문판 성분표의 CAS번호 매핑 오류(국문판은 정상) 및 CITES 선언서 부재 — 확인 필요",
           country:"한국", views:0, regs:{}, fileCount:34,
           detail:{
-            code:"610011", classification:"한방 복합 식물추출물", hsCode:"3824.99-9090", packaging:null,
+            code:"610011", dir:"(610011) AN COMPLEX 1", classification:"한방 복합 식물추출물", hsCode:"3824.99-9090", packaging:null,
             specTable:[
                 {item:"외관",spec:"담황갈색~황갈색 투명액"},{item:"냄새",spec:"고유의 냄새"},{item:"pH(원액)",spec:"5.00~7.00"},
                 {item:"비중(d20/20)",spec:"1.001~1.020"},{item:"굴절률(n20/D)",spec:"1.349~1.389"},
@@ -2874,7 +2967,7 @@ Phenoxyethanol 122-99-6 등록 01-2119488943-21-XXXX
           restrict:"CITES·Vegan 전용 선언서가 이 폴더에 없음(AN Complex 1에는 있었음), MSDS 최초작성일 EN/KR 불일치 — 확인 필요",
           country:"한국", views:0, regs:{}, fileCount:31,
           detail:{
-            code:"610012", classification:"식물추출물", hsCode:"3824.99-9090", packaging:null,
+            code:"610012", dir:"(610012) 아카시아나무꽃추출물", classification:"식물추출물", hsCode:"3824.99-9090", packaging:null,
             specTable:[
                 {item:"외관",spec:"담황색~황색 투명액"},{item:"냄새",spec:"고유의 냄새"},{item:"pH(원액)",spec:"4.00~6.00"},
                 {item:"비중(d20/20)",spec:"1.001~1.030"},{item:"굴절률(n20/D)",spec:"1.330~1.390"},
@@ -3127,7 +3220,7 @@ Robinia Pseudoacacia Flower Extract 89957-93-7 Y(Natural Source) 면제 <1톤
           restrict:"정식 SPEC에 명시된 비소·강열잔분·증발잔류물 3개 항목이 실제 로트 COA에는 시험되지 않음. MSDS 개정이력이 EN/KR 판 간 전혀 다름 — 확인 필요",
           country:"한국", views:0, regs:{}, fileCount:35,
           detail:{
-            code:"610013", classification:"식물추출물", hsCode:"3824.99-9090", packaging:null,
+            code:"610013", dir:"(610013) 알로에베라잎추출물", classification:"식물추출물", hsCode:"3824.99-9090", packaging:null,
             specTable:[
                 {item:"외관",spec:"무색~담황색(SPEC) / 무색~담황색 투명액(COA)"},{item:"냄새",spec:"고유의 냄새"},{item:"pH",spec:"4.00~6.00"},
                 {item:"중금속",spec:"10ppm 이하"},{item:"비소",spec:"2ppm 이하 (SPEC/TDS 규격 — COA 미시험)"},
@@ -3428,7 +3521,7 @@ Phenoxyethanol 122-99-6 등록 01-2119488943-21-XXXX
           restrict:"이 폴더에는 REACH 인증서·NMPA 원료보고서·HS Code가 전혀 없음 — 다른 원료 폴더와 달리 완전 누락, 공급업체(EYESEL) 확인 필요",
           country:"한국", views:0, regs:{}, fileCount:18,
           detail:{
-            code:"610018", classification:"펩타이드 용액(1ppm)", hsCode:null, packaging:null,
+            code:"610018", dir:"(610018) Acetyl Hexapeptide-8 Solution", classification:"펩타이드 용액(1ppm)", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"투명 액체"},{item:"냄새",spec:"미세한 냄새"},{item:"pH",spec:"4.50~6.50"},
                 {item:"비중(d20/20)",spec:"0.980~1.030"},{item:"미생물",spec:"100cfu/g 이하"}
@@ -3626,7 +3719,7 @@ Approved by QA&QC Manager So Young, Kim (Eyesel Co., Ltd.)` }
           restrict:"NON-NANO 인증서 문구가 \"규정을 준수하지 않는다\"로 정반대로 읽힐 수 있게 오기됨, CMR 선언서가 존재할 수 없는 미래 규정번호(EU 2026/78) 인용, 카탈로그 내장 COA는 이미 유효기한 만료 — 확인 필요",
           country:"중국", views:0, regs:{EU:{limit:null,banned:false,note:"국내 기능성 고시 0.04% — 수출국 규제는 별도 확인 필요"}}, fileCount:34,
           detail:{
-            code:"610019", classification:"백색 결정분말, 분자량 267.24", hsCode:null, packaging:null,
+            code:"610019", dir:"(610019) ADENOSINE", classification:"백색 결정분말, 분자량 267.24", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"백색~미백색 결정분말"},{item:"건조감량",spec:"1.0% 이하"},{item:"강열잔분",spec:"0.1% 이하"},
                 {item:"융점",spec:"234.0~235.0℃"},{item:"비선광도",spec:"-58.0°~-62.0°"},{item:"중금속",spec:"10ppm 이하"},
@@ -4014,7 +4107,7 @@ Signed: Tina Zhou, Date: Mar.30th,2026` }
           restrict:"COA(로트 실측 성적서) 폴더 내 없음 — 로트 추적 불가. 'Flow Chart.pdf' 파일명에 '(NMPA)' 표기가 있으나 실제 내용은 7단계 제조공정도이며 중국 NMPA 원료보고코드 문서가 아님 — 혼동 주의",
           country:"대한민국", views:0, regs:{}, fileCount:22,
           detail:{
-            code:"610021", classification:"천연 유래 세스퀴테르펜 알코올(Bisabolol) — ECOCERT 인증 100% 천연, 피부컨디셔닝·진정 원료", hsCode:null, packaging:null,
+            code:"610021", dir:"(610021) Alpha-Melight® (ECO)", classification:"천연 유래 세스퀴테르펜 알코올(Bisabolol) — ECOCERT 인증 100% 천연, 피부컨디셔닝·진정 원료", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"액상"},{item:"색상",spec:"무색~담황색"},{item:"냄새",spec:"고유의 냄새"},
                 {item:"비중(25℃)",spec:"0.900~0.950"},{item:"납(Pb)",spec:"2ppm 이하"},{item:"비소(As)",spec:"2ppm 이하"},
@@ -4231,7 +4324,7 @@ Authorized by ChulGu Kim, Manager, Marketing Team Leader. Last Update: September
           restrict:"COA가 이미지 스캔본이라 자동 텍스트 추출 불가 — 로트별 실측치는 원본 PDF 육안 확인 필요. California Prop65 선언서는 '미함유'가 아니라 디에탄올아민·TMPTA·아크릴아미드·중금속의 미량 함유 가능성을 공개하는 방식이라, 미국 캘리포니아向 제품은 라벨 표기 필요 여부를 별도 검토해야 함",
           country:"스페인", views:0, regs:{}, fileCount:36,
           detail:{
-            code:"610022", classification:"합성 폴리머(암모늄 아크릴로일디메틸타우레이트/VP 공중합체) — 수용성 겔화제·증점제, DIN ISO16128상 비천연(합성) 원료", hsCode:null, packaging:null,
+            code:"610022", dir:"(610022) Aristoflex AVC", classification:"합성 폴리머(암모늄 아크릴로일디메틸타우레이트/VP 공중합체) — 수용성 겔화제·증점제, DIN ISO16128상 비천연(합성) 원료", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"백색 분말"},{item:"고형분",spec:"92.0% 이상"},{item:"수분(칼피셔법)",spec:"7.0% 이하"},
                 {item:"pH(1% 수용액,20℃)",spec:"4.0~6.0"},{item:"점도(Brookfield,1%수용액,20℃)",spec:"48,000~65,000 mPa·s"}
@@ -4407,7 +4500,7 @@ REACH 준수 여부: Yes | REACH 상태: 이미 등록됨(폴리머는 REACH Art
           restrict:"TDS에 'Ingredient Source: Animal'로 명시됨 — 달팽이점액여과물(동물유래) 10% 함유로 비건·애니멀프리 표방 불가. 그럼에도 TSE/BSE 전용 선언서는 폴더 내 없어 별도 확인 필요. 'composition(1page)' 파일명이나 실제 내용은 GHS MSDS(EN)와 100% 동일한 오사본. COA는 이미지 스캔본으로 텍스트 추출 불가. 총 8개 파일 중 핵심 3종(MSDS/SPEC/TDS)에 집중되어 그 외 인증서(할랄·비건·GMO·REACH 등)는 폴더에 없음 — 43종 보유율이 낮은 원료",
           country:"대한민국", views:0, regs:{}, fileCount:8,
           detail:{
-            code:"610023", classification:"복합원료(달팽이점액여과물 함유 수용성 원료) — 피부컨디셔닝제(보습), 동물유래 성분 포함", hsCode:"3824.99-9090", packaging:null,
+            code:"610023", dir:"(610023) AN-MUCIN 1203", classification:"복합원료(달팽이점액여과물 함유 수용성 원료) — 피부컨디셔닝제(보습), 동물유래 성분 포함", hsCode:"3824.99-9090", packaging:null,
             specTable:[
                 {item:"외관",spec:"무색 투명한 액체"},{item:"냄새",spec:"특이취"},{item:"pH(원액)",spec:"4.00~6.00"},
                 {item:"증발잔류물",spec:"0.10~1.00% (1g, 105℃, 3h)"},{item:"중금속",spec:"10ppm 이하"},{item:"비소",spec:"2ppm 이하"},
@@ -4470,7 +4563,7 @@ INCI: Water, Butylene Glycol, Snail Secretion Filtrate | HS Code: 3824.99-9090
           restrict:"Heavy Metal 판정이 문서 간 서로 다름 — 통합선언서(Animal Free 등 8개 파일 공용)는 '중금속 전혀 미함유'로, SPEC·TDS·NMPA는 '10ppm 이하'로 규격상한을 명시해 기준이 상충. SVHC 선언서의 후보리스트 기준일이 2015.12.17로 고정되어 10년 이상 경과 — 최신 리스트 대비 재확인 필요. COA는 이미지 스캔본으로 텍스트 추출 불가, TDS.pdf는 SPEC.pdf와 완전 동일한 오사본",
           country:"대한민국", views:0, regs:{}, fileCount:18,
           detail:{
-            code:"610024", classification:"복합원료(수용성 식물추출물, 아사이야자열매추출물 함유) — 피부컨디셔닝제(보습)", hsCode:"3824.99-9090", packaging:null,
+            code:"610024", dir:"(610024) 아사이야자추출물", classification:"복합원료(수용성 식물추출물, 아사이야자열매추출물 함유) — 피부컨디셔닝제(보습)", hsCode:"3824.99-9090", packaging:null,
             specTable:[
                 {item:"외관",spec:"담황색~담갈색 투명액"},{item:"냄새",spec:"특이취"},{item:"pH(원액)",spec:"4.00~6.00"},
                 {item:"비중(d20/20)",spec:"0.900~1.030"},{item:"굴절률(n20/D)",spec:"1.300~1.400"},{item:"중금속",spec:"10ppm 이하"},
@@ -4566,7 +4659,7 @@ Allergen: EU 2003/15/EC 26종 향료알레르겐 미함유 | Benzophenone류 미
           restrict:"REACH 미등록(Not Registered, 2024.06.17 기준) — 동일 공문 내 타 RHEODOL 제품(TW-L120 등)은 조건부 등록인 것과 대조적, 재확인 필요. 할랄·비건 모두 인증·표방 불가(동물유래 원료 취급 공용설비 사용). PORK FREE 전용 선언서는 없어 HALAL 문서 내용으로만 간접 판단 가능 — 공용설비 교차오염 가능성 있어 확인 필요",
           country:"일본", views:0, regs:{}, fileCount:28,
           detail:{
-            code:"610026", classification:"비이온 계면활성제(유화제) — Sorbitan Stearate, 고체 왁스상", hsCode:"3402.42", packaging:"20kg Packing Case",
+            code:"610026", dir:"(610026) RHEODOL AS-10V", classification:"비이온 계면활성제(유화제) — Sorbitan Stearate, 고체 왁스상", hsCode:"3402.42", packaging:"20kg Packing Case",
             specTable:[
                 {item:"외관",spec:"백색~담황색 과립"},{item:"융점",spec:"49.0~59.0℃"},{item:"산가",spec:"10.0 이하"},
                 {item:"검화가",spec:"145.0~156.0"},{item:"건조감량",spec:"3.00% 이하"},{item:"강열잔분",spec:"1.00% 이하"},{item:"색상(Gardner)",spec:"7 이하"}
@@ -4674,7 +4767,7 @@ TW-L120: Registration with Condition | AS-10V: Not registered | MS-165V: Registr
           restrict:"COA·SPEC 파일이 모두 이미지 스캔본으로 텍스트 추출 불가 — 로트 실측치·정식 규격서 원문은 육안 확인 필요. TDS(총균수 300CFU/g 이하)와 마케팅자료(총균수 100CFU/g 이하)의 미생물 규격 수치가 서로 다르게 기재됨. 마케팅자료는 'botanical based compound(식물 유래)'로 소개하나 Flow Chart·NMPA 서류상 제조공정은 초산무수물+포도당의 화학합성(아실화) 공정으로, 실제로는 합성 원료임 — 마케팅 표현과 제조공정 간 불일치",
           country:"중국", views:0, regs:{}, fileCount:40,
           detail:{
-            code:"610029", classification:"합성 히드로퀴논 배당체(베타-알부틴) — 미백 기능성 원료(티로시나제 저해)", hsCode:null, packaging:null,
+            code:"610029", dir:"(610029) SINOWHITE ABT_(Arbutin)", classification:"합성 히드로퀴논 배당체(베타-알부틴) — 미백 기능성 원료(티로시나제 저해)", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"백색 결정분말"},{item:"함량(Assay)",spec:"99.5% 이상"},{item:"융점",spec:"198.5~201.5℃"},
                 {item:"pH(1%수용액)",spec:"5.00~7.00"},{item:"비선광도",spec:"[α]D20 = -66±2°"},{item:"하이드로퀴논",spec:"10ppm 이하"},
@@ -4830,7 +4923,7 @@ TSE/BSE: 비동물유래로 원료·가공보조제·첨가제에 관련물질 �
           restrict:"'Animal Free' 파일명이나 실제 내용은 무관한 통합선언서(BSE/TSE/GMO/Gluten 등)이며 '동물유래 미함유' 문구 자체가 없음. Origin 인증서상 달팽이점액여과물(2%)이 동물유래로 명시되어 있어 파일명과 실제 원료 구성이 모순됨 — 비건·애니멀프리 표방 불가. 중금속·SVHC·REACH·나노물질 관련 문서가 폴더 내 전혀 없음. COA는 이미지 스캔본으로 확인 불가",
           country:"대한민국", views:0, regs:{}, fileCount:18,
           detail:{
-            code:"610050", classification:"복합원료(달팽이점액여과물 함유 수용성 보습 컴플렉스) — 동물유래 성분 포함", hsCode:null, packaging:null,
+            code:"610050", dir:"(610050) AQUA DOUBLE COMPLEX(H)", classification:"복합원료(달팽이점액여과물 함유 수용성 보습 컴플렉스) — 동물유래 성분 포함", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"투명 액상 용액"},{item:"냄새",spec:"미약한 냄새"},{item:"pH",spec:"5.00~7.00(KFDA 화장품원료 기준)"},
                 {item:"비중(d20/20)",spec:"0.980~1.050(KFDA 화장품원료 기준)"},{item:"미생물",spec:"100cfu/g 이하(대한약전 기준)"}
@@ -4907,7 +5000,7 @@ Xylitylglucoside: Synthetic, France | Anhydroxylitol: Synthetic, France | Xylito
           restrict:"ISO16128 표에서 Glycerin 등이 'Synthetic'(합성) 분류로 표기되어 있음에도 Natural Origin Index가 1로 기재되어 분류-지수 간 정합성에 의문이 있음 — 재확인 필요. Heavy Metal은 SPEC 규격상한(20ppm 이하)만 있고 COA에는 중금속 실측치가 없음(외관·색상·냄새·pH·굴절률·미생물만 기재).",
           country:"대한민국", views:0, regs:{}, fileCount:30,
           detail:{
-            code:"610068", classification:"복합원료(세라마이드NP + PS-203R 나노에멀젼) — 보습·피부장벽 강화 원료", hsCode:null, packaging:null,
+            code:"610068", dir:"(610068) AMINO CERA 1.5", classification:"복합원료(세라마이드NP + PS-203R 나노에멀젼) — 보습·피부장벽 강화 원료", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"백색~담황색 점성액, 특이취"},{item:"굴절률(n25/D)",spec:"1.310~1.510"},{item:"pH(1%용액)",spec:"4.5~8.5"},
                 {item:"중금속",spec:"20ppm 이하(KFDA 고시 2013-2호)"},{item:"비소",spec:"2ppm 이하"},{item:"미생물",spec:"100CFU/g 이하"}
@@ -5020,7 +5113,7 @@ Lot No. M260211 | 제조일 2026.02.11 | 유효기한 2027.02.10
           restrict:"Cosmos 인증서 유효기한이 2023.12.31로 기재되어 있어 폴더 내 타 문서(2025~2026년 개정판) 대비 만료된 상태로 보임 — 최신 인증서 재확보 필요. 추출부위확인서 파일은 실제로는 Technical Dossier(규제정보 요약본)이며, 본 원료는 화학합성 물질로 식물 추출부위 개념 자체가 비해당됨.",
           country:"영국(Dalry, Ayrshire, Scotland) 제조 — 법인은 스위스(dsm-firmenich Switzerland Ltd)", views:0, regs:{}, fileCount:35,
           detail:{
-            code:"610070", classification:"비타민류(항산화제) — 합성 아스코르빈산", hsCode:null, packaging:null,
+            code:"610070", dir:"(610070) Ascorbic acid", classification:"비타민류(항산화제) — 합성 아스코르빈산", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"백색~담황색 분말"},{item:"pH(5%수용액)",spec:"2.2~2.5"},{item:"함량(Assay)",spec:"99.0~100.5%"},
                 {item:"건조감량",spec:"0.1% 이하"},{item:"강열잔분(황산회분)",spec:"0.1% 이하"},
@@ -5155,7 +5248,7 @@ Valid until: 31/12/2023 — 폴더 내 타 문서(2025~2026 개정) 대비 만�
           restrict:"COA·NMPA·HALAL 인증서 3건이 이미지 스캔본으로 텍스트 추출이 되지 않아 육안 원본 확인 필요. Origin Statement(country)와 Origin Statement(source) 2개 파일이 서로 다른 이름임에도 표 내용이 완전히 동일함(제조국·유래원 정보가 한 표에 같이 기재). ISO16128상 Natural Index가 0.1~10%로 매우 낮아 원료 대부분(디프로필렌글라이콜·하이드록시아세토페논·카프릴릴글라이콜)이 석유화학(petrochemical) 유래이며, 감초 유래 디포타슘글리시리제이트(0.1%)만 식물 유래.",
           country:"대한민국(충북 청주)", views:0, regs:{}, fileCount:37,
           detail:{
-            code:"610072", classification:"방부부스터(Preservative Booster) — 디올/페놀류 복합 항균제", hsCode:null, packaging:"25kg HDPE Jerrycan",
+            code:"610072", dir:"(610072) ACTIVONOL-M", classification:"방부부스터(Preservative Booster) — 디올/페놀류 복합 항균제", hsCode:null, packaging:"25kg HDPE Jerrycan",
             specTable:[
                 {item:"외관",spec:"투명 액체"},{item:"수분",spec:"0.50% 이하(Karl-Fischer)"},{item:"비중(20℃)",spec:"1.042~1.052"},
                 {item:"굴절률(20℃)",spec:"1.475~1.495"},{item:"중금속",spec:"10ppm 미만(ICP-MS)"},{item:"비소",spec:"2ppm 미만(ICP-MS)"}
@@ -5322,7 +5415,7 @@ Natural Index 0.1~10% | Natural Origin Index 0.1~10% | Organic Index 0% | Organi
           restrict:"RSPO Statement 원문은 'RSPO 인증서를 보유하지 않음(does not certify RSPO certificate)'이라고 명시하나, 동일 폴더의 소개자료는 제품명을 'Activonol-3 (RSPO MB)'로 표기하고 RSPO Mass Balance 인증·지속가능 팜유 사용을 핵심 마케팅 포인트로 강조 — 공식 선언서와 마케팅자료가 RSPO 인증 보유여부에 대해 정면으로 상충되어 재확인 필요. 'Animal Free'·'Non Animal Test' 파일 2건은 실제 내용이 Vegan Statement와 동일 문구로 전용 증명서가 아님. Origin Statement 2건('source,part,country'/'추출부위확인서')도 완전히 동일한 표를 담은 중복 문서. 'Halal Statement' 파일은 제목과 달리 할랄(이슬람 율법) 관련 내용이 전혀 없고 동물유래성분·에탄올 미함유만 선언하는 범용 문서로, Animal Free/Vegan Statement와 실질적으로 동일 — 정식 할랄 선언·인증으로 볼 근거 없어 certs 뱃지에서 제외하고 43종 판정도 확인필요로 하향(2026-08-14 재검토, 최초 정독 시 파일 자체가 누락되어 있었음).",
           country:"원료(팜글리세린) 원산지 중국, 제조는 대한민국(충북 청주, ACTIVON CO., LTD. 발효공정)", views:0, regs:{}, fileCount:36,
           detail:{
-            code:"610079", classification:"1,3-프로판다이올(천연 유래 글라이콜) — 팜글리세린 발효 공정", hsCode:null, packaging:"25kg/200kg/1,000kg 용기",
+            code:"610079", dir:"(610079) Activonol-3", classification:"1,3-프로판다이올(천연 유래 글라이콜) — 팜글리세린 발효 공정", hsCode:null, packaging:"25kg/200kg/1,000kg 용기",
             specTable:[
                 {item:"외관",spec:"투명 액체"},{item:"수분",spec:"0.20% 이하(Karl-Fischer)"},{item:"순도(Assay)",spec:"99.80% 이상(GC)"},
                 {item:"중금속",spec:"10ppm 미만(KP기준)"},{item:"비소",spec:"2ppm 미만(KP기준)"}
@@ -5478,7 +5571,7 @@ Propanediol: Natural Index 1 / Natural Origin Index 1 / Organic Index 0 / Organi
           restrict:"Evonik의 'Product Safety Information'(9페이지, 2021.10, 문서번호 M1180) 1건이 Animal Testing·GMO·Heavy Metal·Prop65·TSE,BSE 등 5개 파일명으로 동일하게 중복 배포됨(전 자료 중 최다 중복). 'Animal Free'와 'Vegan' 2개 파일명도 한국비건인증원의 동일한 Vegan Ingredients Declaration 1건으로 중복. COA·Flow Chart·Origin(Manufacture) 3건은 이미지 스캔본으로 텍스트 추출 불가.",
           country:"독일(Essen, 제조) — 국내 유통은 Evonik Korea", views:0, regs:{}, fileCount:18,
           detail:{
-            code:"610080", classification:"합성 무기물(소수화 발열법 실리카, Fumed Silica) — 화장품용 점증·유동성조절제", hsCode:"382499", packaging:null,
+            code:"610080", dir:"(610080) AEROSIL R 972", classification:"합성 무기물(소수화 발열법 실리카, Fumed Silica) — 화장품용 점증·유동성조절제", hsCode:"382499", packaging:null,
             specTable:[
                 {item:"비표면적",spec:"90~130 m²/g(ISO9277)"},{item:"pH",spec:"3.6~5.0(ISO787-9)"},{item:"건조감량",spec:"0.5% 이하(ISO787-2)"},
                 {item:"Al2O3",spec:"0.050% 이하"},{item:"Fe2O3",spec:"0.010% 이하"},{item:"TiO2",spec:"0.030% 이하"},{item:"탄소함량",spec:"0.6~1.2%"},
@@ -5573,7 +5666,7 @@ Prop65: 캘리포니아 목록물질 의도적 미사용 | SVHC: 미등재, REAC
           restrict:"5개의 서로 다른 통합양식 문서가 총 28개(37개 중 76%) 파일명으로 반복 배포됨(역대 최다 파일 재사용 사례): 'Certificate of Compliance'(3p)가 Alcohol Free·CITES·CMR·EG·Gluten Free·Impurity·Micro Plastic·NANO·Prop65·REACH·RSPO·SVHC 등 12개 파일명, 'Certificate of Origin'(1p)이 GMO·ISO16128·Non Animal Test·Origin·Origin(Source)·TSE,BSE·Vegan·추출부위확인서 등 8개 파일명, 'Compositional Breakdown'(5p)이 Allergen·Composition·IFRA 3개 파일명, 'Technical Data Sheet'(3p, 마케팅자료)가 Technical Data Sheet·소개자료·별첨 New TDS-v4 3개 파일명, 'Pork Free Statement'가 Animal Free·PORK FREE 2개 파일명. RSPO·Impurity·IFRA·HALAL 파일은 제목과 달리 전용 인증 내용이 없어 확인 필요.",
           country:"미국(Lincolnton, NC)", views:0, regs:{}, fileCount:37,
           detail:{
-            code:"610083", classification:"복합 식물추출물(생강뿌리·페퍼민트잎) 기반 쿨링·항균부스터 원료", hsCode:null, packaging:null,
+            code:"610083", dir:"(610083) ABS Ginger Mint Extract Cooling PF", classification:"복합 식물추출물(생강뿌리·페퍼민트잎) 기반 쿨링·항균부스터 원료", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"호박색 액체"},{item:"색상(Gardner)",spec:"7 이하"},{item:"pH",spec:"4.0~6.0"},{item:"비중(25℃)",spec:"1.000~1.020"},
                 {item:"중금속",spec:"20ppm 미만(납10/비소2/카드뮴1ppm 미만)"},{item:"미생물",spec:"100CFU/g 미만, 병원균 불검출, 그람음성균 0"}
@@ -5676,7 +5769,7 @@ ORAC Assay: Trolox(비타민E 유사체)에 비견되는 항산화력 확인
           restrict:"EYESEL의 통합 'Declaration of Compliance'(2p, BSE/TSE·GMO·Gluten·팜유·파라벤·26종 알레르겐·D4-D5-D6·아플라톡신·프탈레이트·CMR·마이크로플라스틱 등 종합) 1건이 Animal Free·BSE,TSE·CMR·D4,D5,D6·GMO·Gluten Free·Impurity·Microplastics 등 8개 파일명으로 반복 배포됨. Origin(Country)와 Origin(Source) 2개 파일도 완전히 동일한 원산지 표.",
           country:"대한민국(경기 화성) — 합성·발효 원료(독일산 3종 포함)", views:0, regs:{}, fileCount:18,
           detail:{
-            code:"610094", classification:"EGF 모사 합성 펩타이드 용액(sh-Oligopeptide-1, 1ppm)", hsCode:null, packaging:null,
+            code:"610094", dir:"(610094) bEGF (1ppm)", classification:"EGF 모사 합성 펩타이드 용액(sh-Oligopeptide-1, 1ppm)", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"투명 액체"},{item:"냄새",spec:"미미한 냄새"},{item:"pH",spec:"4.50~6.50"},
                 {item:"비중(d20/20)",spec:"0.950~1.100"},{item:"미생물",spec:"100cfu/g 이하"}
@@ -5749,7 +5842,7 @@ Water: 천연, 한국 | sh-Oligopeptide-1: 미생물발효, 한국 | 1,2-Hexaned
           restrict:"Origin 문서상 Hydrolyzed Collagen의 유래가 'Skin of Artic Cod Fish(대구 어피, 중국산)'로 명시되어 있어, 동일 폴더의 'Animal Free' 파일명 및 Declaration of Compliance의 '식물·합성 유래로 동물 유래 아님' 문구와 정면으로 상충함 — 어류(수산물) 유래 콜라겐이 실제 포함된 원료. EYESEL의 통합 Declaration of Compliance 1건이 8개 파일명으로 반복 배포됨.",
           country:"정제수·해조류(3종) 원산지 한국, Hydrolyzed Collagen(대구어피) 원산지 중국, Phenoxyethanol 원산지 인도 — 제조는 한국(화성)", views:0, regs:{}, fileCount:18,
           detail:{
-            code:"610098", classification:"복합 해양추출물(갈조류 2종+담수조류 1종) + 어류유래 가수분해콜라겐 보습원료", hsCode:null, packaging:null,
+            code:"610098", dir:"(610098) Blue Marine Collagen Extract", classification:"복합 해양추출물(갈조류 2종+담수조류 1종) + 어류유래 가수분해콜라겐 보습원료", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"투명~담황색 액체"},{item:"냄새",spec:"미미한 냄새"},{item:"pH",spec:"4.50~6.50"},
                 {item:"비중(d20/20)",spec:"0.950~1.050"},{item:"미생물",spec:"100cfu/g 이하"}
@@ -5821,7 +5914,7 @@ Water: 천연, 한국 | Laminaria Japonica Extract: 식물, 한국 | Undaria Pin
           restrict:"EYESEL의 통합 'Declaration of Compliance'(2p) 1건이 Animal Free·BSE,TSE·CMR·D4,D5,D6·GMO·Gluten Free·Impurity·Microplastics 등 8개 파일명으로 반복 배포됨. Origin(Country)·Origin(Source) 2개 파일도 완전히 동일한 원산지 표. COA는 이미지 스캔본으로 텍스트 추출 불가 — 로트·유효기한 육안 확인 필요.",
           country:"정제수·Bifida Ferment Filtrate(미생물발효)는 한국산, 1,2-헥산다이올·카프릴릴글라이콜(합성)은 독일산", views:0, regs:{}, fileCount:19,
           detail:{
-            code:"610104", classification:"비피더스균 발효여과물 기반 보습·피부컨디셔닝 원료", hsCode:null, packaging:null,
+            code:"610104", dir:"(610104) 비디파발효여과물", classification:"비피더스균 발효여과물 기반 보습·피부컨디셔닝 원료", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"투명 액체"},{item:"냄새",spec:"미미한 냄새"},{item:"pH",spec:"5.50~7.50"},
                 {item:"비중(d20/20)",spec:"0.950~1.050"},{item:"미생물",spec:"100cfu/g 이하"}
@@ -5899,7 +5992,7 @@ Water: 천연, 한국 | Bifida Ferment Filtrate: 박테리아, 한국 | 1,2-Hexa
           restrict:"MSDS상 Niacinamide(함량 30~50%)가 Eye Irrit.2(H319), Pyridoxine HCl(함량 1~3%)이 Eye Dam.1(H318)로 실제 유해성 분류가 부여되어 있음 — 이번 프로젝트에서 확인된 원료 중 드물게 '비유해' 아닌 실질적 GHS 분류 사례로, 취급 시 눈 보호구 착용 등 주의 필요. COA는 이미지 스캔본으로 텍스트 추출 불가. SPEC과 Product Data Sheet는 완전히 동일한 문서(파일명만 다름).",
           country:"프랑스(Village-Neuf, DSM Nutritional Products France SAS 제조)", views:0, regs:{}, fileCount:33,
           detail:{
-            code:"610107", classification:"합성 비타민 복합체 분말(나이아신아마이드+판토텐산칼슘+아스코르빌인산나트륨+토코페릴아세테이트+피리독신염산염, 캐리어: 말토덱스트린·전분옥테닐숙신산나트륨·실리카)", hsCode:null, packaging:null,
+            code:"610107", dir:"(610107) BEAUPLEX VH", classification:"합성 비타민 복합체 분말(나이아신아마이드+판토텐산칼슘+아스코르빌인산나트륨+토코페릴아세테이트+피리독신염산염, 캐리어: 말토덱스트린·전분옥테닐숙신산나트륨·실리카)", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"미세분말, 백색~미백색"},{item:"건조감량",spec:"4.5% 이하"},{item:"pH(5%수용액)",spec:"6~9"},
                 {item:"토코페릴아세테이트 함량",spec:"1~5% w/w"},{item:"총호기성생균수",spec:"500CFU/g 이하"},{item:"효모·곰팡이",spec:"100CFU/g 이하"},
@@ -6023,7 +6116,7 @@ Document# 5256.5296.II256200 | Halal-ID B86975 | Product Certificate# HC-25DSHX9
           restrict:"제품명은 'BIO-Placenta'이나 실제 INCI 구성에는 태반(Placenta) 성분이 전혀 없음 — sh-Oligopeptide/sh-Polypeptide류(생체모사 합성 펩타이드)와 발효·정제수·글라이콜류로만 구성되어 있으며, Origin 문서상으로도 전 성분이 식물·합성·발효 유래로 확인됨(제품명은 IGF-1/FGF/VEGF 유사 성장인자 모사 효능을 표방하는 마케팅 네이밍으로 판단됨). 가장 중요한 문제는 '추출부위확인서' 파일이 이 원료와 무관한 전혀 다른 제품('BIO-Placenta-MR_Bacillus/Soybean Ferment Extract')의 서류로, 성분(대두발효추출물)조차 이 원료의 INCI 목록에 없음 — 서류 오첨부로 추정, 재확인·재요청 필요. HALAL은 자사 자체 선언서(Official Statement)로 제3자 인증기관 심사를 거친 정식 인증서는 아님. RSPO 파일명은 실제로는 '팜유 미함유' 선언일 뿐 RSPO 인증과는 무관. COA·Composition 2건은 이미지 스캔본으로 텍스트 추출 불가.",
           country:"정제수·펩타이드류·발효여과물·부틸렌글라이콜·1,2-헥산다이올은 한국산, 레시틴은 전세계산, 아세틸글루타민·소듐하이알루로네이트는 중국산, 카프릴릴글라이콜은 독일산 — 제조는 한국(경기 평택)", views:0, regs:{}, fileCount:30,
           detail:{
-            code:"610113", classification:"생체모사 합성 펩타이드 복합체(성장인자 유사 시그널펩타이드 5종) + 발효여과물·히알루론산나트륨 항노화 원료", hsCode:null, packaging:"1.0kg/10kg/20kg",
+            code:"610113", dir:"(610113) BIO-Placenta", classification:"생체모사 합성 펩타이드 복합체(성장인자 유사 시그널펩타이드 5종) + 발효여과물·히알루론산나트륨 항노화 원료", hsCode:null, packaging:"1.0kg/10kg/20kg",
             specTable:[
                 {item:"외관",spec:"액체, 옅은 노랑~노랑"},{item:"냄새",spec:"특이취"},{item:"pH(25℃)",spec:"5.50~7.50"},
                 {item:"용해도",spec:"물에 가용"},{item:"중금속",spec:"20ppm 미만"},{item:"비소",spec:"2ppm 미만"},{item:"총미생물수",spec:"100CFU/g 미만"}
@@ -6155,7 +6248,7 @@ EU1169/2011 Annex II 14종 식품알레르겐(땅콩·갑각류·머스타드·�
           restrict:"COA·SPEC·Composition 3건이 모두 이미지 스캔본으로 텍스트 추출 불가 — 로트 실측치·정식 규격서 원본 육안 확인 필요. 'Animal Free'와 'Animal Tested Statement', 'TSE,BSE Free'와 'Technical Data Sheet Product' 각각 2개 파일명이 완전히 동일한 문서. REACH·CITES·EU 향료알레르겐·SVHC 등 EU 특화 서류는 폴더에 없음(인도네시아 현지 공급사 특성상 통상 미제공).",
           country:"인도네시아(Lampung, 파인애플 줄기 원료 및 제조) — 담체 말토덱스트린은 프랑스산", views:0, regs:{}, fileCount:15,
           detail:{
-            code:"610119", classification:"식물성 단백분해효소(브로멜라인, 파인애플 줄기 유래) + 말토덱스트린 담체", hsCode:null, packaging:"10kg(알루미늄호일백 내포장+알루미늄드럼 외포장)",
+            code:"610119", dir:"(610119) Bromelain BR 1200", classification:"식물성 단백분해효소(브로멜라인, 파인애플 줄기 유래) + 말토덱스트린 담체", hsCode:null, packaging:"10kg(알루미늄호일백 내포장+알루미늄드럼 외포장)",
             specTable:[
                 {item:"외관",spec:"분말, 백색~황색"},{item:"냄새",spec:"불쾌취 없음"},{item:"효소활성(GDU/g)",spec:"1200 GDU/g 이상(등급별 상이)"},
                 {item:"pH(10%용액)",spec:"3~5"},{item:"수분",spec:"6% 이하"},{item:"회분",spec:"5% 이하"},
@@ -6248,7 +6341,7 @@ EU1169/2011 Annex II 14종 식품알레르겐(땅콩·갑각류·머스타드·�
           restrict:"폴더 내 문서가 4건뿐으로 43종 체크리스트 대비 확보서류가 매우 적음 — MSDS·Origin(원산지증명서 전용)·GMO·Vegan·Halal 등 다수 항목이 폴더에 없음(Jungbunzlauer 특성상 서류 미비라기보다 이번 폴더에 일부만 수집된 것으로 추정, 추가 확보 필요). COA는 이미지 스캔본으로 텍스트 추출 불가.",
           country:"오스트리아(Pernhofen 공장, Aspergillus niger 발효법)", views:0, regs:{}, fileCount:4,
           detail:{
-            code:"610199", classification:"발효 유래 유기산(구연산) — 식품·의약품 등급", hsCode:null, packaging:null,
+            code:"610199", dir:"(610199) CITRIC ACID", classification:"발효 유래 유기산(구연산) — 식품·의약품 등급", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"무색 결정 또는 백색 결정분말"},{item:"함량(Assay)",spec:"99.7~100.3%"},{item:"수분",spec:"0.50% 이하"},
                 {item:"중금속",spec:"5mg/kg 이하"},{item:"비소",spec:"1mg/kg 이하"},{item:"납",spec:"0.5mg/kg 이하"},{item:"수은",spec:"0.5mg/kg 이하"},
@@ -6299,7 +6392,7 @@ Aspergillus niger 균주를 이용한 침지발효법으로 당류(설탕/글루
           restrict:"EYESEL의 통합 'Declaration of Compliance'(2p) 1건이 Animal Free·BSE,TSE·CMR·D4,D5,D6·GMO·Gluten Free·Impurity·MicroplasticMicroplates 등 8개 파일명으로 반복 배포됨. Origin(Country)·Origin(Source) 2개 파일도 완전히 동일한 원산지 표. COA는 이미지 스캔본으로 텍스트 추출 불가.",
           country:"정제수·국화캘러스배양추출물은 한국산, 레시틴은 일본산(식물성), 1,2-헥산다이올·카프릴릴글라이콜·트로폴론(합성)은 독일산", views:0, regs:{}, fileCount:18,
           detail:{
-            code:"610182", classification:"국화(Chrysanthemum Indicum) 캘러스조직배양추출물 기반 리포좀 항산화·피부재생 원료", hsCode:null, packaging:null,
+            code:"610182", dir:"(610182) CICCE Supercritical Liposome", classification:"국화(Chrysanthemum Indicum) 캘러스조직배양추출물 기반 리포좀 항산화·피부재생 원료", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"약간 혼탁한 액체"},{item:"냄새",spec:"미미한 냄새"},{item:"pH",spec:"4.00~6.00"},
                 {item:"비중(d20/20)",spec:"0.950~1.050"},{item:"미생물",spec:"100cfu/g 이하"}
@@ -6373,7 +6466,7 @@ Water: 무기물, 한국 | Chrysanthemum Indicum Callus Culture Extract: 식물,
           restrict:"이번 프로젝트 중 최상위권 완성도(43종 81%) — COA·SPEC·TDS·MSDS 전부 실측/실데이터 기반이며 EU 특화 서류(REACH·SVHC·CITES·EUDR·향료알레르겐 26/81종·Furocoumarin·PFAS 등)까지 폭넓게 보유. 단, 파일명이 '(610200)'과 '(610201)' 두 코드로 혼재되어 있음 — 원문 대조 결과 전부 동일 제품(Kale Extract-NS, INCI 동일)의 서류로 확인되어 하나의 원료로 통합 등록. 'Animal Free'·'HALAL'·'Manufacture Site'·'Non Animal Test'·'Origin(Source)' 5개 파일명이 완전히 동일한 범용 Certificate of Origin 문서(할랄 전용 인증서 아님). 마케팅자료는 스캔본으로 내용 확인 불가.",
           country:"대한민국(경기 오산) 제조·원료(케일) 원산지", views:0, regs:{}, fileCount:37,
           detail:{
-            code:"610200", classification:"케일(Brassica Oleracea Acephala) 잎 추출물 기반 항산화·피부컨디셔닝 원료", hsCode:null, packaging:"20kg/200kg, PE용기",
+            code:"610200", dir:"(610200) 케일추출물", classification:"케일(Brassica Oleracea Acephala) 잎 추출물 기반 항산화·피부컨디셔닝 원료", hsCode:null, packaging:"20kg/200kg, PE용기",
             specTable:[
                 {item:"외관",spec:"담황색 액체"},{item:"비중",spec:"0.98~1.04"},{item:"pH(1→10)",spec:"4.0~7.0"},
                 {item:"중금속",spec:"10ppm 이하"},{item:"비소",spec:"2ppm 이하"},{item:"미생물",spec:"100CFU/mL 이하"}
@@ -6522,7 +6615,7 @@ Water: 해당없음 | Butylene Glycol: 등록완료(01-2119455875-25-0000) | 케
           restrict:"이번 프로젝트에서 발견된 최대 규모 서류 중복 사례 — 30개 파일 중 15개 파일명(Allergen·CMR·GMO·HALAL·Heavy Metal·Impurity·Nano·Non Animal Test·Origin(Country)·Origin(Source)·Prop 65·Quality Dossier·Reach·SVHC·TSE,BSE)이 완전히 동일한 27페이지 'Product- and Quality Dossier'(Version 3.0, 2024.08.05) 1건임을 원문 대조로 확인. COA·MSDS·Composition·SPEC·NMPA·개별 Statement 8종은 각각 실데이터 보유. 다만 'HALAL' 파일명 문서는 실제로는 동물/인체유래·GMO·에탄올 미함유 자체선언일 뿐 할랄 인증기관의 정식 인증서가 아니며, 'Pork Free Facility Statement'와 'Flow Chart'는 이미지 스캔본으로 텍스트 추출이 불가해 원본 육안 확인이 필요함. SPEC과 TDS도 파일명만 다를 뿐 완전히 동일한 문서.",
           country:"중국 푸젠성 푸칭(Fuqing) 제조 / 마이카 원산지 브라질, 이산화티타늄 원산지 중국", views:0, regs:{}, fileCount:30,
           detail:{
-            code:"610280", classification:"마이카+이산화티타늄 기반 펄광택 안료(Shimmer Pearl)", hsCode:null, packaging:null,
+            code:"610280", dir:"(610280) COSMI KC163", classification:"마이카+이산화티타늄 기반 펄광택 안료(Shimmer Pearl)", hsCode:null, packaging:null,
             specTable:[
                 {item:"납(Pb)",spec:"< 10 ppm"},{item:"카드뮴(Cd)",spec:"< 3 ppm"},{item:"수은(Hg)",spec:"< 1 ppm"},{item:"비소(As)",spec:"< 2 ppm"},
                 {item:"입도분포(D50)",spec:"71.0 ± 3.0 µm (범위 40~200µm)"},{item:"pH(10%수현탁액)",spec:"7.0 ~ 11.0"},{item:"밀도",spec:"2.8 ~ 3.4 g/cm³"},{item:"총호기성균수",spec:"< 100 CFU/g"}
@@ -6636,7 +6729,7 @@ PSD 80%가 40-200µm 범위, D50(71.0±3.0)µm | pH7.0-11.0(10%수현탁액) | L
           restrict:"EYESEL 전형적 패턴 — Animal Free·BSE,TSE·CMR·D4,D5,D6·GMO·Gluten Free·Impurity·Microplastic 8개 파일명이 완전히 동일한 'Declaration of Compliance' 1건, Origin(Country)·Origin(Source) 2개 파일명이 완전히 동일한 'Certificate of Origin' 1건으로 원문 대조 확인. COA는 이미지 스캔본으로 텍스트 추출 불가(로트 실측치 원본 확인 필요). REACH·SVHC·PFAS·ISO16128·중금속·나노 등 EU 확장서류는 폴더 내 미제공.",
           country:"대한민국(경기 화성 동탄) 제조 / Bambusa Vulgaris Water 원산지 한국, Phenoxyethanol 원산지 인도", views:0, regs:{}, fileCount:18,
           detail:{
-            code:"610315", classification:"대나무(Bambusa Vulgaris) 유래 수용액 기반 용제·보습 원료", hsCode:null, packaging:null,
+            code:"610315", dir:"(610315) 대나무수(Bamboo Water)", classification:"대나무(Bambusa Vulgaris) 유래 수용액 기반 용제·보습 원료", hsCode:null, packaging:null,
             specTable:[
                 {item:"성상",spec:"엷은 황색~투명 액체"},{item:"냄새",spec:"미약한 특유취"},{item:"pH",spec:"5.00 ~ 7.00"},{item:"비중(d20/20)",spec:"0.950 ~ 1.050"},{item:"미생물",spec:"≤100 CFU/g"}
             ],
@@ -6711,7 +6804,7 @@ EYESEL 자사 원료 18종(Bamboo Water 포함) 전체 대상 공통 선언서
           restrict:"dsm-firmenich 전형적 패턴 — Alcohol Free·Animal Free·Cites·Country of origin·Gluten Free·Nano·Nut Free·Origin(Source)·RSPO·추출부위확인서 10개 파일명이 완전히 동일한 5페이지 'Technical Dossier'(Version 10, 2025.06.24) 1건임을 원문 대조로 확인 — 지금까지 확인된 dsm-firmenich 그룹 중 최대 규모. Product Data Sheet와 SPEC도 완전히 동일한 문서. 정식 3자 할랄 인증서(Halal-ID E54891, 2026.12.31까지 유효) 보유가 특징적(610200·610280은 자체선언에 그침). 다만 'Alcohol Free' 파일명 문서는 실제로는 잔류용제로 에탄올 최대5000ppm 잔류 가능함이 Residual Solvent Statement와 동일하게 명시되어 있어 완전한 알코올 프리 선언은 아님. COA는 4페이지 전체가 빈 이미지 스캔본으로 텍스트 추출 불가.",
           country:"제조 프랑스(Village-Neuf) / 화학합성(Synthetic) 원료로 식물·동물 원산지 없음", views:0, regs:{}, fileCount:33,
           detail:{
-            code:"610327", classification:"비오틴(비타민 B7/H) 화학합성 원료", hsCode:null, packaging:null,
+            code:"610327", dir:"(610327) D-BIOTIN", classification:"비오틴(비타민 B7/H) 화학합성 원료", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"결정성 분말, 백색"},{item:"융점",spec:"229~232℃(분해 동반)"},{item:"Assay(건조기준)",spec:"98.5~100.5%"},{item:"납",spec:"≤2ppm"},{item:"건조감량",spec:"≤1.0%"},{item:"에탄올(잔류용제)",spec:"≤5000ppm"},{item:"사이클로헥산(잔류용제)",spec:"≤50ppm"},{item:"전체불순물(HPLC)",spec:"≤1.5%"}
             ],
@@ -6835,7 +6928,7 @@ Biotin 100.00% (참고용, 정식 규격은 Product Data Sheet 기준)` },
           restrict:"EYESEL 전형적 패턴 — Animal Free·BSE,TSE·CMR·D4,D5,D6·GMO·Gluten Free·Impurity·Microplastic 8개 파일명이 완전히 동일한 'Declaration of Compliance' 1건, Origin(Country)·Origin(Source) 2개 파일명이 완전히 동일한 'Certificate of Origin' 1건으로 원문 대조 확인. COA는 이미지 스캔본으로 텍스트 추출 불가(로트 실측치 원본 확인 필요). REACH·SVHC·PFAS·ISO16128·중금속·나노 등 EU 확장서류는 폴더 내 미제공.",
           country:"대한민국(경기 화성 동탄) 제조 / Leontopodium Alpinum Callus Culture Extract 원산지 한국, Butylene Glycol 원산지 일본, 1,2-Hexanediol·Caprylyl Glycol·Tropolone 원산지 독일", views:0, regs:{}, fileCount:18,
           detail:{
-            code:"610366", classification:"에델바이스(Leontopodium Alpinum) 캘러스조직배양추출물 기반 피부컨디셔닝 원료", hsCode:null, packaging:null,
+            code:"610366", dir:"(610366) EDELWEISS CALLUS CULTURE EXTRCT SLOUTION", classification:"에델바이스(Leontopodium Alpinum) 캘러스조직배양추출물 기반 피부컨디셔닝 원료", hsCode:null, packaging:null,
             specTable:[
                 {item:"성상",spec:"엷은 갈색 액체"},{item:"냄새",spec:"미약한 특유취"},{item:"pH",spec:"5.00 ~ 7.00"},{item:"비중(d20/20)",spec:"0.950 ~ 1.050"},{item:"미생물",spec:"≤100 CFU/g"},{item:"유효기간",spec:"12개월"}
             ],
@@ -6910,7 +7003,7 @@ EYESEL 자사 원료 18종(Edelweiss Callus Culture Extract Solution 포함) 전
           restrict:"이번 프로젝트 최저 완성도 사례 — 폴더 내 파일이 COA 1건뿐이며, 그마저도 전체가 빈 이미지 스캔본으로 pdfplumber 텍스트 추출 불가. INCI·CAS·공급사·규격·MSDS 등 원문으로 확인 가능한 정보가 전무함. 43종 필수서류 중 보유 0종(0%) — 610199(CITRIC ACID, 17%)보다도 낮은 완성도.",
           country:null, views:0, regs:{}, fileCount:1,
           detail:{
-            code:"610380", classification:null, hsCode:null, packaging:null,
+            code:"610380", dir:"(610380) EUMULGIN SG", classification:null, hsCode:null, packaging:null,
             specTable:[],
             origin:{ country:null, rawMaterials:[] },
             msds:{ versionEn:null, versionKr:null, hazardEn:null, physical:[], ecotox:null },
@@ -6930,7 +7023,7 @@ EYESEL 자사 원료 18종(Edelweiss Callus Culture Extract Solution 포함) 전
           restrict:"미국 PureTech Scientific(舊 Chemours) 공급 원료 — BSE,TSE_GMO_Allergen·GMO·Gulten Free 3개 파일명이 완전히 동일한 1p 'BSE/TSE GMO ALLERGEN STATUS' 선언서 1건임을 원문 대조로 확인. 이 문서의 'Allergen'은 EU 화장품 향료알레르겐 26종이 아닌 미국식 식품알레르기 표시대상(우유·계란·견과류·글루텐·갑각류·생선·연체동물) 기준이라는 점에 주의 필요. REACH는 Animal Testing Statement에 'Glycolic Acid 70E'의 EU REACh/BPR 등록 언급이 있으나 실제 원료(Glypure™ 70)와 동일 등록 대상인지 명확하지 않아 확인사항으로 등록. COA는 이미지 스캔본으로 텍스트 추출 불가. 중금속·불순물·SVHC·Proposition65·HALAL·ISO16128 등 서류는 폴더 내 미제공.",
           country:"미국(웨스트버지니아 Belle, PureTech Scientific Belle Plant) 제조 / 전체 화학합성", views:0, regs:{}, fileCount:12,
           detail:{
-            code:"610401", classification:"글리콜산(하이드록시아세트산) 기반 AHA 각질제거·pH조절 원료", hsCode:null, packaging:null,
+            code:"610401", dir:"(610401) GLYCOLIC ACID", classification:"글리콜산(하이드록시아세트산) 기반 AHA 각질제거·pH조절 원료", hsCode:null, packaging:null,
             specTable:[
                 {item:"Glycolic Acid 함량",spec:"70~72 Wt%(Sales Spec), 전형치 71.47%, 범위 70.57~74.91%"},{item:"성상",spec:"무색 액체"},{item:"pH",spec:"0.1(25℃)"},{item:"융점/응고점",spec:"10℃"},{item:"초기비점",spec:"112℃(1,013hPa)"},{item:"인화점",spec:">100℃(ASTM D56)"}
             ],
@@ -6996,7 +7089,7 @@ Glypure™70 신고번호100553-09344-7876 | Glypure™99 신고번호005274-093
           restrict:"이번 프로젝트에서 처음으로 폴더 내 사내 자체 체크리스트('원료 필수 서류 리스트.xlsx', 다미화확 원료 요청리스트)가 함께 제공된 사례 — 43종 문서 취합여부를 공급사·제조원 정보와 함께 O/X로 자체 기재해 둠. 이를 원문 대조와 교차검증한 결과 대부분 일치했으나 일부 불일치 발견: (1) 'Halal PORK FREE Statement' 파일은 체크리스트상 HALAL·PORK FREE 모두 O이나 실제 내용은 Pork Free 선언뿐 할랄 인증 관련 내용이 전혀 없고 제품명도 'Gardenia Blue Powder'로 오기재됨, (2) 'BSE-TSE Statement' 파일도 제품명이 'Gardenia Yellow Powder'로 오기재(단, TSE/BSE는 별도의 Red 전용 SUBSTANCES-FREE DECLARATION으로 정상 확인됨), (3) Annex14·IFRA51th는 체크리스트상 O이나 27개 문서 전체를 정독해도 해당 내용을 다루는 문서를 찾지 못해 확인사항으로 등록. 나머지는 대체로 체크리스트와 일치하며 완성도가 높은 편(43종 중 32종 보유, 78%).",
           country:"중국(베이징) 제조 및 원료(가드니아 열매) 전량 원산지", views:0, regs:{}, fileCount:28,
           detail:{
-            code:"610448", classification:"가드니아 열매(Gardenia Florida Fruit) 가수분해추출물 기반 천연 적색 색소", hsCode:"3203.00.1000",
+            code:"610448", dir:"(610448) GARDENIA RED POWDER E10", classification:"가드니아 열매(Gardenia Florida Fruit) 가수분해추출물 기반 천연 적색 색소", hsCode:"3203.00.1000",
             packaging:null,
             specTable:[
                 {item:"외관",spec:"진한 빨간색 분말"},{item:"색가(E1%,536nm)",spec:">30.0"},{item:"건조감량",spec:"<7%"},{item:"회분",spec:"<4%"},{item:"비소(As)",spec:"≤2mg/kg"},{item:"납(Pb)",spec:"≤3mg/kg"},{item:"총균수",spec:"<100CFU/g"},{item:"대장균군",spec:"<30MPN/100g"},{item:"유효기간",spec:"제조일로부터 2년(밀폐·서늘하고 어두운 곳 보관 조건)"}
@@ -7122,7 +7215,7 @@ X표시: Alcohol Free·임상자료·특허증·Heavy Metal·EUDR·Nut Free·Fur
           restrict:"공급사명이 문서 발급시기에 따라 'KCI Limited'(2020~2021년 문서)에서 'Samyang KCI Corporation'(2024~2025년 문서)으로 변경되어 있음(제조사 인수·개편으로 추정, 원문에 명시적 안내문은 없음). CITES(1page)·CMR(2page)·Prop 65(1page) 3개 파일이 모두 2021.02.04 발급된 동일 'Manufacturer's Certificate' 양식이나 셋 다 'To whom it may concern,'과 'Certified by' 사이의 핵심 선언문구가 텍스트로 추출되지 않음(이미지/표 형태로 추정) — 발급 사실은 확인되나 구체적 내용은 원본 육안 확인 필요. SPEC 파일도 날짜(2022.05.09) 외 내용이 전혀 추출되지 않음. COA는 이미지 스캔본. Statement of Impurities에 잔류 에탄올 최대50ppm 함유 가능성이 명시되어 완전한 Alcohol Free는 아님.",
           country:"대한민국(충남 서산시 대산읍 대산공장) 제조 / 전체 원료 한국산", views:0, regs:{}, fileCount:19,
           detail:{
-            code:"610486", classification:"폴리쿼터늄-51(MPC/BMA 공중합체) 기반 생체모방 보습 폴리머 원료", hsCode:null, packaging:null,
+            code:"610486", dir:"(610486) HYDROQUAT 510HDKC", classification:"폴리쿼터늄-51(MPC/BMA 공중합체) 기반 생체모방 보습 폴리머 원료", hsCode:null, packaging:null,
             specTable:[
                 {item:"성상",spec:"무색 투명 액체, 특이한 향"},{item:"pH(1%용액)",spec:"4.0~6.0"},{item:"건조잔사",spec:"6.0~8.0%"},{item:"비중",spec:"1.0~1.2 g/mL"},{item:"점도(40℃)",spec:"6.0~60.0 cPs"},{item:"평균분자량",spec:"60만~90만 Da"},{item:"중금속(총)",spec:"<20ppm"},{item:"비소",spec:"<2ppm"}
             ],
@@ -7242,7 +7335,7 @@ Certified by **Changwon Jun, QA General Manager / KCI Limited**
           restrict:"Kao Corporation 계열(Pilipinas Kao, Inc. 제조 / Kao Chemicals Europe TDS 발급) — 29개 파일 중 다수가 KALCOL 6850·8685 등 동일 계열 3개 제품을 묶어 공동 인증하는 방식(CMR과 NANO 파일이 완전히 동일한 1건의 통합 인증서). 'ANNEX 14' 파일명은 실제로는 NMPA 원료보고서와 완전히 동일한 문서(별도 Annex14 내용 없음). 원료가 팜핵유(Palm Kernel Oil) 유래로 EU삼림전용규정(EUDR, 2023/1115) 규제대상 원자재에 해당할 수 있으나 관련 서류는 폴더 내 없어 확인사항으로 등록. COA·Heavy Metals 2개 파일은 이미지 스캔본으로 텍스트 추출 불가.",
           country:"제조 필리핀(Pilipinas Kao Inc.) / 원료(코코넛오일 필리핀산, 팜핵유 말레이시아·인도네시아산)", views:0, regs:{}, fileCount:29,
           detail:{
-            code:"610559", classification:"코코넛오일/팜핵유 유래 C16-18 지방알코올(세테아릴알코올)", hsCode:null, packaging:"20kg 카톤박스",
+            code:"610559", dir:"(610559) KALCOHOL 6870 P", classification:"코코넛오일/팜핵유 유래 C16-18 지방알코올(세테아릴알코올)", hsCode:null, packaging:"20kg 카톤박스",
             specTable:[
                 {item:"외관",spec:"백색 비드(구슬형)"},{item:"색상(APHA)",spec:"10 이하"},{item:"산가",spec:"0.2mg KOH/g 이하"},{item:"검화가",spec:"2.0mg KOH/g 이하"},{item:"수산기가",spec:"220~230mg KOH/g"},{item:"요오드가",spec:"1.0g I2/100g 이하"},{item:"알킬조성",spec:"C12+14≤10.0%, C16 65-75%(SPEC)/60-80%(TDS), C18 16-26%"},{item:"융점",spec:"48.0~51.0℃(SPEC) / 46-50℃(TDS)"}
             ],
@@ -7365,7 +7458,7 @@ INCI Cetearyl Alcohol, CAS67762-27-0, R-OH(R=C16-18)
           restrict:"EYESEL 전형적 패턴 — Animal Free·BSE,TSE·CMR·D4,D5,D6·GMO·Gluten Free·Impurity·Microplastic 8개 파일명이 완전히 동일한 'Declaration of Compliance' 1건, Origin(Country)·Origin(Source) 2개 파일명이 완전히 동일한 'Certificate of Origin' 1건. 같은 EYESEL 계열인 610315(Bamboo Water)·610366(Edelweiss)와 달리 이번에는 Flow Chart가 실데이터로 존재하고, Origin 문서에 'Lilium Candidum Flower Water — Plant(Flower)'로 사용부위(꽃)가 명시되어 추출부위확인서까지 충족 — EYESEL 계열 중 상대적으로 완성도가 높은 편. COA는 이미지 스캔본으로 텍스트 추출 불가.",
           country:"대한민국(경기 화성 동탄) 제조 / Lilium Candidum Flower Water 원산지 한국, 1,2-Hexanediol·Caprylyl Glycol·Tropolone 원산지 독일", views:0, regs:{}, fileCount:19,
           detail:{
-            code:"610582", classification:"백합(Lilium Candidum) 꽃 수용액 기반 보습·피부컨디셔닝 원료", hsCode:null, packaging:null,
+            code:"610582", dir:"(610582) LILY FLOWER WATER(백합수)", classification:"백합(Lilium Candidum) 꽃 수용액 기반 보습·피부컨디셔닝 원료", hsCode:null, packaging:null,
             specTable:[
                 {item:"성상",spec:"엷은 갈색 액체"},{item:"냄새",spec:"미약한 특유취"},{item:"pH",spec:"3.50 ~ 5.50"},{item:"비중(d20/20)",spec:"0.950 ~ 1.050"},{item:"미생물",spec:"≤100 CFU/g"}
             ],
@@ -7444,7 +7537,7 @@ EYESEL 자사 원료 18종(Lily Flower Water 포함) 전체 대상 공통 선언
           restrict:"폴더 내 파일이 COA 1건(2페이지)뿐이며, 그마저 전체가 빈 이미지 스캔본으로 pdfplumber 텍스트 추출이 완전히 실패함. INCI·CAS·공급사·규격 등 원문으로 확인 가능한 정보가 전무 — 610380(EUMULGIN SG)과 동일한 유형의 최저 완성도 사례.",
           country:null, views:0, regs:{}, fileCount:1,
           detail:{
-            code:"610586", classification:null, hsCode:null, packaging:null,
+            code:"610586", dir:"(610586) LACTIC ACID(PURAC HS90)", classification:null, hsCode:null, packaging:null,
             specTable:[],
             origin:{ country:null, rawMaterials:[] },
             msds:{ versionEn:null, versionKr:null, hazardEn:null, physical:[], ecotox:null },
@@ -7464,7 +7557,7 @@ EYESEL 자사 원료 18종(Lily Flower Water 포함) 전체 대상 공통 선언
           restrict:"이 폴더의 12개 서류 전부가 EYESEL 18종 제품 공통목록에 대한 범용 인증서(Declaration of Compliance 등)이며, 그 18종 목록 안에 '막걸리추출물'이라는 명칭은 없고 대신 'Aspergillus/Rice Ferment Extract'가 있음 — 막걸리(누룩/Aspergillus 발효 쌀 추출물)의 통상적 INCI 명칭과 부합하는 것으로 보이나, 폴더 내 어떤 문서도 이를 명시적으로 확인해주지 않음(같은 EYESEL 계열의 다른 원료들과 달리 Composition·MSDS·SPEC·COA·Origin·Flow Chart가 전혀 없음 — 원료 고유 정보를 확인할 방법이 없는 상태). 따라서 각 인증서의 '해당 원료 포함 여부' 자체가 이름 대조를 통한 추정이며, 파일명 추론 금지 원칙에 따라 INCI·조성 등은 확정하지 않고 미확인으로 남김.",
           country:null, views:0, regs:{}, fileCount:12,
           detail:{
-            code:"610616", classification:null, hsCode:null, packaging:null,
+            code:"610616", dir:"(610616) 막걸리추출물", classification:null, hsCode:null, packaging:null,
             specTable:[],
             origin:{ country:null, rawMaterials:[] },
             msds:{ versionEn:null, versionKr:null, hazardEn:null, physical:[], ecotox:null },
@@ -7504,7 +7597,7 @@ EYESEL 자사 원료 18종(목록에 '막걸리추출물'이라는 이름은 없
           restrict:"Kao Corporation 계열(610559 KALCOL 6870P와 동일 공급사, 한국 유통사도 미성코스메틱㈜로 동일) — RI_CITES·RI_CMR·RI_HEAVY METAL·RI_IMPURITIY·RI_Nanomaterial·RI_TSE,BSE 6개 파일명이 완전히 동일한 1건의 'Cosmetics Regulatory Information' 통합문서(2020.03.10)로, 이번 프로젝트 중 단일 최다 중복(6개 파일명) 사례. PI_Composition·PI_SPEC·PI_TDS 3개 파일명도 완전히 동일한 1건의 'General Characteristics' 문서. Animal Free·Non Animal Test·Vegan_Statement 3개 파일명도 완전히 동일한 1건의 'VEGAN STATEMENT'. 'HALAL(할랄불가)' 파일은 제품 자체에는 동물유래원료·에탄올이 없으나 제조설비를 동물유래원료 취급제품과 공유하여 할랄 인증이 불가하다는 실질적 사유를 상세히 밝힌 유의미한 문서. 원료가 코코넛/팜 유래로 EUDR 규제대상일 수 있으나 관련서류는 폴더 내 없음(610559와 동일 이슈). COA는 이미지 스캔본.",
           country:"제조 일본(와카야마 공장) / 원료(코코넛·팜) 원산지 필리핀·말레이시아·인도네시아", views:0, regs:{}, fileCount:27,
           detail:{
-            code:"610620", classification:"글리세릴스테아레이트+PEG-100스테아레이트 기반 비이온성 자기유화 왁스", hsCode:"3402.13",
+            code:"610620", dir:"(610620) RHEODOL MS-165V", classification:"글리세릴스테아레이트+PEG-100스테아레이트 기반 비이온성 자기유화 왁스", hsCode:"3402.13",
             packaging:"20kg 케이스",
             specTable:[
                 {item:"외관",spec:"연황색 플레이크"},{item:"산가",spec:"1.40mg KOH/g 이하"},{item:"검화가",spec:"90.0~100.0mg KOH/g"},{item:"요오드가",spec:"5.00g I2/100g 이하"},{item:"융점(적하점)",spec:"50.0~65.0℃"},{item:"유리글리세린",spec:"10.00% 이하"},{item:"강열잔분",spec:"4.00% 이하"},{item:"색상(Gardner)",spec:"5 이하"},{item:"총모노글리세리드",spec:"26.0~32.5%"},{item:"수분",spec:"1.50% 이하"}
@@ -7606,7 +7699,7 @@ BSE/TSE: 비동물유래로 위험없음 | GMO: 비GMO유래 | CITES: 원산지 
           restrict:"폴더 내 파일이 COA 1건뿐이며, 그마저 전체가 빈 이미지 스캔본으로 pdfplumber 텍스트 추출이 완전히 실패함. INCI·CAS·공급사·규격 등 원문으로 확인 가능한 정보가 전무 — 610380(EUMULGIN SG)·610586(LACTIC ACID)과 동일한 유형의 최저 완성도 사례.",
           country:null, views:0, regs:{}, fileCount:1,
           detail:{
-            code:"610649", classification:null, hsCode:null, packaging:null,
+            code:"610649", dir:"(610649) MONOPOL PEG-1500(S)", classification:null, hsCode:null, packaging:null,
             specTable:[],
             origin:{ country:null, rawMaterials:[] },
             msds:{ versionEn:null, versionKr:null, hazardEn:null, physical:[], ecotox:null },
@@ -7626,7 +7719,7 @@ BSE/TSE: 비동물유래로 위험없음 | GMO: 비GMO유래 | CITES: 원산지 
           restrict:"이번 프로젝트 중 손꼽히는 상위권 완성도(43종 중 32종, 78%) — Western Drugs Ltd.(인도, WHO-GMP·BRC·HACCP·FAMI-Qs·ISO9001·KOSHER·HALAL 인증 보유)가 43종 체크리스트 항목별로 거의 1:1 대응하는 개별 선언서를 발급. 실제 정식 할랄 인증번호(ID00310000114520521)까지 확인됨 — 610200·610280·610448의 자체선언에 그치는 사례들과 달리 진짜 인증서. 'RSPO' 파일명 문서와 폴더 끝의 무제 파일('Ingredients declaration_wood, cocoa, rubber, palm oil, soy, coffee, beef.pdf')이 완전히 동일한 내용으로, 팜유 포함 7대 EUDR 관련 원자재 전부 미함유를 선언 — EUDR 전용 선언서와 함께 이중으로 확인됨. COA·Fragrance free·Nano material free·Microplastic free 4개 파일은 이미지 스캔본으로 텍스트 추출 불가.",
           country:"제조 인도(라자스탄 우다이푸르) / 전체 화학합성(3-시아노피리딘 기반)", views:0, regs:{}, fileCount:38,
           detail:{
-            code:"610697", classification:"나이아신아마이드(니코틴아마이드, 비타민B3) 화학합성 원료", hsCode:null, packaging:"이중 LDPE 라이너+HDPE/파이버 드럼 또는 점보백/골판지박스",
+            code:"610697", dir:"(610697) NIACINAMIDE(WESTERN DRUG)", classification:"나이아신아마이드(니코틴아마이드, 비타민B3) 화학합성 원료", hsCode:null, packaging:"이중 LDPE 라이너+HDPE/파이버 드럼 또는 점보백/골판지박스",
             specTable:[
                 {item:"외관",spec:"백색 결정 또는 결정분말, 무취"},{item:"융점",spec:"128~131℃"},{item:"Assay",spec:"98.0% 이상(비수적정)"},{item:"수분(건조감량)",spec:"0.5% 이하"},{item:"강열잔분",spec:"0.1% 이하"},{item:"중금속",spec:"20~30ppm 이하(문서별 상이)"},{item:"납",spec:"2ppm 미만"},{item:"Free Niacin",spec:"100ppm 미만(HPLC)"}
             ],
@@ -7785,7 +7878,7 @@ Niacinamide USP(고순도, 화장품 특수등급) — Free Niacin100ppm이하, 
           restrict:"**중요 이슈**: 폴더 코드가 (610698)인데 폴더 내 14개 파일명은 전부 '(610898)'로 시작함 — 앱에 (610898) SYNTRAN 5905라는 별도 폴더/코드가 실제로 존재하며 그쪽은 17개 파일(이 폴더에 없는 Composition·Composition(NMPA기준)·NMPA 3건 추가 보유)로 더 완전함. 파일 크기·수정일시 대조 결과 겹치는 14개 파일은 두 폴더에서 완전히 동일 — (610698) 폴더는 (610898)의 불완전한 중복/이전 복사본으로 추정됨. 담당부서에 두 코드 중 어느 것이 정식 원료코드인지 확인 요청 필요. 또한 이 원료는 스티렌/아크릴레이트 공중합체 에멀젼(평균입경 0.32µm=320nm)으로 EU 마이크로플라스틱 규정(2023/2055)의 대상이 될 수 있는 합성고분자 미립자 특성을 가지나, 폴더 내 Microplastic Free 관련 서류가 전혀 없어 반드시 확인이 필요함(단순 '문서 없음'이 아니라 원료 특성상 리스크가 있는 항목으로 우선 확인 권고). Animal Free·COA·GMO·Halal·Vegan Statement·non animal testing 6개 파일은 전부 이미지 스캔본으로 텍스트 추출 불가.",
           country:"제조 중국(상하이, INTERPOLYMER (Shanghai) Co. Ltd.) / 등록판매 프랑스(Zschimmer & Schwarz Interpolymer Sàrl)", views:0, regs:{}, fileCount:14,
           detail:{
-            code:"610698", classification:"스티렌/아크릴레이트 공중합체 기반 불투명화제(오페시파이어) 에멀젼", hsCode:null, packaging:null,
+            code:"610698", dir:"(610698) SYNTRAN 5905", classification:"스티렌/아크릴레이트 공중합체 기반 불투명화제(오페시파이어) 에멀젼", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"백색 에멀젼"},{item:"pH",spec:"2.0~3.0(22℃)"},{item:"고형분",spec:"39.0~41.0%"},{item:"점도",spec:"0~100 mPa·s(22℃)"},{item:"미생물",spec:"<100 cfu/mL"},{item:"잔류모노머",spec:"20ppm 이하"},{item:"성상",spec:"백색 에멀젼, 미약한 특유취"}
             ],
@@ -7883,7 +7976,7 @@ SYNTRAN 5905: Styrene/acrylates copolymer, 고형분40%, pH2.5, 점도<100mPa·s
           restrict:"**610698과 동일 원료의 형제 폴더** — (610698) SYNTRAN 5905 폴더의 14개 파일과 파일크기·수정일시까지 완전히 동일하며, 이 폴더(610898)에는 Composition·Composition(NMPA기준)·NMPA 3개 파일이 추가로 있어 더 완전함(17개). 다만 추가된 NMPA.pdf도 5페이지 전체가 빈 이미지 스캔본으로 실제로는 텍스트 확인이 안 됨 — 실질적으로 유효한 추가 정보는 Composition 2건(조성비·기능·CAS·EINECS 상세)뿐. 두 폴더 중 어느 코드가 정식 원료코드인지 담당부서 확인 필요(파일명이 전부 '610898'로 통일되어 있어 이쪽이 원본일 가능성 높음). 원료 자체가 스티렌/아크릴레이트 공중합체 미세입자(평균입경 320nm) 에멀젼으로 EU 마이크로플라스틱 규정(2023/2055) 리스크가 있는 특성이나 관련 서류가 폴더 내 없음. Animal Free·COA·GMO·Halal·Vegan Statement·non animal testing·NMPA 7개 파일은 전부 이미지 스캔본으로 텍스트 추출 불가.",
           country:"제조 중국(상하이, INTERPOLYMER (Shanghai) Co. Ltd.) / 등록판매 프랑스(Zschimmer & Schwarz Interpolymer Sàrl)", views:0, regs:{}, fileCount:17,
           detail:{
-            code:"610898", classification:"스티렌/아크릴레이트 공중합체 기반 불투명화제(오페시파이어) 에멀젼", hsCode:null, packaging:null,
+            code:"610898", dir:"(610898) SYNTRAN 5905", classification:"스티렌/아크릴레이트 공중합체 기반 불투명화제(오페시파이어) 에멀젼", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"백색 에멀젼"},{item:"pH",spec:"2.0~3.0(22℃)"},{item:"고형분",spec:"39.0~41.0%"},{item:"점도",spec:"0~100 mPa·s(22℃)"},{item:"미생물",spec:"<100 cfu/mL"},{item:"잔류모노머",spec:"20ppm 이하"}
             ],
@@ -7986,7 +8079,7 @@ Water-Mineral | Polymer-Synthetic | C11-15 Pareth-40·7-Synthetic | SLS-Vegetal/
           restrict:"EYESEL 계열이나 610315(Bamboo Water)·610366(Edelweiss)·610582(Lily Flower Water)와 달리 Composition·MSDS·SPEC·Origin·Flow Chart가 전혀 없는 가장 빈약한 EYESEL 폴더 — Animal Free·BSE,TSE·CMR·D4,D5,D6·GMO·Gluten Free·Impurity·Microplastic 8개 파일명이 완전히 동일한 'Declaration of Compliance' 1건과 CITES·Non-Animal Test·Pork Free·Proposition65 개별 선언서 4종, 총 13개 파일 중 12개가 EYESEL 18종 공통목록 인증서. 제품명(NFS-04S)이 그 18종 목록에 정확히 포함되어 있어 610616(막걸리추출물)과 같은 제품 동일성 문제는 없으나, INCI·CAS·조성비를 확인할 수 있는 문서가 전혀 없어 원료의 실체를 알 수 없는 상태. COA는 이미지 스캔본으로 텍스트 추출 불가.",
           country:"대한민국(경기 화성 동탄) 제조로 추정(Origin 서류 없어 확정 불가)", views:0, regs:{}, fileCount:13,
           detail:{
-            code:"610721", classification:null, hsCode:null, packaging:null,
+            code:"610721", dir:"(610721) NFS-04S", classification:null, hsCode:null, packaging:null,
             specTable:[],
             origin:{ country:null, rawMaterials:[] },
             msds:{ versionEn:null, versionKr:null, hazardEn:null, physical:[], ecotox:null },
@@ -8030,7 +8123,7 @@ EYESEL 자사 원료 18종(NFS-04S 포함) 전체 대상 공통 선언서
           restrict:"이번 프로젝트 중 최상위권 완성도(43종 중 30종, 75%) — Galaxy Surfactants Ltd.(인도)가 43종 체크리스트 항목별로 거의 1:1 대응하는 개별 선언서를 발급하고, 정식 인도네시아 할랄 인증서(MUI-LPPOM, 인증번호 MUI-LPPOM00150001330326, 2026.03.04~2030.03.04 유효, Galaxy의 구자라트 Jhagadia 공장에서 'Phenoxyethanols' 품목으로 인증됨)까지 실제로 확인됨 — 610697(NIACINAMIDE)에 이어 두 번째로 확인된 정식 3자 할랄 인증. 다만 'EUDR' 파일명 문서는 실제로는 EU화장품규정(EC1223/2009) Annex II/III 물질 선언서(Impurity 파일과 완전히 동일한 내용)로, 실제 EU삼림전용규정(팜유·목재 등)과는 무관함 — 파일명 오기재로 추정(원료 자체는 석유화학 합성물로 EUDR 비대상이 맞음). 별도 SVHC·CITES 전용 서류는 없으나 REACH 등록·Origin(petrochemical) 서류로 간접 확인 가능. COA는 이미지 스캔본.",
           country:"제조 인도(구자라트 Jhagadia) / 원료 석유화학(petrochemical) 유래", views:0, regs:{}, fileCount:32,
           detail:{
-            code:"610762", classification:"페녹시에탄올(글리콜에테르계) 화장품용 방부제", hsCode:null, packaging:"235L/35L/25L HMHDPE 카보이, 210L GI드럼, IBC(1~1.1MT), ISO컨테이너(20~24MT)",
+            code:"610762", dir:"(610762) PHENOXYETHANOL P5", classification:"페녹시에탄올(글리콜에테르계) 화장품용 방부제", hsCode:null, packaging:"235L/35L/25L HMHDPE 카보이, 210L GI드럼, IBC(1~1.1MT), ISO컨테이너(20~24MT)",
             specTable:[
                 {item:"외관",spec:"투명 저점도 액체, 무색"},{item:"pH(1%수용액)",spec:"5.5~7.0"},{item:"Assay(GC)",spec:"99.5% 이상"},{item:"수분",spec:"0.2% 이하(칼피셔법)"},{item:"페녹시에톡시에탄올",spec:"0.5% 이하(GC)"},{item:"비중(20℃)",spec:"1.105~1.110"},{item:"굴절률(20℃)",spec:"1.537~1.539"},{item:"유리페놀",spec:"5ppm 이하"}
             ],
@@ -8171,7 +8264,7 @@ SCCS·CIR 평가: 방부제 사용한도 각≤1%` },
           restrict:"Alcohol Free·Non Animal Test·Vegan 3개 파일명이 완전히 동일한 1건의 'Declaration'(비건/베지테리언/알코올프리/교차오염방지 통합 확인서), Origin(Source)·RSPO 2개 파일명이 완전히 동일한 1건의 'Declaration of Origin'(대나무 유래로 팜유 무관)으로 원문 대조 확인. **'NON-SVHC Declaration' 파일명 문서는 실제로는 SVHC와 무관한 글루텐프리 확인서(Gluten free 파일과 동일 취지)로, 실제 SVHC 관련 서류는 없음** — 610559 ANNEX14=NMPA, 610762 EUDR=Impurity에 이어 이번 프로젝트 세 번째 파일명 오기재 사례. Animal Free·Halal·Origin(Manufacture) 3개 파일은 이미지 스캔본으로 텍스트 추출 불가.",
           country:"제조 중국(상하이, Puenbiotech Shanghai Co., Ltd.) / 원료(대나무) 원산지 명시 없음", views:0, regs:{}, fileCount:28,
           detail:{
-            code:"610772", classification:"대나무 고온탄화 분말(활성탄 계열 흡착·스크럽 원료)", hsCode:null, packaging:null,
+            code:"610772", dir:"(610772) PUENSCRUB BAMBOO CHARCOAL POWDER 1200MESH", classification:"대나무 고온탄화 분말(활성탄 계열 흡착·스크럽 원료)", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"흑색 무취 자유유동 분말"},{item:"pH",spec:"5.0~10.5"},{item:"입경",spec:"0.5~9 micron"},{item:"입도분포(>1200mesh)",spec:"10% 이하"},{item:"수분함량",spec:"15% 이하"},{item:"비소",spec:"2ppm 이하"},{item:"미생물오염",spec:"100CFU/g 이하"},{item:"유효기간",spec:"출고일로부터 3년"}
             ],
@@ -8289,7 +8382,7 @@ Lot88250510 | 외관흑색무취자유유동분말(PASS) | pH8.1(규격5.0-10.5)
           restrict:"EYESEL 계열이나 610721(NFS-04S)과 동일하게 Composition·MSDS·SPEC·Origin·Flow Chart가 전혀 없는 빈약한 폴더 — Animal Free·BSE,TSE·CMR·D4,D5,D6·GMO·Gluten Free·Impurity·Microplastic 8개 파일명이 완전히 동일한 'Declaration of Compliance' 1건과 CITES·Non-Animal Test·Pork Free·Proposition65 개별 선언서 4종, 총 13개 파일 중 12개가 EYESEL 18종 공통목록 인증서. 제품명(Firming Plus Complex)이 18종 목록에 정확히 포함되어 있어 610616(막걸리추출물)과 같은 제품 동일성 문제는 없으나, INCI·CAS·조성비를 확인할 수 있는 문서가 전혀 없어 원료의 실체를 알 수 없는 상태. COA는 이미지 스캔본으로 텍스트 추출 불가.",
           country:"대한민국(경기 화성 동탄) 제조로 추정(Origin 서류 없어 확정 불가)", views:0, regs:{}, fileCount:13,
           detail:{
-            code:"610780", classification:null, hsCode:null, packaging:null,
+            code:"610780", dir:"(610780) 퍼밍플러스콤플렉스", classification:null, hsCode:null, packaging:null,
             specTable:[],
             origin:{ country:null, rawMaterials:[] },
             msds:{ versionEn:null, versionKr:null, hazardEn:null, physical:[], ecotox:null },
@@ -8334,7 +8427,7 @@ EYESEL 자사 원료 18종(Firming Plus Complex 포함) 전체 대상 공통 선
           restrict:"EYESEL 계열이나 610721(NFS-04S)·610780(Firming Plus Complex)과 동일하게 Composition·MSDS·SPEC·Origin·Flow Chart가 전혀 없는 빈약한 폴더. Animal Free 전용 파일명은 없으나 BSE,TSE 파일이 2건 존재 — 그중 1건은 파일명이 '(610786)'로 시작해 폴더코드(610785)와 다름(내용은 동일한 Declaration of Compliance로 확인, 오기재로 추정). 8개 파일명이 완전히 동일한 'Declaration of Compliance' 1건과 CITES·Non-Animal Test·Pork Free·Proposition65 개별 선언서 4종. 제품명(Pomegranate Extract (P))이 18종 목록에 정확히 포함되어 있어 610616(막걸리추출물)과 같은 제품 동일성 문제는 없으나, INCI·CAS·조성비를 확인할 수 있는 문서가 전혀 없어 원료의 실체를 알 수 없는 상태. COA는 이미지 스캔본으로 텍스트 추출 불가.",
           country:"대한민국(경기 화성 동탄) 제조로 추정(Origin 서류 없어 확정 불가)", views:0, regs:{}, fileCount:13,
           detail:{
-            code:"610785", classification:null, hsCode:null, packaging:null,
+            code:"610785", dir:"(610785) Pomegranate Extract(P)", classification:null, hsCode:null, packaging:null,
             specTable:[],
             origin:{ country:null, rawMaterials:[] },
             msds:{ versionEn:null, versionKr:null, hazardEn:null, physical:[], ecotox:null },
@@ -8379,7 +8472,7 @@ EYESEL 자사 원료 18종(Pomegranate Extract (P) 포함) 전체 대상 공통 
           restrict:"폴더 내 문서가 COA 1건뿐 — 610649(MONOPOL)·610380(EUMULGIN) 등과 같은 극빈 폴더 유형이나, 이 COA는 이미지 스캔본이 아니라 실제로 육안(비전) 판독이 가능해 로트 실측치를 확보함(pdfplumber 텍스트 추출은 실패했으나 Read 도구로 원문 확인). COA REMARKS란에 'RSPO certified Product. Certificate No. BMC-RSPO-001068'이 명시되어 있으나 이는 COA 내 서술일 뿐 RSPO 인증서 원본 문서는 폴더에 없어 RSPO는 have가 아닌 check로 등록. MSDS·SPEC·Composition·Origin 등 나머지 문서 전부 폴더 내 부재로 INCI·CAS·정확한 기능 확정 불가.",
           country:"제조 스페인(바르셀로나) 추정 — Origin 서류 없어 확정 불가", views:0, regs:{}, fileCount:1,
           detail:{
-            code:"610813", classification:null, hsCode:null, packaging:null,
+            code:"610813", dir:"(610813) Pollushield", classification:null, hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"Suspension, Light brown to brown"},{item:"비중",spec:"0.95~1.05 (실측 1.02)"},{item:"pH",spec:"4.0~5.5 (실측 4.5)"},{item:"점도(cPs)",spec:"400~1600 (실측 828, RVDV spindle3 50rpm)"},{item:"총호기성균수",spec:"<100 cfu/g (적합)"},{item:"효모·곰팡이",spec:"<10 cfu/g (적합)"},{item:"대장균·녹농균·황색포도상구균·칸디다",spec:"불검출(적합)"}
             ],
@@ -8409,7 +8502,7 @@ REMARKS: Supply chain model Mass Balance / RSPO certified Product, Certificate N
           restrict:"완전 합성 석유화학 유래 폴리머(부텐 수소첨가 중합체)로 동식물 유래·팜유·EUDR 규제품목과 무관. HALAL_202411_INEOS.pdf 문서는 존재하나 본문에 '공급업체로부터 할랄 적합성 확인을 받은 바 없음'이라는 명시적 면책 문구가 있어 실질적 할랄 인증서가 아님 — have가 아닌 check로 등록(610079 Activonol-3 사건 재발 방지 원칙 적용). 폴더 내 내부 체크리스트 엑셀(원료 필수 서류 리스트)이 Annex14·TDS·Gluten Free 등 다수 항목을 O로 표기했으나 실제 대응 문서가 없거나 간접 근거뿐인 경우가 다수 확인되어, 체크리스트 표기를 그대로 신뢰하지 않고 원문 재확인 결과만 반영함.",
           country:"미국(텍사스 League City, INEOS Oligomers 제조)", views:0, regs:{}, fileCount:29,
           detail:{
-            code:"610827", classification:"합성 폴리머(수소첨가 폴리이소부텐, 비이온성 오일류)", hsCode:null, packaging:null,
+            code:"610827", dir:"(610827) Panalane H-300E", classification:"합성 폴리머(수소첨가 폴리이소부텐, 비이온성 오일류)", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"투명, 무색 액체"},{item:"동점도(99℃)",spec:"635~690 cSt"},{item:"색상(APHA, haze-free)",spec:"20 이하"},{item:"Haze(APHA)",spec:"10 이하"},{item:"Bromine Index",spec:"1000 mg Br2/100g 이하"}
             ],
@@ -8519,7 +8612,7 @@ COA(2020, 구버전): Batch#096352, Sample S-20620-2194, 제조 2020년6월, 재
           restrict:"MSDS·Composition·SPEC·Origin·Flow Chart 등 원료 고유 서류가 폴더 내 전무 — EYESEL 특유의 18종 공통목록 Declaration of Compliance(8개 파일, 내용 100% 동일)와 CITES·Non-Animal Test·Pork Free·Proposition65 개별 선언서, COA 1건만 존재. Red Ginseng Extract는 공통목록 14번에 정확히 포함되어 있어 610616(막걸리추출물)과 같은 제품 동일성 문제는 없음. COA는 pdfplumber 추출 실패한 스캔본이나 Read 비전 판독으로 INCI·HS Code·pH·비중 등 원문 확보 성공.",
           country:"제조국 한국(EYESEL, 화성) — 원료(홍삼 뿌리) 자체의 재배 원산지 명시 문서는 없음", views:0, regs:{}, fileCount:13,
           detail:{
-            code:"610833", classification:"식물추출물(수용성 액티브)", hsCode:"2942.00.90", packaging:null,
+            code:"610833", dir:"(610833) Red Ginseng Extract (홍삼추출물)", classification:"식물추출물(수용성 액티브)", hsCode:"2942.00.90", packaging:null,
             specTable:[
                 {item:"외관",spec:"Slightly Light Yellow~Transparency, Solution"},{item:"냄새",spec:"Slightly Smell"},{item:"pH",spec:"5.00~7.00"},{item:"비중(d20/20)",spec:"0.950~1.050"},{item:"미생물순도",spec:"100cfu/g 이하"}
             ],
@@ -8572,7 +8665,7 @@ pH 5.00~7.00(실측5.74) | 비중(d20/20) 0.950~1.050(실측1.006) | 미생물�
           restrict:"**중요 모순 발견**: 폴더 내 공통 Declaration of Compliance(8개 파일명)는 '식물·합성 유래이며 동물·밀·기타 곡물 유래가 아님'을 선언하나, 이 원료 자체의 COA INCI는 'Snail Secretion Filtrate'(달팽이 분비물)로 명백히 동물(연체동물) 유래 성분 — 610833 등 다른 EYESEL 원료에서는 문제되지 않던 이 공통 문구가 본 원료에는 내용상 모순됨. Animal Free 항목은 have가 아닌 check로 등록(EYESEL 공통 템플릿을 제품 특성 검토 없이 그대로 신뢰하면 안 된다는 새로운 사례). BSE/TSE는 연체동물이 프리온 질환 감수성 대상이 아니므로 모순으로 보지 않고 have 유지. MSDS·Composition·SPEC·Origin·Flow Chart 전무. COA 발급 사업장 주소가 다른 EYESEL 문서들(#508~517 동탄)과 달리 #911~913 기흥(용인)으로 기재되어 있어 별도 생산시설 가능성 있음(원인 미확인).",
           country:"제조 한국(EYESEL) — COA는 용인 기흥 사업장, 그 외 선언서는 화성 동탄 사업장 주소로 서로 다름(사유 미확인)", views:0, regs:{}, fileCount:13,
           detail:{
-            code:"610869", classification:"동물유래 특수성분(연체동물 분비물 여과액)", hsCode:null, packaging:null,
+            code:"610869", dir:"(610869) SNAIL SECRETION FILTRATE SOLUTION(달팽이점액)", classification:"동물유래 특수성분(연체동물 분비물 여과액)", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"Transparency, Slightly Viscous Liquid"},{item:"냄새",spec:"Slightly Smell"},{item:"pH",spec:"4.50~6.50"},{item:"비중(d20/20)",spec:"0.950~1.050"},{item:"미생물순도",spec:"100cfu/g 이하"}
             ],
@@ -8626,7 +8719,7 @@ pH 4.50~6.50(실측5.29) | 비중(d20/20) 0.950~1.050(실측1.009) | 미생물�
           restrict:"복합 조성물(Water+Charcoal powder 0.300%+1,2-Hexanediol 0.297%+Caprylyl Glycol 0.297%+Tropolone 0.006%)로 단일 CAS 없음 — 개별 성분 CAS는 MSDS에 별도 기재(Water 7732-18-5, Charcoal powder 16291-96-6, 1,2-Hexanediol 6920-22-5, Caprylyl Glycol 1117-86-8, Tropolone 533-75-5). Origin 인증서가 Charcoal Powder를 'Plant(식물)·한국산'으로만 명시할 뿐 목재/코코넛껍질/대나무 등 구체적 유래를 특정하지 않아, 숯이 통상 목재 유래인 점을 감안하면 EUDR(목재) 해당여부가 불확정 — na 대신 check로 신중 등록. 'Origin_2023.09.18.pdf'와 'HS CODE_2023.09.18.pdf' 2개 파일이 완전히 동일한 'Certificate of Origin' 문서(HS Code 1302.31.9000 포함)로 파일명만 다른 중복 배포 사례. COA 로트가 2025.09.05 만료로 이미 기한 경과 — 최신 로트 COA 재확보 필요.",
           country:"제조 한국(EYESEL, 용인 기흥) — Origin 인증서에 원료별 원산지 세분화(정제수·차콜파우더는 한국, 나머지 보존제는 독일)", views:0, regs:{}, fileCount:17,
           detail:{
-            code:"610880", classification:"식물유래 복합 조성물(흡착성 탄소분말 함유 정제수)", hsCode:"1302.31.9000", packaging:null,
+            code:"610880", dir:"(610880) 숯 추출물", classification:"식물유래 복합 조성물(흡착성 탄소분말 함유 정제수)", hsCode:"1302.31.9000", packaging:null,
             specTable:[
                 {item:"외관",spec:"Slightly Black Liquid"},{item:"냄새",spec:"Slightly Smell"},{item:"pH",spec:"6.00~8.00"},{item:"비중(d20/20)",spec:"0.950~1.050"},{item:"미생물순도",spec:"100cfu/g 이하"}
             ],
@@ -8694,7 +8787,7 @@ pH 6.00~8.00(실측6.41) | 비중(d20/20) 0.950~1.050(실측1.003) | 미생물�
           restrict:"폴더 내 문서가 COA 1건뿐이나 610380·610586·610649·610813 등 다른 극빈 폴더와 달리 이 COA는 매우 상세(품질규격 15개 항목·중금속·불순물 실측치 전부 포함)해 43종 중 상당수를 이 한 문서로 직접 확인 가능. 제품명(Trisodium Citrate Dihydrate TSC F6000)·배치번호·생산공장(오스트리아 Pernhofen)·Country of Origin(AT)까지 명시. MSDS·Composition Letter·별도 SPEC·Origin 인증서 등 나머지 문서는 폴더 내 전무해 CAS 번호 등은 COA에 기재되지 않아 미확정으로 남김(일반적으로 알려진 트리소듐시트레이트 CAS를 문서 미확인 상태로 임의 기재하지 않음).",
           country:"오스트리아(Jungbunzlauer Austria AG, Pernhofen 공장) — COA 'Country of Origin: AT' 명시", views:0, regs:{}, fileCount:1,
           detail:{
-            code:"610888", classification:"구연산나트륨(시트르산 완충염)", hsCode:null, packaging:"25kg bags",
+            code:"610888", dir:"(610888) SODIUM CITRATE", classification:"구연산나트륨(시트르산 완충염)", hsCode:null, packaging:"25kg bags",
             specTable:[
                 {item:"Assay(순도)",spec:"99.0~100.5%"},{item:"Water(건조감량)",spec:"11.0~13.0%"},{item:"pH(5%수용액)",spec:"7.6~9.0"},
                 {item:"Chlorides",spec:"50mg/kg 이하"},{item:"Arsenic",spec:"1mg/kg 이하"},{item:"Lead",spec:"0.5mg/kg 이하"},{item:"Mercury",spec:"0.5mg/kg 이하"},
@@ -8734,7 +8827,7 @@ pH 6.00~8.00(실측6.41) | 비중(d20/20) 0.950~1.050(실측1.003) | 미생물�
           restrict:"29개 파일 중 27개가 실질적으로 각기 다른 전용 문서인 고완성도 개별선언 공급사(Galaxy Surfactants·Western Drugs 유형과 유사). **HALAL Statement는 파일은 존재하나 할랄 인증기관·인증번호 없이 '동물성분·에탄올 미사용'만 자기선언하는 형식(610079·610827과 동일 유형) — have가 아닌 check로 등록.** Pork-Free Statement 파일에 '회사 레터해드 삽입'이라는 한글 플레이스홀더 문구가 그대로 남아있어 정식 발급 전 초안 상태로 제출됐을 가능성 있음(내용 자체는 유효). Allergen Information은 EU 1223/2009 Annex III(26종) 또는 2023/1545 개정판(81종) 등 구체적 리스트를 특정하지 않는 일반적 선언이라 Allergen(26)/(81+) 둘 다 check로 등록. REACH Registration Certificate는 KTR Europe GmbH(Only Representative)를 통한 실제 등록번호(01-2120758358-42-0004, 10~100 tpa)가 확인되는 정식 문서.",
           country:"한국(충청북도 청주시 청원구 오창읍) — Source Origin Statement에 'Country of Origin: Republic of Korea, Synthetic' 명시", views:0, regs:{}, fileCount:29,
           detail:{
-            code:"610897", classification:"합성 방부제(클로르페네신)", hsCode:null, packaging:null,
+            code:"610897", dir:"(610897) MACROCIDE-OL", classification:"합성 방부제(클로르페네신)", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"White to pale yellow crystal"},{item:"냄새",spec:"Characteristic(거의 무취)"},{item:"확인시험",spec:"IR Spectrum"},{item:"Assay",spec:"99.0% 이상"},{item:"pH(1→100)",spec:"6.0~8.0"},
                 {item:"건조감량",spec:"1.0% 이하"},{item:"강열잔분",spec:"0.1% 이하"},{item:"융점",spec:"78.0~81.0℃"},{item:"파라벤류",spec:"1ppm 이하"},{item:"중금속",spec:"20ppm 이하"},{item:"비소",spec:"2ppm 이하"},{item:"미생물",spec:"10²cfu/g 이하"}
@@ -8841,7 +8934,7 @@ X 표기: 추출부위확인서(N/A)·**TSE(N/A)**·**BSE(N/A)**·RSPO(N/A)·**A
           restrict:"610833(Red Ginseng)·610869(달팽이점액)·610880(숯 추출물)과 동일한 EYESEL 13개 파일 구성. Sea Water(p)가 18종 공통목록 17번에 정확히 포함되어 제품 동일성 문제 없음. 해수(Sea Water)는 광물성 원수로 610869 달팽이분비물과 달리 공통선언서의 'Animal Free' 문구와 모순되지 않아 정상적으로 have 처리. Composition·MSDS·SPEC·Origin·Flow Chart·HS Code 전무.",
           country:"제조 한국(EYESEL, COA 기준 용인 기흥, 901호·911~913호)", views:0, regs:{}, fileCount:13,
           detail:{
-            code:"610908", classification:"천연 해수 기반 수용액", hsCode:null, packaging:null,
+            code:"610908", dir:"(610908) SEA WATER(P)", classification:"천연 해수 기반 수용액", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"Transparency Liquid Solution"},{item:"냄새",spec:"Slightly Smell"},{item:"pH",spec:"5.00~7.00"},{item:"비중(d20/20)",spec:"0.980~1.050"},{item:"미생물순도",spec:"100cfu/g 이하"}
             ],
@@ -8894,7 +8987,7 @@ pH 5.00~7.00(실측6.33) | 비중(d20/20) 0.980~1.050(실측1.001) | 미생물�
           restrict:"39개 파일 중 대다수가 각기 다른 전용 1페이지 선언서로 구성된 최고 완성도 공급사(43종 중 35종 have, 이번 프로젝트 최고 완성도). **HALAL 문서는 '본 제품은 할랄 인증을 받지 않았음'을 스스로 명시하는 정직한 비인증 고지 — 610079·610827·610897과 달리 인증인 것처럼 오해될 소지가 없는 모범 사례**(다만 항목 자체는 have 아닌 check로 등록). NMPA 신고서는 INCI상 'Water' 79.5% 중 5%가 실제로는 '温泉水(Onsen-Sui, 설악산 온천수)'임을 별도로 밝혀 Composition Sheet(정제수로만 통합 표기)보다 더 세분화된 정보 제공 — 두 문서는 합계가 일치해 모순은 아님. Origin과 Origin(Source), Ethanol Free와 Ethanol-Free 각각 2개 파일명이 완전히 동일한 문서로 중복 배포. Fragrance Allergens Statement가 EU 2023/1545 개정 81종 목록을 명시적으로 인용해 Allergen(81+)은 have, 구버전 26종 전용 문서는 없어 Allergen(26)은 check로 구분 등록.",
           country:"한국(서울 서초, Morechem 자체 제조) — Water(자연·한국) 79.5%, Butylene Glycol(합성·일본) 20%, Phenoxyethanol(합성·인도) 0.5%", views:0, regs:{}, fileCount:39,
           detail:{
-            code:"610916", classification:"보습 베이스워터(정제수·부틸렌글라이콜·페녹시에탄올 배합)", hsCode:null, packaging:null,
+            code:"610916", dir:"(610916) 설악수", classification:"보습 베이스워터(정제수·부틸렌글라이콜·페녹시에탄올 배합)", hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"Transparent liquid"},{item:"냄새",spec:"Characteristic"},{item:"pH",spec:"6.5~8.5"},{item:"미생물함량",spec:"100 CFU/ml 미만, 병원균 불검출"},
                 {item:"중금속",spec:"20ppm 미만"},{item:"비소",spec:"2ppm 미만"},{item:"건조잔량",spec:"5% 미만"},{item:"비중(d20/20)",spec:"0.950~1.050"}
@@ -9011,7 +9104,7 @@ pH 5.00~7.00(실측6.33) | 비중(d20/20) 0.980~1.050(실측1.001) | 미생물�
           restrict:"610827 Panalane H-300E와 동일한 INEOS Oligomers/Vantage 계열 — Composition Letter가 Silkflo 364·366과 Panalane H300E를 한 문서로 공유. SDS(REACH벨기에판)상 Aspiration Tox.1(H304, Signal word Danger)로 분류되어 Panalane(무분류)과 달리 실제 GHS 유해성이 있음 — MSDS 확인 시 주의 필요. **'Allergen 81_Cosmetic Directive Statement' 파일명은 알레르겐 81종 목록을 시사하나 실제 본문은 일반 Cosmetic Directive Annex II/III 준수 선언일 뿐 알레르겐 성분 목록 언급이 전혀 없어('Cosmetic Directive Statement' 파일과 내용 100% 동일) — 진짜 알레르겐 선언서는 폴더에 없음, 이번 프로젝트 네 번째 파일명-내용 불일치 사례.** 'Annex 14 chinese.pdf' 파일명도 실제로는 NMPA 원료보고서 내용(원료보고코드 005373-04394-6437)으로 610559 KALCOL 6870P와 동일 유형의 오기재 — NMPA는 이 파일로 have 처리하되 진짜 Annex14 전용문서는 부재. **Halal Questionnaire는 실제 할랄인증기관(Best World Lifestyle Pte Ltd, 싱가포르)에 제출된 상세 자가진단 설문지로 돼지고기 무함유 시설(Q3 Yes)·설비 비공유(Q4 No)까지 구체적으로 확인되나, Silkflo 364 자체의 할랄 인증서는 아니므로 check로 등록.** VEGAN은 프랑스 EVE(Expertise Vegane Europe)와 한국비건인증원(Korea Agency of Vegan Certification) 2개 기관 대상 선언서가 모두 확인되는 이번 프로젝트 최다 vegan 관련서류 사례.",
           country:"미국(텍사스 Laporte, INEOS Oligomers 제조) — USMCA Certificate of Origin으로 원산지 US 공식 확인(HS 3902.90)", views:0, regs:{}, fileCount:32,
           detail:{
-            code:"610985", classification:"합성 폴리머(수소첨가 폴리데센, 비이온성 오일류)", hsCode:"3902.90", packaging:null,
+            code:"610985", dir:"(610985) Silkflo 364", classification:"합성 폴리머(수소첨가 폴리데센, 비이온성 오일류)", hsCode:"3902.90", packaging:null,
             specTable:[
                 {item:"동점도(40℃)",spec:"16.0~18.5 cSt"},{item:"인화점(COC)",spec:"204℃ 이상"},{item:"유동점",spec:"-65℃ 이하"},{item:"비중(15.6/15.6℃)",spec:"0.810~0.830"},{item:"색상(APHA)",spec:"10 이하"},{item:"산가",spec:"0.01mg KOH/g 이하"},{item:"브롬가",spec:"0.40g Br2/100g 이하"},{item:"굴절률(20℃)",spec:"1.4550~1.4560"}
             ],
@@ -9169,7 +9262,7 @@ O 표기: MSDS(2023년 이후 본)·Composition·TDS·SPEC·Origin·원산지증
           restrict:"**GMO 항목 특별 주의**: 원료 자체 선언서에 '원료 중 옥수수(중국산)가 non-GMO 조건을 충족하지 못한다'고 명시 — GMO 미함유가 아니라 오히려 GMO 가능성이 있는 원료가 포함됨을 스스로 밝힌 사례, have가 아닌 check로 등록. **RSPO·EUDR도 na가 아닌 check**: Origin 선언서에 팜유(필리핀·말레이시아·인도네시아산)가 실제 원료로 명시되어 있으나 RSPO 인증서나 EUDR 대응서류는 폴더 내 없음(610559 KALCOL 6870P와 동일 원칙 적용). **VEGAN도 check**: 'VEGAN STATEMENT' 제목의 문서이나 본문에 '본 문서는 비건 표시 적합성을 선언하는 것이 아님'이라고 스스로 명시 — 형식적 제목과 달리 실질은 비건 인증이 아님. **HALAL도 check**: '제조설비가 소/양/돼지 등 동물유래 원료 함유 타제품과 공유됨'을 명시적으로 밝혀 할랄 부적합 사유가 구체적으로 확인되나(원료 자체엔 돼지고기 미사용), 인증서는 아님. Kao 특유의 'Statement_XXX(page)_2025.08.05' 패턴 파일 11개(CMR/Nano/Allergens/BSE,TSE/CITES/GMO/HeavyMetals/Impurities/NonAnimalTest/Origin/Proposition65)가 전부 완전히 동일한 2페이지 'Cosmetics Regulatory Information' 통합문서 — 이번 프로젝트 단일 최다 파일명 중복(기존 610620의 6건 기록 경신).",
           country:"일본(Kao Corporation, 제조국 Japan) — Origin 선언서에 코코넛·팜(필리핀/말레이시아/인도네시아)·카사바(인도네시아)·옥수수(중국)·석유 등 복합 원료 유래 명시", views:0, regs:{}, fileCount:28,
           detail:{
-            code:"611023", classification:"비이온 계면활성제(유화제)", hsCode:"3402.42", packaging:"18kg Can, 200kg Drum",
+            code:"611023", dir:"(611023) RHEODOL TW-L120", classification:"비이온 계면활성제(유화제)", hsCode:"3402.42", packaging:"18kg Can, 200kg Drum",
             specTable:[
                 {item:"외관",spec:"Yellow Oily Liquid"},{item:"색상(Gardner)",spec:"8 이하"},{item:"수분함량",spec:"2.5~3.0%"},{item:"산가",spec:"2.00mgKOH/g 이하"},{item:"검화가",spec:"40.0~50.0mgKOH/g"},{item:"수산기값",spec:"96.0~108.0mgKOH/g"},{item:"비중(25/4℃)",spec:"1.080~1.130"}
             ],
@@ -9241,7 +9334,7 @@ O 표기: MSDS(2023년 이후 본)·Composition·TDS·SPEC·Origin·원산지증
           restrict:"611023 RHEODOL TW-L120의 자매품(폴리소르베이트20 vs 60)으로 Kao 표준 문서체계가 거의 동일하나 **RSPO 항목에서 결정적 차이** — 이 원료에는 Avon Products 양식의 'PALM OIL QUESTIONNAIRE'(2020.02.27, Kao Saori Okamoto 서명)가 있고 Q1 팜유/팜핵유 함유 **YES**, Q2 자체 공급망 밀(mill) 단위 추적 **YES**(Kao 지속가능조달 공개 URL 제시), Q3 RSPO 인증 여부 **NO**, Q4 인증 공급망 모델 전부 미체크로 답변 — **'문서가 없어서 모른다'가 아니라 '문서로 RSPO 미인증이 확정된' 첫 사례.** 서류는 존재하므로 X가 아니고, 인증서는 아니므로 have도 아니어서 check로 등록하되 사유에 '미인증 확정'을 명기함. GMO는 611023과 동일하게 '옥수수 Not segregated(비분리)'로 non-GMO 조건 미충족을 자체 명시. VEGAN 문서도 '비건 표시 적합성 선언 아님' 자체 disclaim 유지. HALAL은 설비공유로 부적합. **불순물 중금속 한도가 611023(10ppm max)과 달리 20ppm max로 기재되어 자매품 간 관리기준이 다름 — 동일 공급사·동일 양식이라도 수치를 복사하지 말고 제품별로 확인해야 하는 사례.**",
           country:"일본(Kao Corporation 와카야마 공장) — Origin 선언서에 코코넛·팜(필리핀/말레이시아/인도네시아)·카사바(인도네시아)·옥수수(중국)·석유 명시", views:0, regs:{}, fileCount:31,
           detail:{
-            code:"611024", classification:"비이온 계면활성제(유화제)", hsCode:"3402.42", packaging:"18kg Can",
+            code:"611024", dir:"(611024) RHEODOL TW-S120", classification:"비이온 계면활성제(유화제)", hsCode:"3402.42", packaging:"18kg Can",
             specTable:[
                 {item:"외관",spec:"Yellow Oily Liquid"},{item:"pH",spec:"5.0~8.0"},{item:"산가",spec:"2.00mgKOH/g 이하"},{item:"검화가",spec:"45.0~55.0mgKOH/g"},{item:"수산기값",spec:"81.0~96.0mgKOH/g"},{item:"건조감량",spec:"3.0% 이하"},{item:"강열잔분",spec:"1.00% 이하"},{item:"색상(Gardner)",spec:"7 이하"}
             ],
@@ -9336,7 +9429,7 @@ Q4) 어떤 RSPO 인증 공급망 모델을 사용하는가 → Identity Preserve
           restrict:"Kao 폴리소르베이트 3형제(611023 TW-L120=Polysorbate20 / 611024 TW-S120V=Polysorbate60 / 본 611025 TW-O120V=Polysorbate80) 중 세 번째. **'ANNEX 14_EN.pdf' 파일명이 실제로는 NMPA 원료보고서와 완전히 동일한 문서(보고코드 003984-05665-7996 일치) — 같은 폴더에 'NMPA_EN.pdf'가 따로 있는데 두 파일 내용이 같음. 610559 KALCOL 6870P·610985 Silkflo 364에 이은 세 번째 'ANNEX14=실제로는 NMPA' 오기재 사례이자, 동일 폴더 안에서 오기재본과 정본이 나란히 발견된 첫 케이스** — Annex 14 항목의 실제 대응 문서는 없으므로 X로 등록. GMO('옥수수 non-GMO 조건 미충족')·VEGAN(제목은 VEGAN STATEMENT이나 '비건 표시 적합성 선언 아님' 자체 disclaim)·HALAL(설비공유로 부적합)은 611023·611024와 동일 패턴으로 전부 check. RSPO는 Origin에 팜유(필리핀·말레이시아·인도네시아)가 실제 원료로 명시되나 611024와 달리 팜유 설문지가 없어 check. 611024가 보유한 ISO16128 자연유래지수 문서는 이 원료에는 없음.",
           country:"일본(Kao Corporation) — Origin 선언서에 코코넛·팜(필리핀/말레이시아/인도네시아)·카사바(인도네시아)·옥수수(중국)·석유 명시", views:0, regs:{}, fileCount:30,
           detail:{
-            code:"611025", classification:"비이온 계면활성제(유화제)", hsCode:"3402.42", packaging:"18kg Can, 200kg Drum",
+            code:"611025", dir:"(611025) TW-O120", classification:"비이온 계면활성제(유화제)", hsCode:"3402.42", packaging:"18kg Can, 200kg Drum",
             specTable:[
                 {item:"외관",spec:"Yellow Oily Liquid"},{item:"색상(Gardner)",spec:"8 이하"},{item:"pH",spec:"6.0~8.0"},{item:"산가",spec:"2.00mgKOH/g 이하"},{item:"검화가",spec:"45.0~55.0mgKOH/g"},{item:"수산기값",spec:"65.0~80.0mgKOH/g"},{item:"수분함량",spec:"2.5~3.0%"},{item:"점도(25℃)",spec:"375~475 mPa·s"},{item:"강열잔분",spec:"0.15% 이하"}
             ],
@@ -9422,7 +9515,7 @@ Q4) 어떤 RSPO 인증 공급망 모델을 사용하는가 → Identity Preserve
           restrict:"**610813 Pollushield와 완전히 동일한 유형의 극빈 폴더** — 같은 공급사(Lipotec S.A.U./Lubrizol 계열, 스페인 바르셀로나), 같은 COA 양식(FG-10-01/2 v.3), 같은 QC 담당자(Ana Poza), 폴더 내 문서가 COA 1건뿐. 610813과 달리 이 COA는 pdfplumber로도 일부 추출 가능한 품질이었고 Read 비전 판독으로 전항목 확보. **610813 COA에는 RSPO 인증번호 언급이 있었으나 이 COA에는 REMARKS란 자체가 없어 RSPO를 포함한 어떤 부가 정보도 없음** — 따라서 610813처럼 RSPO를 check로 올릴 근거조차 없어 COA 1종만 have. MSDS·SPEC·Composition·Origin 등 전무해 INCI·CAS·정확한 기능 미확정(제품명 'Trylagen'과 질소함량 규격(0.45~0.65%)에서 펩타이드·단백질계 소재를 추정할 수 있으나 원문 근거가 아니므로 기재하지 않음). 담당부서에 원료 고유서류 일괄 확보 요청 필요.",
           country:"스페인(바르셀로나, Lipotec S.A.U. — COA 하단 주소 기재) — 별도 Origin 서류는 없음", views:0, regs:{}, fileCount:1,
           detail:{
-            code:"611053", classification:null, hsCode:null, packaging:null,
+            code:"611053", dir:"(611053) TRYLAGEN PCB", classification:null, hsCode:null, packaging:null,
             specTable:[
                 {item:"외관",spec:"Suspension"},{item:"색상",spec:"Yellow to Amber"},{item:"비중",spec:"0.97~1.07"},{item:"pH",spec:"5.0~6.5"},{item:"질소함량",spec:"0.45~0.65%"},
                 {item:"총호기성균수",spec:"100cfu/g 미만"},{item:"효모·곰팡이",spec:"10cfu/g 미만"},{item:"대장균·녹농균·황색포도상구균·칸디다",spec:"불검출"}
@@ -9463,7 +9556,7 @@ MICROBIAL TEST — 총호기성균수 <100cfu/g Correct | 효모·곰팡이 <10c
           restrict:"610327 D-BIOTIN과 동일한 dsm-firmenich 계열로 문서체계가 매우 충실(43종 중 31종 have, 79% — 610916 설악수 81%에 이은 프로젝트 2위). **정식 3자 할랄 인증서 실제 확인**(Halal-ID E54661, Product Certificate HC-25DSLK88, dsm-firmenich Switzerland/DSM Nutritional Products Sisseln 공장 지정, 2026.12.31까지 유효) — 610327 D-BIOTIN(E54891)과 같은 인증체계. **dsm-firmenich 특유의 5페이지 'Technical Dossier'가 11개 파일명으로 중복 배포 — 610327의 10개 기록을 넘는 dsm-firmenich 계열 최다**(ALCOHOL FREE/Animal Free/Cites/Fragrance Allergens/Gluten Free/NUT Free/Nano/Origin of Country/Origin(Source)/RSPO/추출부위확인서). **주의: 'Fragrance Allergens Statement' 파일명의 실제 내용은 Technical Dossier이며, TD 안에는 '향료알레르겐 선언서 보유 가능(available: Yes)'이라고만 표시될 뿐 실제 26종/81종 목록 대조 선언서는 폴더에 없음** — 파일명만 보면 알레르겐 선언서를 보유한 것처럼 보이나 실제로는 미보유이므로 Allergen(26)·(81+) 둘 다 check. 'IMPURITIY' 파일명의 실제 내용은 Residual Solvent Statement(톨루엔·피리딘 각 80mg/kg 이하)로 불순물 관리의 일부만 다루나, COA에 불순물 A~E 및 기타 불순물 6종의 실측치가 상세히 나와 있어 Impurity는 have로 등록.",
           country:"스위스(Sisseln 공장, DSM Nutritional Products Ltd 제조 / dsm-firmenich Switzerland Ltd 판매)", views:0, regs:{}, fileCount:34,
           detail:{
-            code:"611079", classification:"합성 비타민E 유도체(항산화제)", hsCode:null, packaging:"5 KG PE PAIL",
+            code:"611079", dir:"(611079) DL-A-TOCOPHERYL ACETATE", classification:"합성 비타민E 유도체(항산화제)", hsCode:null, packaging:"5 KG PE PAIL",
             specTable:[
                 {item:"외관",spec:"맑고 점성 있는 액체(clear, viscous liquid)"},{item:"색상",spec:"무색~황색 또는 약간 녹황색"},{item:"확인시험",spec:"corresponds(GC)"},{item:"선광도",spec:"-0.01°~+0.01°"},{item:"산도",spec:"0.10N NaOH 1.0mL 이하"},
                 {item:"함량(Ph.Eur.)",spec:"96.5~102.0%"},{item:"함량(USP/FCC)",spec:"96.0~102.0%"},{item:"총 불순물",spec:"2.5% 이하"},{item:"중금속(총)",spec:"10ppm 이하"},{item:"납/비소/수은/카드뮴",spec:"각 2.0 / 1.0 / 0.1 / 0.5ppm 이하"},{item:"잔류용매(톨루엔·피리딘)",spec:"각 80ppm 이하"}
@@ -9609,7 +9702,7 @@ Product Name: dl-a-Tocopheryl Acetate | Product Code: 0420085 | **Halal-ID: E546
           restrict:"611079 DL-α-토코페릴아세테이트와 동일한 dsm-firmenich 문서체계(Technical Dossier 11개 파일명 중복). **정식 3자 할랄 인증서 확인** — 네덜란드 HFFIA(Halal Feed and Food Inspection Authority) 발행이며 611079(Halal-ID 방식)와 발행기관·양식이 달라 dsm-firmenich도 제품별로 인증체계가 다름. 인증서상 **생산지가 독일 Uelzena eG(Uelzen)**로 명시되어 611079(스위스 Sisseln)와 제조거점이 다르며, TD의 Origin도 'Germany'로 일치. **611079와 결정적 차이: TD 나노 항목이 'Not applicable'만 적힌 611079와 달리 '본 제품은 EU 1223/2009 제2조(k) 정의상 나노물질을 함유하지 않는다'는 명시적 문장이 있어 Nano를 have로 등록** — 같은 공급사 같은 양식이라도 문구가 다르므로 제품별 확인이 필요함을 보여주는 사례. TD 식품알레르겐·에탄올 항목은 611079와 마찬가지로 전부 'Not expected and not determined'(분석 미확인)이라 Gluten Free·Nut Free·Alcohol Free는 check로 통일. 'Fragrance Allergen Statement' 파일도 실제 내용은 TD이고 '선언서 보유 가능'으로만 표시되어 Allergen(26)·(81+)은 check. 'IMPURITIY' 파일명의 실제 내용은 Residual Solvent Statement(ICH Q3C(R8)·USP<467>·Ph.Eur. 준수, Class3 용매만 0.5% 미만).",
           country:"독일(TD Origin: Germany / 할랄인증서상 생산지 Uelzena eG, DE-29525 Uelzen) — 판매법인은 dsm-firmenich Switzerland Ltd(스위스 Kaiseraugst), COA 발행은 DSM Nutritional Products Ltd Sisseln", views:0, regs:{}, fileCount:33,
           detail:{
-            code:"611082", classification:"수용성 비타민 분말(복합 조성물)", hsCode:null, packaging:"5 KG BAG ALU",
+            code:"611082", dir:"(611082) Vitamin B12 0.1% WS", classification:"수용성 비타민 분말(복합 조성물)", hsCode:null, packaging:"5 KG BAG ALU",
             specTable:[
                 {item:"외관",spec:"분말(powder)"},{item:"색상",spec:"분홍(pink)"},{item:"입도(40번체 통과)",spec:"98% 이상"},{item:"확인시험",spec:"corresponds"},{item:"건조감량",spec:"4% 이하"},
                 {item:"비타민B12 함량",spec:"0.1% 이상"},{item:"총호기성균수",spec:"10³ CFU/g 이하"},{item:"효모·곰팡이",spec:"10² CFU/g 이하"},{item:"장내세균",spec:"10 CFU/g 미만"},
@@ -9749,7 +9842,7 @@ Seller: dsm-firmenich Switzerland Ltd, Wurmisweg 576, 4303 Kaiseraugst, Switzerl
           restrict:"**GMO Statement가 다른 물질에 대한 문서 — 본문이 'Spirotane(CAS 38325-25-6)'로 시작해 VBE(CAS 82654-98-6)와 제품명·CAS가 모두 불일치. 명백한 제품명 오기재이므로 GMO는 have가 아닌 check로 등록하고 공급사에 재발급 요청 필요**(610079 Activonol-3 할랄 오판정과 동일 유형으로, 파일명만 보고 등록했다면 놓쳤을 사안). **Composition 파일 2건의 발행사와 조성이 서로 다름** — 'Composition(NMPA용)'은 Ningxia Xindachang 발행으로 VBE 97.85%/n-부탄올 0.6%/바닐린 1.55%, 'Composition(impurity 포함)'은 Shijiazhuang Donglian Nankai 발행으로 VBE 97%/n-부탄올 0.6%/4-하이드록시-3-메톡시벤질알코올 0.7%/미확인 불순물 1.7%로 불순물 구성이 상이. 두 회사의 관계(그룹사·위탁생산 등)와 실제 납품 제조원을 담당부서가 확인할 필요. **REACH Statement는 준수 확인서가 아니라 '식품첨가물이므로 REACH 등록할 필요가 없다'는 면제 주장**이어서 화장품 원료로 EU 수출 시 근거로 쓰기 어려움 — check로 등록. 'ANNEX 14' 파일명의 실제 내용은 니트로사민 불순물 설문지(6페이지)로 Annex14와 무관. SPEC·TDS 2개 파일과 Alcohol Free·Gulten Free 2개 파일, Nut Free·VBE_Free Statement 2개 파일이 각각 동일 문서.",
           country:"중국(Ningxia Xindachang Technology, 닝샤 닝둥 에너지화공기지) — Certificate of Origin에 'Country of Origin: China, Material Origin: Synthetic Material' 명시", views:0, regs:{}, fileCount:26,
           detail:{
-            code:"611088", classification:"합성 향료·플레이버 화합물(온감제)", hsCode:null, packaging:"1kg",
+            code:"611088", dir:"(611088) VBE", classification:"합성 향료·플레이버 화합물(온감제)", hsCode:null, packaging:"1kg",
             specTable:[
                 {item:"외관",spec:"무색~담황색 유상 액체"},{item:"냄새",spec:"특징적(청향, 은은한 바닐라향, 매운 입맛)"},{item:"순도",spec:"97.0% 이상"},{item:"분자식",spec:"C12H18O3"},{item:"분자량",spec:"210.27"},
                 {item:"굴절률",spec:"1.516"},{item:"비중(20℃)",spec:"1.057 g/cm³"},{item:"비점",spec:"241℃"},{item:"인화점",spec:"113℃"},{item:"수분함량",spec:"5% 이하"},{item:"용해성",spec:"유상에 가용, 물에 불용(알코올·프로필렌글리콜에 용해)"}
@@ -9887,7 +9980,7 @@ Date: Sep 18, 2018. (발행사가 Ningxia Xindachang이 아닌 Shijiazhuang Dong
           restrict:"**'HALAL statement' 파일의 실제 내용은 'Non-animal origin Statement for Vegan certification'이며 본문에 대문자로 'THIS STATEMENT DOES NOT GUARANTEE THAT THE PRODUCT IS HALAL. THIS STATEMENT IS NOT FOR HALAL CERTIFICATION.'이라고 할랄 보증을 명시적으로 부정** — 파일명만 보면 할랄 문서로 오인하기 쉬우나 실제로는 비건용 무동물유래 선언서이므로 HALAL은 미보유(X). **'REACH' 파일과 'SVHC' 파일의 내용이 완전히 동일한 'SVHC (REACH)' 문서**로, SVHC 미사용 확인일 뿐 REACH 등록·준수 내용이 없어 SVHC만 have이고 REACH는 X. **Origin 인증서상 Coco Fatty Acid의 유래가 'Plant Palm (Indonesia, Malaysia)'로 팜 유래임이 명시**되는데 RSPO 인증서는 없어 RSPO는 check. **같은 폴더의 EUDR 문서는 '(EU)2023/1155 범위에 해당하지 않는다'고 선언하지만 원료가 팜 유래라는 Origin 기재와 상충**하고(EUDR 정식 번호는 (EU)2023/1115로 문서의 2023/1155는 오기로 보임) 팜유는 EUDR 7대 규제품목이므로 EUDR도 have가 아닌 check로 등록 — 공급사에 팜 유래 여부와 EUDR 적용 판단 근거를 재확인해야 함. 'Composition(3page)' 파일의 실제 내용은 SDS(GCK12H_SDS_EN_5.5)로 별도 'SDS' 파일과 동일하나, SDS Section 3에 성분·CAS·농도가 기재되어 Composition 근거로는 유효. Alcohol Free 문서는 '충전 후 뚜껑 부착 시 뚜껑 안쪽에 알코올을 분사한다'는 사실을 함께 밝힌 점이 투명함.",
           country:"인도네시아(제조: PT Lautan Ajinomoto Fine Ingredients, Kawasan Industri Greenland Batavia, Cikarang Pusat Bekasi Jawa Barat) — Origin(country) 문서에도 GCK-12H는 Indonesia, 자매품 ACS-12는 Japan으로 구분 명시", views:0, regs:{}, fileCount:30,
           detail:{
-            code:"611494", classification:"아미노산계 계면활성제(세정제)", hsCode:null, packaging:null,
+            code:"611494", dir:"(611494) AMILITE GCK-12H", classification:"아미노산계 계면활성제(세정제)", hsCode:null, packaging:null,
             specTable:[
                 {item:"성상",spec:"담황색~황색 액체, 약간의 특징적 냄새"},{item:"확인시험",spec:"적외분광광도법·가스크로마토그래피·칼륨염 시험 적합"},{item:"투과율",spec:"60% 이상(430nm)"},{item:"pH",spec:"8.0~9.0(원액, 20℃)"},
                 {item:"중금속(Pb)",spec:"20ppm 이하"},{item:"비소(As2O3)",spec:"2ppm 이하"},{item:"질소함량",spec:"1.4~1.9%"},{item:"함량",spec:"29~35%"},{item:"증발잔류물 중 지방산 함량",spec:"25~35%"},{item:"총생균수",spec:"100 cfu/mL 이하"}
@@ -10048,7 +10141,7 @@ Associate General Manager 서명.` },
           restrict:"dsm-firmenich 3번째 원료(611079·611082와 동일 TD 체계, 11개 파일명 중복). **611079·611082와 달리 할랄 인증서 파일이 폴더에 없음** — Technical Dossier에는 '할랄 인증서/선언서 보유 가능'으로 표시되어 있으나 실제 문서가 없어 HALAL은 미보유(X). **원산지가 중국(PR of China)**으로 611079(스위스)·611082(독일)와 달라 같은 dsm-firmenich라도 제품별 제조거점이 상이함을 재확인. **ISO16128 자연유래지수가 1.00**으로 611079(0.00)·611082(0.9997)와 또 다름 — 원료가 발효 전환(bioconversion) 유래여서 완전 자연유래로 산출됨. TD 식품알레르겐(글루텐·견과류)은 'Not applicable', 에탄올은 'Not expected and not determined'이라 Gluten Free·Nut Free·Alcohol Free는 611079·611082와 동일 기준으로 check. 'Fragrance Allergen Statement' 파일도 실제 내용은 TD이고 26종/81종 목록 대조가 없어 Allergen 두 항목 모두 check. 'IMPURITIY' 파일의 실제 내용은 Residual Solvent Statement(메탄올 3000mg/kg 이하)로, 611079(톨루엔·피리딘)·611082(ICH 가이드라인 준수)와 또 다른 형태.",
           country:"중국(Technical Dossier 'Origin: PR of China') — 판매법인 dsm-firmenich Switzerland Ltd, COA 발행 DSM Nutritional Products Ltd(스위스 Kaiseraugst)", views:0, regs:{}, fileCount:32,
           detail:{
-            code:"611497", classification:"안정화 비타민C 유도체(인산화 아스코르브산 나트륨염)", hsCode:null, packaging:"5 KG BAG ALU",
+            code:"611497", dir:"(611497) STAY-C® 50", classification:"안정화 비타민C 유도체(인산화 아스코르브산 나트륨염)", hsCode:null, packaging:"5 KG BAG ALU",
             specTable:[
                 {item:"외관",spec:"백색~미백색 분말"},{item:"확인시험",spec:"corresponds"},{item:"순도",spec:"95.0% 이상"},{item:"아스코르빈산 함량",spec:"45.0% 이상"},
                 {item:"10% 수용액",spec:"맑고 거의 무색"},{item:"수분",spec:"8.0~11.0%"},{item:"pH(3% 수용액)",spec:"9.0~10.0"}
@@ -10172,7 +10265,7 @@ Associate General Manager 서명.` },
           restrict:"**최중요: 미세플라스틱 문서가 '미함유 확인서'가 아니라 '해당함을 인정하는' 문서임.** Microplastic statement(2023.06.14) 본문에 'Therefore Microsphere M-305 & M-330 **will correspond to \"microplastic\"**'이라고 명시되어 있고, 이어서 'M-305 & M-330 will correspond to microplastic, **but if the usage is leave on skin product** than we consider it will not correspond with microbeads which is subject to regulation'이라며 leave-on 용도일 때만 규제대상 microbeads가 아니라고 주장. **즉 이 원료는 고체 합성폴리머 미립자로 미세플라스틱에 해당하며(COA 평균입경 5.9μm로 1nm~5mm 범위 내), 문서도 2023.06.14자로 EU 2023/2055(2023.09.25 채택) 이전이라 최신 규정 반영이 안 되어 있음** — Microplastic을 have로 등록할 수 없어 check로 처리하고, rinse-off 제품 적용 가능 여부 및 EU 수출 시 규제 적합성을 담당부서가 반드시 재검토해야 함(610698/610898 SYNTRAN 5905와 유사하나 이 건은 공급사가 해당성을 명시적으로 인정한 점에서 더 명확). HALAL 문서는 'However, MATSUMOTO MICROSPHERE M-330 is **not Halal certified**'라고 비인증을 명시(610916 설악수와 같은 정직한 고지 유형) → check. 'REACH' 파일의 실제 내용은 8개 항목 Letter of Confirmation으로 SVHC 미사용만 확인되고 REACH 등록 내용은 없어 REACH는 X. 폴더 32개 파일 중 30개가 이미지 스캔본이라 전부 Read 비전 판독으로 확인함.",
           country:"일본(Matsumoto Yushi-Seiyaku Co., Ltd., 오사카 야오시 — Certificate of Origin 및 COA 'MADE IN JAPAN' 확인)", views:0, regs:{}, fileCount:32,
           detail:{
-            code:"611502", classification:"합성 폴리머 미립자(메타크릴산메틸 가교폴리머 구상 파우더)", hsCode:null, packaging:null,
+            code:"611502", dir:"(611502) MICROSPHERE M-330", classification:"합성 폴리머 미립자(메타크릴산메틸 가교폴리머 구상 파우더)", hsCode:null, packaging:null,
             specTable:[
                 {item:"pH",spec:"5.0~7.0(10% 슬러리, MYS-101)"},{item:"비중",spec:"1.10~1.25(JSQI I)"},{item:"수분",spec:"2.0% 이하(JSQI)"},{item:"회분",spec:"5.0% 이하(JSQI II)"},
                 {item:"비소",spec:"2ppm 이하(JSQI III)"},{item:"평균입경",spec:"4.0~8.0μm(K-1028)"},{item:"흡유량",spec:"40~70 ml/100g(K-1039, 올레산)"},{item:"잔류모노머(MMA)",spec:"50ppm 이하(JSQI, n-헥산)"}
@@ -10367,7 +10460,7 @@ Yasuyuki Nomura, General Manager. (동일 일자의 'Statement of Prop65' 파일
           restrict:"**최중요: 사내 43종 체크리스트와 폴더 실물 간 대규모 불일치.** 동봉된 '원료 필수 서류 리스트 - Pollustop.xlsx'는 43종 중 34종을 '취합여부 O(최신본)'으로 표기했으나, **폴더에 실제 존재하는 문서는 9개 PDF뿐**이며 Animal Free·Non Animal Test·GMO·Nano·TSE·BSE·CMR·RSPO·VEGAN·REACH·CITES·Allergen(26/81+)·IFRA·ISO16128·Heavy Metal·Impurity·Proposition 65·EUDR·Nut Free·Gluten Free·PFAS·미세플라스틱 등 **22개 항목은 O로 표기되었으나 폴더에 해당 문서가 없음** — 체크리스트 표기만 믿고 보유로 처리할 수 없어 전부 미보유(X)로 등록했으며, 담당부서가 실제 서류를 수령했는지 재확인하고 미수령분은 공급사에 재요청해야 함(610448 GARDENIA RED에 이은 두 번째 사내 체크리스트 동봉 사례이나 불일치 규모가 훨씬 큼). **MSDS·SDS의 독성시험 데이터가 전부 다른 제품(GLYCOFILM® AC085)으로 시험한 결과**임을 각주로 명시하고 있어 본 원료 자체의 독성 실측자료는 없음. **NMPA는 제조사 방침상 서류 공유 불가**로 등록번호(126513-03927-7559)만 체크리스트에 기재됨. 국내 공급처가 MSDS(세일인터내쇼날)와 체크리스트(이스트힐㈜)에 서로 다르게 기재되어 유통경로 확인 필요. '요약자료 2025'는 국내 유통사가 작성한 요약본으로 'Vegan/Halal/China compliant/REACH' 준수를 표기하나 **문서 스스로 '일부 오류가 있을 수 있으며 내용에 대한 책임을 지지 않는다'고 명시**하므로 판정 근거로 사용하지 않았음(이 중 HALAL만 정식 인증서로 별도 확인됨).",
           country:"프랑스(SOLABIA, 생산공장 Beauvais — COA 발행지 및 SDS 공급자 주소로 확인)", views:0, regs:{}, fileCount:10,
           detail:{
-            code:"611508", classification:"음이온성 다당류(Biosaccharide Gum-4) 필름형성 항오염 활성물", hsCode:"3913.90.9000(사내 체크리스트 기재값 — 별도 증빙서류 없음)", packaging:"Drum 5kg(AC145KC) / Drum 25kg(AC145KF) — 할랄 인증서 첨부 품목표 및 COA 기준",
+            code:"611508", dir:"(611508) Pollustop", classification:"음이온성 다당류(Biosaccharide Gum-4) 필름형성 항오염 활성물", hsCode:"3913.90.9000(사내 체크리스트 기재값 — 별도 증빙서류 없음)", packaging:"Drum 5kg(AC145KC) / Drum 25kg(AC145KF) — 할랄 인증서 첨부 품목표 및 COA 기준",
             specTable:[
                 {item:"성상(Appearance)",spec:"점성 용액(경미한 침전 가능)"},{item:"색상(Color)",spec:"유백색(Opalescent)"},{item:"냄새(Odor)",spec:"특이취"},
                 {item:"pH",spec:"6.5 ~ 7.5"},{item:"점도(Viscosity)",spec:"500 ~ 1500 cp"},{item:"건조물(Dry matter)",spec:"1.4 ~ 2.2 %"},{item:"염화물(Chlorides, as NaCl)",spec:"0.3 % 이하"},
@@ -10554,7 +10647,7 @@ Updated: 12.10.2015. Produced & Commercialized by SOLABIA - SOLABIA Group, 29 Ru
           restrict:"**폴더 내 문서가 COA 1건뿐**이라 원료의 INCI·CAS·기능·조성을 확인할 수 있는 자료가 전무함(610380 EUMULGIN SG, 610586 LACTIC ACID, 610649 MONOPOL PEG-1500(S), 610813 Pollushield, 611053 TRYLAGEN PCB과 같은 극빈 유형). 다만 이들과 달리 **COA 자체는 4페이지 분량으로 시험항목 11종의 실측치와 유효기한·RSPO 인증번호까지 담고 있어 정보 밀도는 높음**. **COA 4페이지의 지속가능성 인증서 목록에 'RSPO CERTIFICATE (MB) — CU-RSPO SCC-832644 (MB)'가 해당 로트(K25107C241)에 대해 기재되어 있으나 인증서 원본은 폴더에 없어 RSPO는 확인필요로 처리**(610813 Pollushield COA의 RSPO 서술과 동일 유형). 제품명 EUMULGIN은 BASF 유화제 계열 트레이드네임이나 **INCI를 추정 등록하지 않고 미확정으로 남김**(610380 EUMULGIN SG와 동일 원칙). 나머지 42종 서류는 폴더에 없어 담당부서의 서류 확보가 필요함.",
           country:"중국(BASF Care Chemicals (Shanghai) Co.,Ltd — COA에 'Manufacturing Location: CN, 201512 Shanghai, No.2449 West Ban Qiao Road, Jinshan' 명시)", views:0, regs:{}, fileCount:1,
           detail:{
-            code:"611533", classification:null, hsCode:null, packaging:"25KG Woven plastic bags(COA 기재)",
+            code:"611533", dir:"(611533) EUMULGIN B2", classification:null, hsCode:null, packaging:"25KG Woven plastic bags(COA 기재)",
             specTable:[
                 {item:"외관(실온) / 93000601",spec:"표준품과 일치(Corresponds to the standard)"},
                 {item:"냄새(실온) / 93000701",spec:"표준품과 일치(Corresponds to the standard)"},
@@ -10631,7 +10724,7 @@ Material 50837723 | Order 6012717368 000010 | Delivery 6214785753 000010 | **Bat
           restrict:"**원료가 팜핵유(Palm kernel oil, Elaeis guineensis) 유래임이 Details of Origin·ISO 16128 문서로 명확히 확인되나 RSPO 인증서 원본과 EUDR 관련 서류가 폴더에 없음** — COA 3페이지에 로트별 'RSPO CERTIFICATE (MB) INTERTEK-RSPO-0209769 (MB)'가 기재되어 있어 인증 사실 자체는 확인되지만 인증서 본문(유효기간·인증범위)을 볼 수 없어 RSPO는 확인필요로 처리했고, EUDR (EU)2023/1115 규제 7대 품목에 팜유가 포함되므로 EUDR도 확인필요로 등록함(610559 KALCOHOL 6870 P와 동일 유형). **파일명 오기재 — 'GMO_2023.07.27' 파일의 실제 내용은 'Information for Vegan Assessment' 문서이며, 같은 문서가 'Non Animal Test'·'VEGAN'·'VEGAN_Animal Free' 파일명으로도 배포되어 4개 파일이 완전히 동일함**(BASF PRD 30527956, Revision 4.1). 이 문서는 스스로 '특정 Vegan 라벨과의 적합성은 의도되지 않았으며 화장품 제조사의 책임'이라고 밝히고 있어 VEGAN은 확인필요로 하향했으며(611023 Kao와 동일 원칙), GMO 항목은 이 문서가 아니라 Details of Origin·ISO 16128의 GM Status 진술을 근거로 판정했다. Details of Origin은 '**EU에서 제조된 제품에만 배타적으로 적용된다**'는 단서가 있는데 COA 제조지가 독일 뒤셀도르프로 확인되어 적용 범위가 일치함.",
           country:"독일(BASF SE — COA에 'Manufacturing Location: DE, 40589 Düsseldorf, Henkelstraße 67' 명시)", views:0, regs:{}, fileCount:8,
           detail:{
-            code:"611534", classification:"고급 지방알코올(세틸알코올, 1-Hexadecanol)", hsCode:null, packaging:"20KG Plastic film bags(COA 기재)",
+            code:"611534", dir:"(611534) LANETTE 16", classification:"고급 지방알코올(세틸알코올, 1-Hexadecanol)", hsCode:null, packaging:"20KG Plastic film bags(COA 기재)",
             specTable:[
                 {item:"외관(APPEARANCE) / 93000601",spec:"PASS"},{item:"냄새(ODOR) / 93000701",spec:"PASS"},
                 {item:"산가 / ISO 660",spec:"0.10 mgKOH/g 이하"},{item:"검화가 / ISO 3657",spec:"0.50 mgKOH/g 이하"},
@@ -10774,7 +10867,7 @@ BASF 표준 면책(명시적·묵시적 보증 없음), 컴퓨터 생성 문서�
           restrict:"**HALAL 확인 필요 — 인증서 원본이 폴더에 없고 'HALAL CERTIFICATION STATEMENT'라는 공급사 자체 진술서만 있음.** 본문이 '제조사가 이슬람법에 따라 할랄 인증을 받았으며 **원본 인증서는 2026년 7월 8일까지 유효하다**'고만 밝히고 있어 인증기관·인증번호를 확인할 수 없으며, **문서가 스스로 명시한 유효기한(2026.07.08)이 이미 경과한 상태**여서 갱신본 확보가 필요함. 같은 내용이 'Halal Certification Statement'와 'Halal' 두 파일명으로 중복 배포되었고, 'Cross Contamination Statement'도 '할랄 감사에서 교차오염 위험이 다뤄진다'는 취지로 할랄 인증을 전제하고 있어 함께 갱신 확인이 필요하다. **REACH는 등록번호가 아니라 '폴리머는 REACH 등록 의무 대상이 아니므로 면제'라는 면제 주장**이며(EC 987/2008 및 1907/2006 인용), 폴리머 면제 자체는 REACH상 실재하는 규정이나 등록 증빙은 아니므로 확인필요로 등록함. **파일명 오기재 2건** — ①'Annex 14' 파일의 실제 내용은 중국 원료 안전정보 보고서(보고코드 003086-00713-1000)로 610559·610985·611025에 이은 **네 번째 'Annex14=NMPA' 오기재** ②'Animal Free' 파일의 실제 내용은 'PORK FREE STATEMENT'이며 Pork Free 파일과 동일(본문에 동물유래 원료 미함유가 명시되어 Animal Free 근거로는 유효). 'Nut Free' 파일도 Food Allergen Statement와 동일 문서다.",
           country:"유럽연합(Origin Statement에 'has its origin in the European Union'으로 명시 — **국가가 아닌 EU 지역 단위로만 기재**. 공급사 소재지는 독일 함부르크)", views:0, regs:{}, fileCount:35,
           detail:{
-            code:"611587", classification:"천연 다당류 점증제(잔탄검, 미생물 발효산물)", hsCode:null, packaging:"15kg 카드보드 박스 + 내부 비닐백(TDS 3.2)",
+            code:"611587", dir:"(611587) Cosphaderm X34", classification:"천연 다당류 점증제(잔탄검, 미생물 발효산물)", hsCode:null, packaging:"15kg 카드보드 박스 + 내부 비닐백(TDS 3.2)",
             specTable:[
                 {item:"점도(Viscosity) / TM A-007",spec:"1300 ~ 1700 cP"},
                 {item:"건조감량(Loss on drying) / TM A-009",spec:"15.0 % 이하"},
@@ -10992,7 +11085,7 @@ Hamburg, 15.04.2026. i.A. Dr. Soheil Pezeshki, Regulatory Affairs Manager.
           restrict:"**최중요: 공급사가 미세플라스틱과 나노물질 함유를 스스로 명시한 원료.** Technical and Regulatory Dossier에 ①'**This product contains microplastics as defined under Regulation (EU) 2023/2055: - Methyl Methacrylate Crosspolymer**' ②'**This product contains nanomaterials as defined under Regulation (EC) No 1223/2009: - Titanium Dioxide (nano)**'라고 함유를 확인하고 있어 두 항목 모두 미함유 확인으로 등록할 수 없음 — **EU 수출 시 나노물질 표기의무(성분명 뒤 '(nano)' 병기) 및 CPNP 나노 사전신고 의무, 미세플라스틱 규제(2023/2055) 적용 가능성을 담당부서가 반드시 검토해야 함.** 611502 MICROSPHERE M-330과 동일한 Methyl Methacrylate Crosspolymer(CAS 25777-71-3)가 1% 배합된 데서 비롯된 사안으로 두 원료를 연계 관리할 필요가 있음. **중금속 규격이 문서 간 불일치** — Dossier(2026.01.02)는 납 ≤10ppm·비소 ≤1ppm·안티몬 ≤2ppm인 반면 **COA(2025.06.24)와 Heavy Metals Content Statement(2025.04.21)는 납 ≤20ppm·비소 ≤10ppm·안티몬 ≤10ppm**으로 3개 항목이 서로 다르며, 실제 출하 규격(COA)이 Dossier보다 완화된 값이므로 어느 쪽이 유효한 관리기준인지 확인이 필요함. HALAL·KOSHER는 '가이드라인을 따르나 **인증받지 않음(not Halal certified / not Kosher certified)**'으로 명시되어 확인필요. REACH는 등록이 아니라 '**연간 1톤 미만이라 면제(Exempted, Less than 1 ton per year)**' 상태. RSPO는 '**팜유 또는 팜유 유래 물질을 함유하며 사용된 팜 유래 원료(Polysorbate 60)는 RSPO 인증품**'이라 진술하나 인증서 원본이 없음. Dossier의 식품알레르겐 항목이 **규정번호를 'Regulation (EU) No 1160/2011'로 오기**(정확한 번호는 1169/2011).",
           country:"대한민국(NANOGEN CO., LTD. 경기 안산 — Dossier에 'Country of Manufacture: Republic of Korea' 명시)", views:0, regs:{}, fileCount:30,
           detail:{
-            code:"611671", classification:"이산화티타늄 분산체(자외선차단용 무기 자외선차단제 프리믹스)", hsCode:null, packaging:null,
+            code:"611671", dir:"(611671) WHITE T-50H", classification:"이산화티타늄 분산체(자외선차단용 무기 자외선차단제 프리믹스)", hsCode:null, packaging:null,
             composition:[
                 {item:"Titanium Dioxide", cas:"13463-67-7", pct:"46.6% (Mineral)"},
                 {item:"Water", cas:"7732-18-5", pct:"28.4%"},
@@ -11217,7 +11310,7 @@ Certified by Chunji Kim, Senior Researcher(서명).
           restrict:"**최중요: 원료 공급사가 '동물유래 미사용'이라 하면서도 바이오매스 나프타 경로로 동물유가 유입될 수 있음을 자진 공개함.** BSE/TSE & Animal derived statement에 '이소스테아르산·글리세린·PCA는 동물 원료를 의도적으로 사용하지 않는다'고 한 뒤, '**에틸렌옥사이드는 바이오매스 유래 성분을 함유한다 — 에틸렌 제조공정에 기존 석유계 나프타에 더해 폐식용유·동식물유 등에서 유래한 바이오매스 나프타를 사용하기 시작했으며, 동물유가 포함된 바이오매스 나프타로 만든 원료는 각종 요건을 충족하면 BSE/TSE 규제 범위 밖이라는 의견을 바이오매스 나프타 제조사로부터 원료 제조사를 통해 확인했다**'고 기재 — 즉 **동물유 유입 가능성을 배제하지 않고 제3자 의견만 전달**하므로 Animal Free·TSE·BSE·VEGAN 4개 항목을 보유로 등록할 수 없음. **RSPO는 미인증이 확정된 사례** — 'About RSPO Product **Unauthenticated RSPO**'라는 표제로 '본 제품(GPI-25)은 RSPO 미인증품이고 **RSPO 인증품은 별도 품번 PYROTER GPI-25MB**이며 두 제품의 유일한 차이는 제품명으로 생산지·제조공정·품질은 동일하다'고 명시(원료에 팜유 유래 글리세린 사용) — 서류 확보가 아니라 **RSPO 인증품(GPI-25MB)으로의 품번 전환을 검토**해야 하는 사안. **REACH는 자사 물량이 등록에 미포함**임이 명시됨('The volume for your company is not included in REACH registration') — 폴리머라 등록 불필요하나 모노머 중 DL-피롤리돈카르복실산은 미등록 상태. GMO는 PCA가 **Non-separation(비분리)**이고 에틸렌옥사이드에 GMO 유래 성분이 포함될 수 있다고 인정(611023 Kao 옥수수 비분리와 동일 유형). HALAL은 '**본 제품은 할랄 인증을 받지 않았다**'고 명시. **파일명 오기재 — 'Flow Chart' 파일의 실제 내용이 제조소 증명서(Manufacturing site certificate)로 Origin(Country) 파일과 동일 문서**이며, 제조공정 순서는 별도 공정도가 아니라 NMPA 문서에 1행으로만 기재되어 있음.",
           country:"일본(Nihon Emulsion Co., Ltd. — 제조소 증명서에 '2-5-4 Hirosedai Sayama-Shi Saitama 350-1328 Japan' 명시, COA에도 동일 제조소 기재)", views:0, regs:{}, fileCount:32,
           detail:{
-            code:"611729", classification:"아미노산 유래 비이온 계면활성제(가용화제) — Polyoxyethylene Glyceryl Monopyroglutamate Monoisostearate", hsCode:"3402.42 (일본 관세율표 2026년 1월판 기준, 공급사 발행 CERTIFICATE)", packaging:null,
+            code:"611729", dir:"(611729) PYROTER GPI-25", classification:"아미노산 유래 비이온 계면활성제(가용화제) — Polyoxyethylene Glyceryl Monopyroglutamate Monoisostearate", hsCode:"3402.42 (일본 관세율표 2026년 1월판 기준, 공급사 발행 CERTIFICATE)", packaging:null,
             composition:[
                 {item:"Glycereth-25 PCA Isostearate", cas:null, pct:"100%"}
             ],
@@ -11506,7 +11599,7 @@ In the production process of ethylene, the raw material for ethylene oxide, in a
           restrict:"**REACH 미등록이 명시된 사례** — REACH Statement에 '**제품의 각 성분은 유럽 판매량이 1톤을 초과하지 않으므로 EU REACH(1907/2006)에 등록되어 있지 않다**'고 기재되어 있어 등록 사실이 없음이 확정적. EU 수출 물량이 늘 경우 등록 의무가 발생할 수 있으므로 담당부서 확인 필요. **HALAL은 인증서가 아닌 자체 진술서** — 동물성 제품·에틸알코올 미함유, 식물·합성 유래, 설비 및 보관 분리까지 상세히 기술하나 인증기관·인증번호가 없음. **RSPO는 팜유 유래 성분 함유를 배합비까지 공개하며 인증을 주장** — '본 제품은 팜유 유래 **Isopropyl myristate(CAS 110-27-0)를 5.5632% 함유하며 이는 RSPO 인증품**'이라 명시했으나 인증서 원본이 폴더에 없어 확인 필요이며, 팜유 함유가 확정적이므로 EUDR도 함께 확인해야 함. **ISO 16128 문서에 문구와 수치의 불일치** — '본 제품은 ISO 16128-1:2016 제3항의 정의에 따라 **derived-natural origin(자연유래)**임을 증명한다'고 서술하면서 표의 Natural index·Natural origin index·Organic index·Organic origin index가 **전부 0**으로 기재되어 있어 서로 맞지 않음. **보관온도가 문서 간 상이** — SPEC(2021.12.16)은 1~30℃, COA(2024.09.10)는 1~35℃로 상한이 다름. 알레르겐 데이터에 **Hexamethylindanopyran 10.3316%, Linalyl Acetate 12.6316%, Geranyl Acetate 0.1053%, Rose Ketones 0.0921%가 실제 검출**되므로 완제품 배합 시 표시의무 검토가 필요하다.",
           country:"대한민국(Manufacturer's Certificate에 'ORIGIN: Rep. of KOREA', 제조소 경기 안성시 미양면 안성맞춤대로 474-22 명시)", views:0, regs:{}, fileCount:18,
           detail:{
-            code:"611811", classification:"향료 조합물(Fragrance Compound) — 프루티 플로럴 머스크", hsCode:"3302.90-0000(Manufacturer's Certificate 기재)", packaging:null,
+            code:"611811", dir:"(611811) BODY CARE B75368", classification:"향료 조합물(Fragrance Compound) — 프루티 플로럴 머스크", hsCode:"3302.90-0000(Manufacturer's Certificate 기재)", packaging:null,
             specTable:[
                 {item:"색상(Color)",spec:"담황색 ~ 황색(Pale yellow to Yellow)"},
                 {item:"성상(Appearance)",spec:"액상(Liquid)"},
@@ -11716,7 +11809,7 @@ Safety Manager / Quality management / Regulatory officer Kim, Deog-Joon.
           restrict:"**파일명 오기재 — 'Halal statement_20170426' 파일에 할랄에 관한 내용이 전혀 없음.** 본문은 '본 제품은 Vantage Specialty Chemicals **일리노이주 Gurnee 공장**에서 제조되며 Gurnee 브랜드명 Lumulse HCO-40과 동일 제품으로 공정 전체에서 동일하게 제조·처리된다'는 **제조소 및 제품 동등성 안내문**이다. HALAL 판정은 이 파일이 아니라 Technical and Regulatory Dossier의 '**본 제품은 할랄 인증이 없으며 할랄 인증 시설에서 제조되지 않는다**'는 진술을 근거로 확인필요 처리함. **중금속은 실측·한도가 전혀 없음** — Dossier에 '중금속은 의도적으로 첨가되지 않으며, **규격에 포함되지 않으므로 이 물질들의 존재를 분석하지 않는다**'고 기재되어 있고 COA 시험 목록에도 중금속이 없다. **미세플라스틱 문서는 2022.06.22자로 EU 규정 확정 이전** — 결론은 '액상~반고체 제품으로 각질제거제가 아닌 유화제·가용화제이며 PEG화 식물유라 생분해성이므로 미국·프랑스·**EU 초안(draft proposal)** 정의에 해당하지 않음'인데, **(EU) 2023/2055 확정본(2023.09.25 채택) 기준 재확인이 필요**하다. 'composition, solvents, heavy metals, dioxane stmt' 문서는 본문 후반부에 **대상 제품을 'PEG-60 Hydrogenated Castor Oil'로 잘못 기재**(본 원료는 PEG-40)했고 발행 주체가 구 Lipo Chemicals 명의이며 개정일도 파일명(2017.07.31)과 달리 본문에는 2014.07.31로 되어 있다. **공급사 자체 체크리스트(xlsx)와 실제 보유가 불일치** — 체크리스트는 추출부위확인서·Annex 14·Allergen(81+)를 O로 표기했으나 폴더 내 문서에서 확인할 수 없어 미보유로 등록했고, 반대로 SVHC는 X로 표기되어 있으나 실제 Dossier에 근거가 있어 보유로 등록했다.",
           country:"미국(Technical and Regulatory Dossier에 'COUNTRY OF ORIGIN: USA' 명시, 제조소는 일리노이주 Gurnee 공장)", views:0, regs:{}, fileCount:14,
           detail:{
-            code:"611828", classification:"PEG화 식물유 비이온 계면활성제(가용화제·유화제) — 수소화 피마자유에 에틸렌옥사이드 평균 40몰 부가", hsCode:null, packaging:"450 lb 스틸 드럼(COA 기재: DRUM 450# NET STEEL)",
+            code:"611828", dir:"(611828) Lipocol HCO-40", classification:"PEG화 식물유 비이온 계면활성제(가용화제·유화제) — 수소화 피마자유에 에틸렌옥사이드 평균 40몰 부가", hsCode:null, packaging:"450 lb 스틸 드럼(COA 기재: DRUM 450# NET STEEL)",
             composition:[
                 {item:"PEG-40 Hydrogenated Castor Oil", cas:"61788-85-0", pct:"100%(단일 화학물질)"}
             ],
@@ -11931,7 +12024,7 @@ Recommended Use: **Cosmetics** / Uses advised against: **NOT FOR USE AS A FOOD I
           restrict:"**611494 AMILITE GCK-12H의 자매품으로 동일한 문제가 반복됨.** ①**'REACH' 파일과 'SVHC' 파일이 완전히 동일한 'SVHC (REACH)' 문서**로 REACH 등록에 관한 내용이 전무 → REACH 미보유, SVHC만 보유 ②**EUDR 문서가 규정번호를 'Regulation (EU)2023/1155'로 오기**(정확한 번호는 2023/1115)하면서 '규정 범위에 해당하지 않는다'고 선언하는데, **같은 폴더의 Certificate of Origin에는 Coco Fatty Acid가 'Plant Palm(인도네시아·말레이시아)' 유래로 명시**되어 있어 팜유가 EUDR 7대 품목인 점과 정면으로 어긋남 → EUDR·RSPO 모두 확인필요 ③**HALAL 관련 문서가 폴더에 아예 없고**, 무동물유래 선언서 2건(Animal Free·Vegan, 동일 문서)과 별도 statement 모두 대문자로 '**THIS STATEMENT DOES NOT GUARANTEE THAT THE PRODUCT IS HALAL / NOT FOR HALAL CERTIFICATION**'이라 할랄을 명시적으로 부정 → HALAL 미보유 ④TSE/BSE 전용 문서가 없어 미보유(무동물유래 선언서로 추론하지 않음). **포장단위 한정 조건 주의** — 260422자 statement가 '**본 진술은 200kg 포장에만 유효하며 18kg/1000kg 포장에는 유효하지 않다**'고 명시하고 있어 입고 포장단위 확인이 필요하다. **611494와 다른 점은 제조지** — GCK-12H는 인도네시아, 본 ACS-12는 **일본**으로 제조소가 다르며(Manufacturing site 문서로 확인), COA 유효기간도 5년(2025.07.13 → 2030.07.13)으로 길다. Alcohol Free는 '알코올 미사용, **다만 충전 후 뚜껑 부착 시 뚜껑 안쪽에 알코올을 분사**', PFAS는 'PFAS 미사용, **다만 PTFE가 개스킷 일반 소재이며 제조설비에 그런 개스킷이 있음**'으로 예외를 자진 공개한 점은 신뢰도가 높다.",
           country:"일본(Manufacturing site 확인서에 'AMILITE™ ACS-12 — Japan' 명시. 자매품 AMILITE™ GCK-12H는 Indonesia로 구분 기재)", views:0, regs:{}, fileCount:31,
           detail:{
-            code:"611846", classification:"아미노산계 음이온 계면활성제(L-알라닌 유래 마일드 세정제)", hsCode:null, packaging:"200kg / 18kg / 1000kg (1차 포장재 PE) — **일부 확인서는 200kg 포장에만 유효**",
+            code:"611846", dir:"(611846) AMILITE ACS-12", classification:"아미노산계 음이온 계면활성제(L-알라닌 유래 마일드 세정제)", hsCode:null, packaging:"200kg / 18kg / 1000kg (1차 포장재 PE) — **일부 확인서는 200kg 포장에만 유효**",
             composition:[
                 {item:"Sodium Cocoyl Alaninate (椰油酰氨基丙酸钠)", cas:null, pct:"30%"},
                 {item:"Water (水)", cas:null, pct:"70%"}
@@ -12169,7 +12262,7 @@ Satoshi Tomita, Associate General Manager. July 1, 2024.
           restrict:"**폴더 내 문서가 COA·MSDS·Details of origin 3건뿐**이라 43종 대부분이 미보유다. **원료에 팜핵유(Palm kernel, Elaeis guineensis)가 포함**되어 있음이 Details of origin으로 확인되고 COA 3페이지에 로트별 **RSPO CERTIFICATE (MB) CU-RSPO SCC-832644**가 기재되어 있으나 인증서 원본이 없어 RSPO는 확인필요이며, 팜유가 EUDR 7대 품목이므로 **EUDR도 확인필요**로 등록했다(610559 KALCOHOL·611534 LANETTE 16과 동일 유형). **INCI명이 어느 문서에도 기재되어 있지 않음** — MSDS 3항의 화학명은 'Poly(oxy-1,2-ethanediyl), α-octadecyl-ω-hydroxy'(CAS 9005-00-9, 75~100%)이고 제품명이 BASF 트레이드네임이라 INCI를 추정 등록하지 않았다(610380 EUMULGIN SG·611533 EUMULGIN B2와 동일 원칙). **자매품 611926 EUMULGIN S2와 CAS가 9005-00-9로 동일하나 물성·GHS 분류·제조지가 모두 다름** — 본 S21은 중국 상하이 제조·고체 펠릿·무색이고 GHS가 H320(눈 자극)+H401(수생생물 독성)인 반면, S2는 독일 뒤셀도르프 제조·페이스트 프릴·백색이며 H402+H411(장기 수생독성)로 그림문자가 붙는다. **동일 CAS라도 EO 부가몰수가 달라 제품이 다르므로 서류를 개별 대조해야 한다.** COA 유효기간이 제조일(2025.09.28)로부터 약 1년 6개월(2027.03.22)로 짧은 편이다.",
           country:"중국(COA에 'Manufacturing Location: CN, 201512 Shanghai, No.2449 West Ban Qiao Road, Jinshan' 명시)", views:0, regs:{}, fileCount:3,
           detail:{
-            code:"611902", classification:"에톡실화 스테아릴알코올 비이온 유화제(폴리옥시에틸렌 스테아릴에테르 계열)", hsCode:null, packaging:"25KG Woven plastic bags(COA 기재)",
+            code:"611902", dir:"(611902) EUMULGIN S21", classification:"에톡실화 스테아릴알코올 비이온 유화제(폴리옥시에틸렌 스테아릴에테르 계열)", hsCode:null, packaging:"25KG Woven plastic bags(COA 기재)",
             specTable:[
                 {item:"외관(실온) / 육안 대조",spec:"표준품과 일치(Corresponds to the standard)"},
                 {item:"pH (5% 수용액, 20℃) / ISO 4316",spec:"6.0 ~ 7.5"},
@@ -12264,7 +12357,7 @@ Hazards not otherwise classified: 보관·취급 규정을 준수하면 특별�
           restrict:"**폴더 내 문서가 COA·MSDS·Details of origin 3건뿐**이라 43종 대부분이 미보유다. **원료에 팜핵유(Palm kernel, Elaeis guineensis)가 포함**되어 있음이 Details of origin으로 확인되고 COA 2페이지에 로트별 **RSPO CERTIFICATE (MB) INTERTEK-RSPO-0209769**가 기재되어 있으나 인증서 원본이 없어 RSPO는 확인필요이며, 팜유가 EUDR 7대 품목이므로 **EUDR도 확인필요**로 등록했다. **INCI명이 어느 문서에도 기재되어 있지 않음** — MSDS 3항의 화학명은 '(OLIGOMER) Octadecan-1-ol, ethoxylated (> 1 < 2.5 mol EO)'(CAS 9005-00-9, 75~100%)로 **EO 부가몰수가 1~2.5몰임이 명시**되어 있으나 INCI 표기가 없어 추정 등록하지 않았다. **환경 유해성이 자매품보다 높음** — GHS 분류가 **H402(수생생물에 유해) + H411(장기적 영향에 의해 수생생물에 독성)**으로 그림문자가 부착되며, 611902 EUMULGIN S21(H320+H401, 그림문자 없음)보다 환경 유해성 등급이 높아 **폐수 관리·환경 배출 통제에 주의**가 필요하다. 자매품 611902와 CAS가 동일하나 제조지(독일 vs 중국)·성상(페이스트 프릴 백색 vs 고체 펠릿 무색)·수산기값 규격(150~170 vs 44~52)이 모두 달라 개별 관리해야 한다.",
           country:"독일(COA에 'Manufacturing Location: DE, 40589 Düsseldorf, Henkelstrasse 67' 명시)", views:0, regs:{}, fileCount:3,
           detail:{
-            code:"611926", classification:"에톡실화 스테아릴알코올 비이온 유화제(EO 1~2.5몰 부가 올리고머)", hsCode:null, packaging:"25KG Plastic drums(COA 기재)",
+            code:"611926", dir:"(611926) EUMULGIN S2", classification:"에톡실화 스테아릴알코올 비이온 유화제(EO 1~2.5몰 부가 올리고머)", hsCode:null, packaging:"25KG Plastic drums(COA 기재)",
             specTable:[
                 {item:"외관(APPEARANCE) / 93000601",spec:"PASS"},
                 {item:"수산기값 / ISO 4326",spec:"150.0 ~ 170.0 mgKOH/g"},
@@ -12361,7 +12454,7 @@ Hazards not otherwise classified: 보관·취급 규정을 준수하면 특별�
           restrict:"**IFRA 적합증명서와 향료 알레르겐 데이터가 없음** — 같은 공급사의 611811 BODY CARE B75368은 IFRA 51차 적합증명서(카테고리별 최대 사용농도)와 (EU) 2023/1545 기준 알레르겐 83종 xlsx를 갖추고 있으나, 본 원료 폴더에는 두 가지가 모두 없다. **레몬·그레이프프루트 등 감귤계 향조 제품이라 향료 알레르겐(리모넨·시트랄·리날룰 등) 함량 확인이 특히 필요하므로 담당부서가 IFRA 증명서와 알레르겐 데이터를 우선 확보해야 한다.** REACH 관련 문서도 없다(611811은 '유럽 판매량 1톤 미만이라 미등록'이라는 확인서라도 있었음). **RSPO는 팜유 유래 성분 함유를 배합비까지 공개하며 인증을 주장** — '본 제품은 팜유 유래 **Isopropyl myristate(CAS 110-27-0)를 0.1878% 함유**하며 이는 RSPO 인증품'이라 명시했으나 인증서 원본이 없어 확인필요이며, 팜유 함유가 확정적이므로 EUDR도 함께 확인해야 한다. **HALAL은 인증서가 아닌 자체 진술서**(설비·보관 분리까지 상세하나 인증기관·인증번호 없음). **ISO 16128 문서에 문구와 수치의 불일치가 611811과 동일하게 반복** — '본 제품은 ISO 16128-1:2016 제3항의 정의에 따라 derived-natural origin(자연유래)임을 증명한다'고 서술하면서 표의 4개 지수가 **전부 0**으로 기재되어 서로 맞지 않는다. **보관온도도 문서 간 상이** — SPEC(2026.01.14)은 1~30℃, COA(2024.08.12)는 1~35℃로 상한이 다르다(611811과 동일 패턴). Composition 확인서는 'Fragrance 100.0%'로만 기재되어 CAS·배합비가 없고, 실질적인 성분 정보는 SPEC의 주요 성분 6종 목록에서만 확인된다.",
           country:"대한민국(Manufacturer's Certificate에 'ORIGIN: Rep. of KOREA', 제조소 경기 안성시 미양면 안성맞춤대로 474-22 명시)", views:0, regs:{}, fileCount:21,
           detail:{
-            code:"611877", classification:"향료 조합물(Fragrance Compound) — 시트러스 프루티 플로럴", hsCode:"3302.90-0000(Manufacturer's Certificate 기재)", packaging:null,
+            code:"611877", dir:"(611877) LEMON D24659", classification:"향료 조합물(Fragrance Compound) — 시트러스 프루티 플로럴", hsCode:"3302.90-0000(Manufacturer's Certificate 기재)", packaging:null,
             composition:[
                 {item:"Fragrance(향료 조합물 전체)", cas:null, pct:"100.0%(Certificate of Composition 기재 — CAS·세부 배합비 없음)"},
                 {item:"LINALYL ACETATE", cas:"115-95-7 (FEMA 2636)", pct:"주요 성분(SPEC 기재, 배합비 미공개)"},
@@ -12556,7 +12649,7 @@ CHEMICALS KNOWN TO CAUSE CANCER OR REPRODUCTIVE TOXICITY — Substance(s): **N/A
           restrict:"**정식 3자 할랄 인증서를 실제로 보유한 사례** — Halal Certification Services GmbH(독일 Weidenweg 15) 발행 인증서(문서번호 786389 26-006.252, 발행 2026.02.28, 개정일 2025.01.15)의 제품 목록 **091번(코드 142144)에 DUB VINYL이 포함**되어 있음을 확인했다(610697·610762·611079·611508에 이은 정식 인증 사례). **다만 공급사 자체 체크리스트와 실제 문서가 여러 항목에서 어긋난다** — 체크리스트가 O로 표기한 **Annex 14·EUDR·SVHC·임상자료**는 폴더 내 문서에서 해당 내용을 확인할 수 없어 미보유 또는 비해당으로 등록했고, **Alcohol Free·PORK FREE는 '할랄 인증 받은 원료'라는 사유로 O 표기되어 있으나 두 항목의 전용 진술이 문서에 없어 미보유**로 두었다(할랄 인증이 알코올·돼지 배제를 담보하더라도 전용 문서 없이 보유 처리하지 않는 원칙). 반대로 체크리스트가 X로 표기한 **TSE·BSE·CITES는 실제로는 BSE/TSE Certificate가 존재하고 합성 원료로 CITES 비해당이 확인**되어 각각 보유·비해당으로 정정 등록했다. **Allergen 26종·81종을 체크리스트가 'CDP에 해당되는 규제명 기재가 되어있지 않음'을 사유로 X 처리한 것은 정확한 판단** — CDP는 'Allergens: not expected to be present'라고만 하고 EU 1223/2009 부속서 III의 26종이나 (EU) 2023/1545의 81종을 인용하지 않는다. **생분해도가 약 4.9%로 매우 낮은 점**(CDP 생태자료, 유사물질 문헌값)은 환경 관련 요구가 있는 완제품에 적용할 때 확인이 필요하다.",
           country:"프랑스(CDP에 제조소 'Scoury: 1, route de la creuse, 36300 Ciron, FRANCE' 명시. 다만 제조국을 증명하는 형식의 원산지증명서는 폴더에 없음 — 공급사 체크리스트도 이 항목을 X로 표기)", views:0, regs:{}, fileCount:15,
           detail:{
-            code:"611924", classification:"합성 에스테르 오일(디펜타에리스리톨 폴리에스테르) — 광택제·필름형성제·보조유화제", hsCode:null, packaging:null,
+            code:"611924", dir:"(611924) DUB VINYL", classification:"합성 에스테르 오일(디펜타에리스리톨 폴리에스테르) — 광택제·필름형성제·보조유화제", hsCode:null, packaging:null,
             composition:[
                 {item:"DIPENTAERYTHRITYL PENTAISONONANOATE", cas:"84418-63-3", pct:"INCI 100%(산·알코올 원료 모두 합성 — Synthetic and synthetic)"}
             ],
@@ -12743,7 +12836,7 @@ Applications cosmétiques / Personal care applications 항목 수록.
           restrict:"**최중요: 어류(Fish) 유래 성분이 함유된 것이 공급사 문서로 확정됨.** Certificate of Origin(source)에 **Hydrolyzed Collagen(CAS 73049-73-7)의 유래가 'Fish'로 명시**되어 있고 Composition Sheet상 배합비가 **1.2000%**이므로, **Animal Free·VEGAN·PORK FREE·HALAL은 보유로 등록할 수 없으며 비건·무동물유래를 요구하는 완제품에는 적용할 수 없다.** 어류 유래 콜라겐을 함유하면서도 **TSE/BSE 관련 문서가 폴더에 없는 점**도 확인이 필요하다(어류는 TSE/BSE 대상 축종이 아니나 동물유래 원료로서 관련 서류를 갖추는 것이 통상적). **두 번째 확인사항은 캡슐 제형의 미세플라스틱 해당 여부** — 제품 자체가 'transparent shape with specific color of capsule'인 캡슐 원료이고 제조공정도상 **액상 코아세르베이션(liquid coacervation)으로 캡슐화**하며 조성에 Carbomer(가교 폴리아크릴산)가 포함되어 있는데, **미세플라스틱 관련 문서가 전혀 없어 (EU) 2023/2055 해당 여부를 담당부서가 확인해야 한다**(610698/610898 SYNTRAN 5905와 유사한 유형). **세 번째는 조성에 자외선차단성분 Ethylhexyl Triazone이 0.6% 포함**된 점으로, 국내 화장품 안전기준상 배합한도가 있는 성분이므로 완제품 배합 시 총량 검토가 필요하다. **COA는 2020.06.16 제조 로트(F200616)의 성적서로 유효기한이 2022.06.15로 이미 경과**했으므로 현재 입고 로트의 최신 COA 확보가 필요하다. HS Code와 제조국은 PDF가 아닌 **72바이트 텍스트 파일(HS CODE.txt)**에 'HS Code : 3824.99.9020 / Country Origin : Korea'로만 기재되어 있어, 제조국은 증명서 형식이 아니므로 확인필요로 처리했다.",
           country:"대한민국(HS CODE.txt에 'Country Origin : Korea' 기재, 제조사 ActivON Co., Ltd. 공장은 충북 청주시 청원구 오창읍)", views:0, regs:{}, fileCount:10,
           detail:{
-            code:"611994", classification:"화장품용 캡슐 원료(액상 코아세르베이션 캡슐화 제형)", hsCode:"3824.99.9020(HS CODE.txt 기재)", packaging:null,
+            code:"611994", dir:"(611994) A-CAP Pink(EWG)", classification:"화장품용 캡슐 원료(액상 코아세르베이션 캡슐화 제형)", hsCode:"3824.99.9020(HS CODE.txt 기재)", packaging:null,
             composition:[
                 {item:"Hydrogenated Polydecene", cas:"68037-01-4", pct:"53.8740% (Synthetic)"},
                 {item:"Water", cas:"7732-18-5", pct:"34.3500% (Natural)"},
@@ -12920,7 +13013,7 @@ Issue date: 2024.05.10.
           restrict:"**최중요: IFRA 증명서에 선스크린 사용 금지 단서가 붙어 있음.** 카테고리 3(5.07%)·5.A~5.D(3.83%·3.83%·3.83%·3.33%) 다섯 항목에 모두 '**Do not use as sun screen**'이 명기되어 있어, **자외선차단 기능성 제품에는 배합할 수 없다.** 같은 공급사의 611811·611877 IFRA 증명서에는 없던 단서이므로 완제품 카테고리 결정 시 반드시 확인해야 한다. **알레르겐 실검출 9종 중 Linalyl Acetate가 31.211%로 매우 높음** — (EU) 2023/1545 기준 83종 데이터에서 Linalyl Acetate 31.211%, Dimethyl Phenethyl Acetate 6.2436%, Rose Ketones 0.2871%, Hexamethylindanopyran 0.0974%, Pinene 0.0168%, Beta-Caryophyllene 0.0115%, Geranyl Acetate 0.0103%, Amyl Salicylate 0.0095%, Anethole 0.0042%가 검출되어 **완제품 배합비에 따라 성분표시 의무가 발생할 가능성이 높다**(leave-on 0.001%·rinse-off 0.01% 기준). **국내 화평법 위해성정보 자료가 별도로 첨부된 첫 사례** — 조성 성분인 **Galaxolide(Hexamethylindanopyran, CAS 1222-05-5, 등록번호 04-1805-00135)가 '생태유해성물질'로 분류**되어 있음을 화학물질안전정보(위해성정보) 자료로 확인할 수 있으며, 환경 저감조치로 국소배기장치·대기방지시설이, 인체 저감조치로 호흡기보호구·보안경·보호의·장갑·장화·비상샤워시설이 요구된다. **REACH는 미등록이 명시**('유럽 판매량이 1톤을 초과하지 않아 제품이 EU REACH에 등록되어 있지 않음'). **RSPO는 팜유 유래 Isopropyl myristate를 0.0524% 함유**한다고 배합비까지 공개하며 인증을 주장하나 인증서 원본이 없어 확인필요이고, 팜유 함유가 확정적이므로 EUDR도 함께 확인해야 한다. HALAL은 인증기관 없는 자체 진술서이며, **ISO 16128 문서의 '자연유래임' 서술과 지수 전부 0의 불일치가 611811·611877에 이어 세 번째로 반복**되어 공급사 양식 자체의 문제임이 확실해졌다. 보관온도도 SPEC 1~30℃ / COA 1~35℃로 상한이 다르다.",
           country:"대한민국(Manufacturer's Certificate에 'ORIGIN: Rep. of KOREA', 제조소 경기 안성시 미양면 안성맞춤대로 474-22 명시)", views:0, regs:{}, fileCount:26,
           detail:{
-            code:"612117", classification:"향료 조합물(Fragrance Compound) — 시트러스 프루티 플로럴", hsCode:"3302.90-0000(Manufacturer's Certificate 기재)", packaging:null,
+            code:"612117", dir:"(612117) FRAGRANCE A97794", classification:"향료 조합물(Fragrance Compound) — 시트러스 프루티 플로럴", hsCode:"3302.90-0000(Manufacturer's Certificate 기재)", packaging:null,
             composition:[
                 {item:"Fragrance(향료 조합물 전체)", cas:null, pct:"100.0%(Certificate of Composition 기재 — CAS·세부 배합비 없음)"},
                 {item:"DIPROPYLENE GLYCOL", cas:"25265-71-8", pct:"주요 성분(SPEC 기재, 배합비 미공개)"},
@@ -13173,7 +13266,7 @@ California Proposition 65 등재 성분 존재 여부를 검토한 인증서로,
           restrict:"**문서 최신성과 규정 인용 정확도가 프로젝트 최상위권인 사례.** CITES는 **2026년 3월 5일 발효 부속서 I·II·III**, CMR은 **위임규정 (EU) 2024/197(2023.10.19)**, SVHC는 **35차 목록(2026.02.04 발효)**, 미세플라스틱은 **(EU) 2023/2055**와 정의(고체 폴리머 입자 1% 이상, 0.1μ~5mm 또는 길이 0.3μ~15mm·길이/직경비 3 초과)를, 나노는 **EC 1223/2009 + 프랑스령 2012-232 + 유럽권고 2022/C 229/01** 세 가지를 각각 근거로 명시했다. **확인이 필요한 것은 세 가지** — ①**REACH는 성분별로 상태가 다름**: Passiflora Edulis Fruit Extract는 연 1톤 미만이라 면제, Water는 면제물질, **Butylene Glycol은 등록되어 있으나 '등록번호가 기밀번호(confidential number)'라 확인 불가** ②HALAL은 돼지·알코올·인체부위·혈액 미함유와 제조·포장·보관 공간 분리까지 5개 조건을 상세히 밝혔으나 **인증기관·인증번호가 없는 자체 진술서** ③**BG(1,3-부틸렌글리콜)의 원료가 '석유 나프타, 바이오매스 나프타'로 기재되고 '정보 없음(No information)'이라 원산지가 미확인**이다(611729 PYROTER처럼 바이오매스 나프타 경로의 동물유 유입 언급은 없으나 공급망 정보가 제한적). **ISO 16128은 지수가 NA로 산출 불가** — 'BG(비자연 성분 용제)로 추출했으므로 본 제품은 non-natural로 간주'되며, 원료별로는 Passiflora edulis와 Water가 각각 NI 1·NOI 1인 자연 성분이나 BG가 NA여서 전체 지수가 NA가 된다. COA에 **'병에 침전물이 발견되면 여과 후 사용하고 연락 바람'**이라는 취급 안내가 있어 입고검사 시 참고가 필요하다.",
           country:"일본(Raw Material Information에 'Product made in Japan' 명시. 원료별로는 정제수 일본, **패션프루트 일본 주로 구마모토현(Kumamoto prefecture)**, BG는 원산지 정보 없음)", views:0, regs:{}, fileCount:36,
           detail:{
-            code:"612069", classification:"패션프루트(Passiflora edulis) 과실 추출물 — 1,3-부틸렌글리콜 추출", hsCode:null, packaging:null,
+            code:"612069", dir:"(612069) CUREPASSION", classification:"패션프루트(Passiflora edulis) 과실 추출물 — 1,3-부틸렌글리콜 추출", hsCode:null, packaging:null,
             composition:[
                 {item:"Water(水)", cas:"7732-18-5 / EC 231-791-2", pct:"69 %"},
                 {item:"Butylene Glycol(丁二醇)", cas:"107-88-0 / EC 203-529-7", pct:"30 %"},
@@ -13409,7 +13502,7 @@ INCI명별로 **중국 기존화장품원료목록(IECIC, 2021.04.27 공표판)*
           restrict:"**dsm-firmenich 계열 4번째 원료이며 611079 DL-A-TOCOPHERYL ACETATE와 같은 Sisseln 공장 제품이나 물질이 다름**(본 원료는 유리 토코페롤 CAS 10191-41-0, 611079는 아세테이트 에스테르). **파일명 오기재가 611079와 동일하게 반복** — **'IMPURITIY_2025.06.25' 파일의 실제 내용이 Residual Solvent Statement**(잔류용제 톨루엔 80 mg/kg)이며 불순물 선언서가 아니다. 다만 불순물 자체는 Product Data Sheet의 Related Substances(Ph. Eur.) 항목과 COA 실측치로 확인되므로 Impurity는 보유 처리했다. **Technical Dossier 1건(5페이지, Version 10)이 11개 파일명으로 중복 배포**되었다(ALCOHOL FREE·Annimal Free·Cites·Fragrance Allergens·Gluten Free·NUT Free·Nano·Origin(Country)·Origin(Soruce)·RSPO·추출부위확인서). **Alcohol Free·Gluten Free·Nut Free는 TD의 서술 방식 때문에 확인필요로 처리** — 에탄올은 '**Not expected and not determined**'(예상되지 않으며 측정하지 않음)이고, 식품알레르겐(글루텐 함유 곡물·견과류 등)은 '**Not applicable**'로만 기재되어 미함유를 확인하는 문장이 아니다(611079에서 Gluten Free·Nut Free를 확인필요로 통일한 것과 동일 기준). **VEGAN도 확인필요** — Vegan Statement가 동물유래 물질 미함유는 확인하면서도 '**dsm-firmenich는 여러 NGO가 정의하는 비건 요건을 제품이 충족하는지에 대해 어떠한 책임도 지지 않는다**'고 명시적으로 면책하고 있다. **동물실험 이력에 유의** — Animal Testing Statement는 '2004년 9월 11일 이후 미실시'라 하지만, TD에는 '**비화장품 목적(작업자 안전)으로 1996년 dl-alpha-Tocopherol 피부감작성 시험 실시**'가 기재되어 있다(화장품 목적 시험은 없음).",
           country:"스위스(Technical Dossier에 'Origin: Sisseln (Switzerland)' 명시, COA 발행처도 DSM Nutritional Products Ltd Branch Site Sisseln)", views:0, regs:{}, fileCount:32,
           detail:{
-            code:"612143", classification:"합성 비타민E(all-rac-α-Tocopherol) — 피부 컨디셔닝제·항산화제", hsCode:null, packaging:"불활성 가스로 밀봉된 원포장 용기(PDS 기재)",
+            code:"612143", dir:"(612143) DL-ALPHA-TOCOPHEROL", classification:"합성 비타민E(all-rac-α-Tocopherol) — 피부 컨디셔닝제·항산화제", hsCode:null, packaging:"불활성 가스로 밀봉된 원포장 용기(PDS 기재)",
             composition:[
                 {item:"Tocopherol", cas:"10191-41-0 / EINECS 233-466-0 / E 307", pct:"100.00%"}
             ],
@@ -13673,7 +13766,7 @@ Technical Dossier 4항·5항에서 **PBT/vPvB 정보는 SDS 12.5장**, **생태�
           restrict:"**COA가 폴더에 아예 없음** — 21개 문서 중 시험성적서가 없어 로트별 실측치를 확인할 수 없다. SPEC에 중금속 5종·미생물·지표성분(디하이드로아르테미시닌산 min 10 ppm) 규격이 제시되어 있으므로 **현재 입고 로트의 COA 확보가 우선 필요**하다. **글리세린이 80%를 차지하며 그 유래가 'Plant (Palm) (Fruit) Malaysia'로 명시**되어 팜유 유래 성분이 제품의 대부분을 구성하는데 **RSPO 인증서나 관련 진술이 전혀 없고 EUDR 서류도 없다** — 팜유가 EUDR (EU)2023/1115 규제 7대 품목이고 배합비도 80%로 매우 높아 두 항목 모두 확인이 필요하다(610559 KALCOHOL·611534 LANETTE 16보다 팜 유래 비중이 훨씬 큰 사례). **HALAL은 인증서가 아닌 자체 진술서**이나 배제 항목을 6가지(돼지 및 그 부산물 / 부적절하게 도축되거나 도축 전 죽은 동물 / 알라 외의 이름으로 도살된 동물 / 취하게 할 목적으로 의도적으로 존재하는 알코올 또는 마약 / 육식동물·맹금류·외이가 없는 육상동물 / 혈액 및 그 부산물)로 구체적으로 열거하고 **설비가 나지스(Najis, 불결물) 제조에 사용되지 않음**까지 밝힌 점은 상세하다. Pork Free 확인서에는 '설비와 장비가 **할랄 인증 제품 생산 전용**'이라고 기재되어 있어 할랄 인증 관련 사실관계를 공급사에 재확인할 필요가 있다.",
           country:"대한민국(Certificate of Origin(Manufacture)에 'Gesolza is produced by BioSpectrum, Inc. and manufactured in Republic of Korea' 명시. 다만 원료 중 글리세린은 말레이시아 팜 유래)", views:0, regs:{}, fileCount:21,
           detail:{
-            code:"612150", classification:"복합 식물추출물(소나무잎·유자·개똥쑥) 글리세린 용액", hsCode:null, packaging:null,
+            code:"612150", dir:"(612150) Gesolza", classification:"복합 식물추출물(소나무잎·유자·개똥쑥) 글리세린 용액", hsCode:null, packaging:null,
             composition:[
                 {item:"Glycerin", cas:"56-81-5", pct:"**80.00 %** — Plant(Palm)(Fruit), 말레이시아"},
                 {item:"Water", cas:"7732-18-5", pct:"17.52 % — Natural, 한국"},
@@ -13860,7 +13953,7 @@ Authorized by ChulGu Kim, Manager, Marketing Team Leader. Last Update: April 11,
           restrict:"**611994 A-CAP Pink(EWG)의 자매품으로 어류 유래 성분 함유가 동일하게 확정됨.** Certificate of Origin에 **Hydrolyzed Collagen(CAS 73049-73-7)의 유래가 'Fish'로 명시**되어 있고 MSDS 3항 배합비가 **1.0~1.5%**이므로 **Animal Free·VEGAN·PORK FREE·HALAL은 보유로 등록할 수 없으며 비건·무동물유래를 요구하는 완제품에는 적용할 수 없다.** 제조공정도상 이 콜라겐이 아라비아검과 함께 A Phase에 배치되어 **액상 코아세르베이션 캡슐 셸 형성에 관여**하는 구조도 611994와 같다. **611994와의 차이는 세 가지** — ①**Guaiazulene(CAS 489-84-9, Plant 유래)이 추가**되어 청색을 내는 것으로 보이고 ②**Camelina Sativa Seed Oil(카멜리나 종자유)이 추가**되었으며 ③**611994에 있던 자외선차단성분 Ethylhexyl Triazone이 없다.** 대신 **REACH Statement가 별도로 존재**하는데, 표제는 'A-CAP Blue_AN_3 is registered in REACH'라고 하면서 **실제 등록번호가 있는 성분은 Propanediol(01-2119489383-28-0003)과 1,2-Hexanediol(01-2119987321-35-0005) 둘뿐이고 나머지 10종은 'Planned tonnage band < 1t/a'(연 1톤 미만 예정), 물은 면제**로 기재되어 있어 제품 전체가 등록되었다는 표현과 실제 내용이 일치하지 않는다. **캡슐 제형의 미세플라스틱 해당 여부**도 611994와 동일하게 확인이 필요하다(캡슐 원료이고 Carbomer 함유, 관련 문서 전무). **COA는 2020.07.08 제조 로트(L200708)로 유효기한이 2022.07.06으로 이미 경과**했으므로 최신 로트 성적서 확보가 필요하다.",
           country:"대한민국(제조공정도에 공장 주소 '46-5 Dureungyuri-ro, Ochang-eup, Cheongwon-gu, Cheongju-si, Chungcheongbuk-do' 명시. 다만 제조국을 증명하는 형식의 원산지증명서는 폴더에 없음)", views:0, regs:{}, fileCount:8,
           detail:{
-            code:"612209", classification:"화장품용 캡슐 원료(액상 코아세르베이션 캡슐화 제형) — 구아이아줄렌 함유 청색 캡슐", hsCode:null, packaging:null,
+            code:"612209", dir:"(612209) A-CAP Blue_AN_3", classification:"화장품용 캡슐 원료(액상 코아세르베이션 캡슐화 제형) — 구아이아줄렌 함유 청색 캡슐", hsCode:null, packaging:null,
             composition:[
                 {item:"Hydrogenated Polydecene", cas:"68037-01-4", pct:"53 – 63 % (Synthetic)"},
                 {item:"Water", cas:"7732-18-5", pct:"30 – 38 % (Natural)"},
@@ -14035,7 +14128,7 @@ Date issue: 2020-11-19.
           restrict:"**폴더 내 문서가 COA 1건뿐**이라 43종 중 1종만 확인 가능한 극빈 사례다(610380 EUMULGIN SG, 610586 LACTIC ACID, 610649 MONOPOL PEG-1500(S), 610813 Pollushield, 611053 TRYLAGEN PCB, 611533 EUMULGIN B2와 같은 유형). **INCI·CAS·조성·제조원·원산지를 확인할 수 있는 자료가 전무**하며, 제품명 'Tremellan-MC'가 흰목이버섯(Tremella) 유래를 연상시키나 **원문에 유래를 밝힌 기재가 없으므로 INCI·기능을 추정 등록하지 않았다**(610380·611533과 동일 원칙). COA도 **DAEBONG LS Co., LTD. 명의로 발행된 자사 시험성적서**로 제조사 COA가 아니어서 제조원·제조국을 특정할 수 없다. 시험항목은 성상·냄새·pH·비중·중금속·비소·총호기성생균수 7종이며 **중금속은 'NMT 20ppm' 규격에 결과도 'NMT 20ppm'으로 기재**되어 실측 수치가 아니라 규격 재기술 형태다(비소와 생균수는 ND로 실측 판정). 담당부서가 **제조사 발행 COA·SPEC·MSDS·조성표를 우선 확보**해야 하며, 그 전에는 EU·중국 등 수출 대응이 불가능하다.",
           country:"미확인(COA에 제조국·제조원 기재 없음. 발행처는 대봉엘에스 인천 남동구)", views:0, regs:{}, fileCount:1,
           detail:{
-            code:"612232", classification:null, hsCode:null, packaging:null,
+            code:"612232", dir:"(612232) TREMELLAN-MC EXTRACT", classification:null, hsCode:null, packaging:null,
             specTable:[
                 {item:"성상(Description)",spec:"무색 ~ 담황색의 맑은 액체(Colorless ~ light yellow, clear liquid)"},
                 {item:"냄새(Odor)",spec:"고유취(Typical)"},
@@ -14089,7 +14182,7 @@ QM reviewed(서명). 양식번호 FCOS-QM-10-02(01).
           restrict:"**최중요: 'Nut free Statement' 파일이 실제로는 견과류 미함유를 부정하는 문서다.** 본문에 '**분쇄된 호두껍질은 나무 견과류(tree nut)인 호두에서 직접 유래한다. 비록 식용 과육이 아닌 껍질이지만 여전히 견과 단백질의 미량 잔류물을 함유할 수 있다. 따라서 100% nut-free로 간주될 수 없다(it cannot be considered 100% nut-free)**'고 명시되어 있어 **Nut Free는 보유로 등록할 수 없다.** 견과류 알레르기 표시·주의문구가 필요한 사안이므로 완제품 개발 시 반드시 반영해야 한다(611494 'HALAL statement'가 할랄을 부정한 것, 611502 'Micro Plastic'이 해당성을 인정한 것과 같은 '파일명과 내용이 반대인' 유형). **REACH는 '호두껍질은 화학물질이 아니고 화학적으로 가공되지 않으므로 REACH 대상이 아니다'라는 비해당 주장**이며 등록 증빙이 아니다. **HALAL은 'This product is Halal Certified'라고 인증 사실을 진술하나 인증기관·인증번호·인증서 원본이 없다.** COA는 **입도 분석(US 표준체 30·35·45·60·Pan)과 수분(<10%)만 제시**하고 중금속·미생물 실측치가 없으며, 문서 스스로 '**본 성적서는 입도 분포만 증명하며 곤충이나 미생물에 대한 다른 인증은 제공되지 않는다 — 천연품이기 때문**'이라고 밝히고 있어 별도 시험 성적이 필요하다. 긍정적 요소로 **Product Statement에 '플라스틱(플라스틱 비드 등) 미함유'가 명시**되어 미세플라스틱 대체 스크럽제로서의 근거가 되고, **푸로쿠마린에 대해 '호두 또는 호두껍질에서 발견된다는 알려진 증거가 없다'**는 물질 특성 논거를 제시하며, **향료알레르겐을 (EU) 2023/1545 개정판까지 포함해 미함유로 확인**한다. Kosher는 '본 제품은 코셔가 아님'으로 정직하게 고지한다.",
           country:"미국(Product Statement에 'Walnut Shell Powder is 100% natural plant origin and a product of U.S.A.' 명시. 제조사 Eco-Shell, Inc, 캘리포니아 Corning)", views:0, regs:{}, fileCount:34,
           detail:{
-            code:"612216", classification:"천연 식물성 스크럽 원료(호두껍질 분말, 35/60 메시)", hsCode:null, packaging:null,
+            code:"612216", dir:"(612216) WALNUT SHELL POWDER 35-60", classification:"천연 식물성 스크럽 원료(호두껍질 분말, 35/60 메시)", hsCode:null, packaging:null,
             composition:[
                 {item:"Juglans Regia (Walnut) Shell Powder", cas:"84012-43-1 (MSDS 기준) / Composition Data는 N/A로 기재", pct:"100 %"}
             ],
@@ -14341,7 +14434,7 @@ INCI Name: Juglan Regia"
           country:"중국(Origin Statement에 'The country of origin of the Product is China' 명시. 제조소 저장성 란시시 바이셔 산업기능구 / 최신 문서는 No.80 Songshan Road, Baishe, Lanxi, Jinhua, Zhejiang 321116). **다만 출발물질 유당은 미국산**",
           views:0, regs:{}, fileCount:21,
           detail:{
-            code:"612234", classification:"락토비온산(유당 산화물, 폴리하이드록시산 계열)", hsCode:null, packaging:null,
+            code:"612234", dir:"(612234) LACTOBIONIC ACID", classification:"락토비온산(유당 산화물, 폴리하이드록시산 계열)", hsCode:null, packaging:null,
             composition:[
                 {item:"Lactobionic Acid(乳糖酸)", cas:"96-82-2", pct:"100%(Composition Statement) / NMPA 문서는 98-100%로 기재"}
             ],
@@ -14552,7 +14645,7 @@ Signature: Chen fulai / Title: Sales Manager
           restrict:"**폴더 내 문서가 COA 1건뿐**이라 43종 중 2종만 확인 가능하다(610380 EUMULGIN SG, 610586 LACTIC ACID, 610649 MONOPOL PEG-1500(S), 610813 Pollushield, 611053 TRYLAGEN PCB, 611533 EUMULGIN B2, 612232 TREMELLAN-MC EXTRACT와 같은 극빈 유형). **INCI·CAS·조성·제조원·원산지·채취지를 확인할 수 있는 자료가 전무**하며, 제품명이 '제주 현무암 화산재'로 제주도 채취를 시사하나 **원문에 채취지나 원산지를 밝힌 기재가 없으므로 추정 등록하지 않았다.** COA도 **DAEBONG LS Co., LTD. 명의로 발행된 유통사 시험성적서**로 제조사 COA가 아니어서 제조원·제조국을 특정할 수 없다. **다만 같은 유형인 612232 TREMELLAN-MC EXTRACT와 달리 중금속 5종의 실측치가 모두 수치로 제시**되어 있고(납 1.1 / 비소 0.5 / 안티몬 0.0 / 카드뮴 0.1 / 수은 0.0 ppm) **외부 공인기관(External Certificate Authority) 시험**임이 명기되어 있으며, **입도(D99 13.7μm)와 미생물(ND)까지 실측**되어 있어 COA 자체의 신뢰도는 높다. **화산재 분말이라 광물성 원료로서 나노물질·미세플라스틱 해당 여부, 그리고 흡입 노출 관련 안전성 확인이 필요**할 수 있으므로 담당부서가 MSDS·조성표·원산지증명서를 우선 확보해야 한다.",
           country:"미확인(COA에 제조국·제조원·채취지 기재 없음. 발행처는 대봉엘에스 인천 남동구)", views:0, regs:{}, fileCount:1,
           detail:{
-            code:"612270", classification:null, hsCode:null, packaging:null,
+            code:"612270", dir:"(612270) 제주 현무암 화산재", classification:null, hsCode:null, packaging:null,
             specTable:[
                 {item:"성상(Description)",spec:"회색 분말(Gray, powder)"},
                 {item:"냄새(Odor)",spec:"고유취(Typical)"},
@@ -14617,7 +14710,7 @@ QM reviewed(서명). 양식번호 FCOS-QM-10-02(01).
           restrict:"**공급사 체크리스트가 Alcohol Free 미보유 사유를 매우 구체적으로 밝힌 사례** — '원료 자체에 임의로 알코올 성분이 포함되진 않으나, **엑토인(Ectoin) 성분 생산 시 메탄올이 사용됨. downstream processing 과정에서 메탄올이 제거되며 성분으로써 ICH Q3 limits(1,500 ppm) 이하의 미량 검출 가능성 있음**'이라고 기재했다. 무알코올을 요구하는 완제품에는 이 잔류 가능성을 검토해야 한다. **PFAS Statement에 다른 회사명이 남아 있음** — 본문이 '**following cosmetic ingredient supplied by ICBIO**'로 시작해 제조사인 Nordinary가 아닌 'ICBIO'가 기재되어 있어 타사 양식을 복사한 흔적으로 보이며 정정 요청 대상이다. **PAS(COA) 2021년판과 PDS(SPEC) v2.0의 pH 규격이 다르다** — 2021년판은 4.0~6.0, 현행 PDS는 5.00~8.00으로 개정되었으므로 구버전 문서를 근거로 삼지 않도록 주의가 필요하다. **Heavy Metal·Impurity는 공급사가 '자료 미보유'로 명시**했고 COA 시험항목도 성상·색상·냄새·pH·미생물 5종뿐이라 중금속 실측치가 전혀 없으므로 담당부서가 별도 시험 성적을 확보해야 한다. 원료 유래는 성분 10종 전부에 대해 유래·원산지국이 명시되어 있으며 **엑토인은 독일, 부틸렌글라이콜은 일본, 에틸헥실글리세린은 독일산**이고 나머지는 한국산이다.",
           country:"대한민국(Origin of Raw Materials에 'HYDRAMUNE COMPLEX is manufactured in South Korea by Nordinary' 명시. 다만 원료 중 Ectoin·Ethylhexylglycerin은 독일산, Butylene Glycol은 일본산)", views:0, regs:{}, fileCount:26,
           detail:{
-            code:"612272", classification:"발효 용해물 복합 보습 원료(유산균·비피다 발효용해물 + 엑토인 + 민들레잎추출물)", hsCode:"3824.99-9090(공급사 체크리스트 기재)", packaging:null,
+            code:"612272", dir:"(612272) HYDRAMUNE COMPLEX", classification:"발효 용해물 복합 보습 원료(유산균·비피다 발효용해물 + 엑토인 + 민들레잎추출물)", hsCode:"3824.99-9090(공급사 체크리스트 기재)", packaging:null,
             composition:[
                 {item:"Water(Aqua) / 水", cas:"7732-18-5", pct:"75.574 %"},
                 {item:"Dipropylene Glycol / 双丙甘醇", cas:"25265-71-8", pct:"19.780 %"},
@@ -14845,7 +14938,7 @@ Product Name: HYDRAMUNE COMPLEX / INCI Name: (10종 전체 기재)
           country:"일본(원산지증명서 2019.01.11 — 최종제품 제조국 Japan, 원재료 산지 Japan, 사용 부위 Citrus unshiu 미숙과)",
           views:0, regs:{}, fileCount:24,
           detail:{
-            code:"612252", classification:"효소적 변성 헤스페리딘(글루코실 헤스페리딘, 감귤 유래 바이오플라보노이드)", hsCode:null,
+            code:"612252", dir:"(612252) aG-Hesperidin PS CC", classification:"효소적 변성 헤스페리딘(글루코실 헤스페리딘, 감귤 유래 바이오플라보노이드)", hsCode:null,
             packaging:"라미네이트 알루미늄백(Net 1kg) — SPEC 기재",
             composition:[
                 {item:"Glucosyl Hesperidin(葡糖基橙皮苷, 효소적 변성 헤스페리딘)", cas:"161713-86-6", pct:"100%(Composition 증명서·SDS) / NMPA 문서는 典型値 100%, 범위 95-100%"}
@@ -15209,7 +15302,7 @@ Certified by — Name: Mahamadou Tandia, PhD / Signature(자필) / Position: Gen
           country:"**미확인** — 제조국·원산지를 명시한 문서가 없음(공통 선언서에 '식물·합성 유래'라고만 기재). 발행사 EYESEL Co., Ltd.는 한국 소재",
           views:0, regs:{}, fileCount:15,
           detail:{
-            code:"612315", classification:"향료 조합물(fragrance compound) — 향취 Sweet Honey", hsCode:null,
+            code:"612315", dir:"(612315) SWEET HONEY A EL0057474", classification:"향료 조합물(fragrance compound) — 향취 Sweet Honey", hsCode:null,
             packaging:"밀폐된 불투명 용기(COA 보관지시 — full, sealed opaque containers / 빈 용기 재사용 금지)",
             composition:[
                 {item:"**조성 문서 없음 — INCI·CAS 미확인**", cas:null, pct:"Allergens 문서로 확인되는 성분은 **Rose Ketones 0.6800%**(CAS 23696-85-7 / 23726-91-2 / 23726-92-3 / 23726-94-5 / 24720-09-0 / 43052-87-5 / 57378-68-4 / 71048-82-3)뿐"}
@@ -15407,7 +15500,7 @@ Approved by QA&QC Manager So Young, Kim
           country:"대한민국(Origin 문서 — 'S-Aqua PE is manufactured in Korea'). **다만 구성성분 원산지는 정제수 한국 / 글리세린 말레이시아(팜유 유래) / 폴리에스터-5 미국**",
           views:0, regs:{}, fileCount:28,
           detail:{
-            code:"612316", classification:"수분산 폴리에스터 수지(Water dispersible polyester resin) — 피막형성제", hsCode:"3824.99.9090(**공급사 체크리스트에만 기재, 세관 분석 미거침·책임 면책 문구 부기**)",
+            code:"612316", dir:"(612316) S_AQUA PE", classification:"수분산 폴리에스터 수지(Water dispersible polyester resin) — 피막형성제", hsCode:"3824.99.9090(**공급사 체크리스트에만 기재, 세관 분석 미거침·책임 면책 문구 부기**)",
             packaging:null,
             composition:[
                 {item:"Water(정제수)", cas:"7732-18-5", pct:"30.0 %(EC 231-791-2) — SDS 규격 27.0~33.0%"},
@@ -15764,7 +15857,7 @@ Checked by Kibeom Nam / Approved by Dea-sung Baeg
           country:"대한민국(Certificate of Manufacturer Origin — 'country origin of manufacture of Activonol-5 is South Korea'). **다만 Origin Statement는 원료 출처국을 EU로 기재** — NMPA상 출발물질이 1-펜텐인 점을 감안하면 출발물질 원산지로 보이나 문서상 구분은 없음",
           views:0, regs:{}, fileCount:34,
           detail:{
-            code:"612507", classification:"펜틸렌글라이콜(1,2-펜탄디올) — 석유 유래 합성 글라이콜, 보습·방부부스터", hsCode:null,
+            code:"612507", dir:"(612507) ACTIVONOL-5", classification:"펜틸렌글라이콜(1,2-펜탄디올) — 석유 유래 합성 글라이콜, 보습·방부부스터", hsCode:null,
             packaging:"200 kg HDPE 드럼 / 25 kg HDPE 드럼 (TDS)",
             composition:[
                 {item:"Pentylene Glycol(1,2-Pentanediol, 1,2-戊二醇)", cas:"5343-92-0", pct:"100%(EC 226-285-3) — 분자식 C5H12O2, 분자량 104.148"}
@@ -16111,7 +16204,7 @@ Issue Date: 2024.06.24 / **CEO/President CHO Younki**
           country:"미국(제조 — Technical Information Sheet·BSE Free Certificate 모두 'manufactured in the USA', COA의 Country of Origin USA, 제조소 펜실베이니아 윌리엄스포트). **다만 원료(글리세린·지방산)는 인도네시아산 팜유 유래**",
           views:0, regs:{}, fileCount:24,
           detail:{
-            code:"612520", classification:"폴리글리세롤-10 올레이트(폴리글리세롤 지방산 에스터, 식품등급 비이온 유화제)", hsCode:null,
+            code:"612520", dir:"(612520) Polyaldo 10-1-O", classification:"폴리글리세롤-10 올레이트(폴리글리세롤 지방산 에스터, 식품등급 비이온 유화제)", hsCode:null,
             packaging:"425 파운드 순중량 개방형 스틸 드럼(TDS) / COA 기준 80 DR 단위 출하",
             composition:[
                 {item:"Polyglyceryl-10 Oleate(聚甘油-10油酸酯, Decaglyceryl Monooleate)", cas:"79665-93-3 (구 CAS 9007-48-1)", pct:"100% — EC Inventory 279-230-0. **중합도 10, 평균분자량 약 1,014**(NMPA)"}
@@ -16432,7 +16525,7 @@ INCI/화학명: **Decaglyceryl Monooleate, Polyglyceryl-10 Oleate** / **CAS# 900
           country:"대한민국(Manufacturer's Certificate 2026.01.14 — ORIGIN: Rep. of KOREA, 제조소 경기 안성시 미양면 안성맞춤대로 474-22)",
           views:0, regs:{}, fileCount:18,
           detail:{
-            code:"612527", classification:"향료 조합물(fragrance compound) — 시트러스 프루티 플로랄", hsCode:"3302.90-0000(**Manufacturer's Certificate에 명기 — 전용 문서에 기재된 드문 사례**)",
+            code:"612527", dir:"(612527) LEMON E28530", classification:"향료 조합물(fragrance compound) — 시트러스 프루티 플로랄", hsCode:"3302.90-0000(**Manufacturer's Certificate에 명기 — 전용 문서에 기재된 드문 사례**)",
             packaging:null,
             composition:[
                 {item:"ETHOXYDIGLYCOL(에톡시디글라이콜)", cas:"111-90-0", pct:"20 ~ 30 %(MSDS 기준) — EC 203-919-7, 급성독성4·피부자극2·안자극2"},
@@ -16699,7 +16792,7 @@ Product name: LEMON E28530(문서상 'LEMON E28 530'으로 띄어쓰기 오기)
           country:"대한민국(Certificate of Origin(Manufacture) 2026.03.04 — 'Bifidasol is produced by BioSpectrum, Inc. and manufactured in Republic of Korea'). **성분별 원산지는 비피다발효여과물 한국, 펜틸렌글라이콜 남아프리카공화국(사탕수수 줄기), 레불린산 한국(쌀 종자)**",
           views:0, regs:{}, fileCount:24,
           detail:{
-            code:"612541", classification:"유산균(비피도박테리움 롱검) 발효여과물 — 보습·미백·항노화 액상 원료", hsCode:null,
+            code:"612541", dir:"(612541) Bifidasol", classification:"유산균(비피도박테리움 롱검) 발효여과물 — 보습·미백·항노화 액상 원료", hsCode:null,
             packaging:null,
             composition:[
                 {item:"Bifida Ferment Filtrate(비피다발효여과물)", cas:"미부여", pct:"**96.00 %**(조성증명서) / 규격 범위 90.00~97.00%(MSDS·소개자료)"},
@@ -16966,7 +17059,7 @@ INCI Name: **Bifida Ferment Filtrate, Pentylene Glycol, Levulinic acid**
           country:"대한민국(Origin 문서 — 'ND MUSHROOM PS is manufactured in South Korea by Nordinary'). **다만 흰목이버섯 다당체 원물의 원산지는 중국**, 정제수·1,2-헥산디올은 한국",
           views:0, regs:{}, fileCount:29,
           detail:{
-            code:"612551", classification:"흰목이버섯(Tremella fuciformis) 다당체 수용액 — 보습 원료", hsCode:"3824.99-9090(**공급사 체크리스트에만 기재**)",
+            code:"612551", dir:"(612551) ND MUSHROOM PS", classification:"흰목이버섯(Tremella fuciformis) 다당체 수용액 — 보습 원료", hsCode:"3824.99-9090(**공급사 체크리스트에만 기재**)",
             packaging:null,
             composition:[
                 {item:"Water(정제수, 水)", cas:"7732-18-5", pct:"**97.9 %**"},
@@ -17032,7 +17125,7 @@ INCI Name: **Bifida Ferment Filtrate, Pentylene Glycol, Levulinic acid**
             ],
             note:"㈜노디너리(경기 화성) **흰목이버섯(Tremella fuciformis) 다당체 0.1% 수용액**으로 제조원과 공급처가 동일하다. **43종 중 31종 have·3종 check·2종 na(76%)** 로 서류 구성이 상위권이며, 확인서 대부분이 **2026.01.28자 v1.0으로 일괄 갱신**되고 검토 완료일도 같은 날짜로 기재되어 관리 상태가 좋다. **가장 먼저 확인할 것은 폴더 구조다** — 이 원료 폴더는 **최상위에 파일이 없고 '제조원 노디너리'(29개 파일)와 '제조원 제이투케이바이오'(빈 폴더)** 두 하위 폴더로 나뉘어 있다. **같은 원료 코드에 제조원이 둘로 관리되는데 제이투케이바이오분 서류는 한 건도 없으므로**, 그쪽에서도 공급받는다면 서류 일습을 별도로 받아야 한다(이전 스캔에서 이 원료가 '문서 0건'으로 집계된 것도 이 구조 때문이다). **문서 하나가 여러 항목을 대신하는 구조**여서 체크리스트에는 X 표기가 많지만 실질 보유는 그보다 넓다 — Origin 문서가 제조국까지 담아 **원산지증명서를 함께 충족**하고, Vegan Statement가 '효소 처리·발효·배양 유래를 포함한 동물유래 미배합'을 명시해 **Animal Free를 충족**하며, Manufacturer's Statement 한 건이 **Furocoumarin·PFAS 두 항목**을, Food Allergen Statement가 **Nut Free**를, Allergens Statement(80)가 **Allergen 26종·81종 이상**을 각각 충족한다. **강점** — ①**EUDR 확인서가 규정번호(2023/1115)와 7대 품목을 정확히 인용**(팜유 유래 원료들이 정작 EUDR 문서가 없었던 것과 대조) ②**REACH가 성분별 면제/등록번호를 구분해 1,2-헥산디올의 실제 등록번호(01-2119987321-35-0000) 제시** ③**중금속이 규격서·전용 선언서·COA 세 문서에서 동일 수치로 확인** ④**COA가 유효기한 내**(Lot 241016R002, 제조 2024.10.10 / 유효 2027.10.09) ⑤**PFAS·Furocoumarin 항목까지 채운 드문 사례**. **확인이 필요한 세 가지** — ①**추출부위확인서**: Origin의 'Used Part'가 '**Mushroom**'으로만 적혀 버섯의 어느 부위인지 불명 ②**HS CODE**: 체크리스트에만 3824.99-9090 기재 ③**SVHC**: Impurity Statement에 한 줄 포함될 뿐 전용 문서 없음. **그 밖에** 흰목이버섯 다당체 원물의 원산지가 **중국**인 점, **ISO 16128·소개자료·임상자료가 없어** 천연 함량 산출과 효능 근거가 부재한 점, **HALAL은 공급사가 '미인증'으로 명시**한 점을 참고해야 한다. **끝으로 같은 공급사의 612272 HYDRAMUNE COMPLEX는 이전 세션에서 체크리스트의 '갈음' 표기를 그대로 따라 원산지증명서·Animal Free를 미보유로 등록했는데, 서류 양식이 동일하므로 두 항목을 같은 기준으로 재검토**하는 것이 좋다.",
             documents:[
-                { files:["(612551) ND MUSHROOM PS_COA(E)_2025.pdf","(612551) ND MUSHROOM PS_COA(E)_2023.pdf"], title:"**Certificate of Analysis 2건 (비전 판독) — 2025년판 Lot 241016R002, 유효기한 2027.10.09 유효**", date:"v1.0_2025-02-24 / 2023년판",
+                { files:["제조원 노디너리/(612551) ND MUSHROOM PS_COA(E)_2025.pdf","제조원 노디너리/(612551) ND MUSHROOM PS_COA(E)_2023.pdf"], title:"**Certificate of Analysis 2건 (비전 판독) — 2025년판 Lot 241016R002, 유효기한 2027.10.09 유효**", date:"v1.0_2025-02-24 / 2023년판",
                   fullText:`NORDINARY **Certificate of Analysis** — 문서 버전 **v1.0_2025.02.24**
 • Product Name: **ND MUSHROOM PS**
 • **Lot No: 241016R002**
@@ -17051,7 +17144,7 @@ Approved by **Moon Ki, BAEK** — Chief Technology Director | Technical Research
 
 **판정 근거: COA 보유의 직접 근거. 제조 2024.10.10 / 유효 2027.10.09로 기준일(2026.08.21) 시점에 유효하다 — 612315·612316·612520이 만료 로트 성적서였던 것과 대조된다.**
 **주의: pH만 실측치(5.38)가 기재되고 중금속·비소·미생물은 'Pass'로만 표기되어 수치 성적이 없다. 수치가 필요하면 별도 요청해야 한다.**` },
-                { files:["(612551) ND MUSHROOM PS_PDS(SPEC)_v1.0_20240521.pdf"], title:"PRODUCT DATA SHEET (비전 판독 — 규격 7항목·유효기간 36개월·개봉 후 관리 지침)", date:"v1.0_2024-05-21",
+                { files:["제조원 노디너리/(612551) ND MUSHROOM PS_PDS(SPEC)_v1.0_20240521.pdf"], title:"PRODUCT DATA SHEET (비전 판독 — 규격 7항목·유효기간 36개월·개봉 후 관리 지침)", date:"v1.0_2024-05-21",
                   fullText:`NORDINARY **PRODUCT DATA SHEET** — v1.0_2024.05.21
 • Product Name: **ND MUSHROOM PS**
 • INCI Name: **Water(Aqua), 1,2-Hexanediol, Tremella Fuciformis Polysaccharide**
@@ -17068,7 +17161,7 @@ Approved by **Moon Ki, BAEK** — Chief Technology Director | Technical Research
 
 **판정 근거: SPEC 보유의 직접 근거이며 보관조건(15~25℃)·유효기간(36개월) 정보의 출처다. 공급사 체크리스트는 TDS를 'SPEC 서류로 갈음'으로 X 표기했다.**
 **특징: 중금속(납 환산)·비소·미생물 규격이 규격서에 포함되어 있고, 개봉 후 미생물 관리 지침까지 명시한 점이 실무적으로 유용하다 — 정제수 97.9%의 수용액이므로 개봉 후 오염 관리가 중요하다.**` },
-                { files:["(612551) ND MUSHROOM PS_MSDS(E)_20240521.pdf"], title:"SAFETY DATA SHEET 영문 4페이지 (비전 판독 — CLP 기준 비유해)", date:"v1.0_2024-05-21",
+                { files:["제조원 노디너리/(612551) ND MUSHROOM PS_MSDS(E)_20240521.pdf"], title:"SAFETY DATA SHEET 영문 4페이지 (비전 판독 — CLP 기준 비유해)", date:"v1.0_2024-05-21",
                   fullText:`NORDINARY **SAFETY DATA SHEET** — v1.0_2024.05.21 (영문 4페이지)
 **1. 제품·회사 정보**: Product name **ND MUSHROOM PS** / Use **Cosmetic use** / Nordinary Inc.(B-1520, 27, Dongtancheomdansaneop 1-ro, Hwaseong-si, Gyeonggi-do, 18468, KOREA) / Tel +82-(0)70-7677-1912 / **Fax +33-(0)303-3441-1912**(국가번호가 프랑스(+33)로 오기, 다른 문서들은 +82) / E-mail sales@nordinary.co.kr
 **2. 유해성 식별**
@@ -17083,7 +17176,7 @@ Approved by **Moon Ki, BAEK** — Chief Technology Director | Technical Research
 
 **판정 근거: MSDS 보유의 직접 근거. CLP 기준 비유해로 분류되어 취급상 특별한 보호구 요건이 없다(612507 ACTIVONOL-5·612541 Bifidasol이 눈 손상 1구분이었던 것과 대조 — 이 원료는 1,2-헥산디올이 2%로 낮다).**
 **주의: ①국문 MSDS가 없다. ②Fax 국가번호가 +33(프랑스)으로 오기되어 있다(다른 문서들은 +82). ③주소 우편번호가 18468로 기재되어 다른 문서(18469)와 한 자리 다르다.**` },
-                { files:["(612551) ND MUSHROOM PS_Composition data_v1.0_20240521.pdf"], title:"COMPOSITION DATA (비전 판독 — CAS 포함 3성분)", date:"v1.0_2024-05-21",
+                { files:["제조원 노디너리/(612551) ND MUSHROOM PS_Composition data_v1.0_20240521.pdf"], title:"COMPOSITION DATA (비전 판독 — CAS 포함 3성분)", date:"v1.0_2024-05-21",
                   fullText:`NORDINARY **COMPOSITION DATA** — v1.0_2024.05.21
 • Product Name: **ND MUSHROOM PS**
 • INCI Name: Water(Aqua), 1,2-Hexanediol, Tremella Fuciformis Polysaccharide
@@ -17095,7 +17188,7 @@ Approved by **Moon Ki, BAEK**(자필 서명) — Chief Technology Director | Tec
 
 **판정 근거: Composition 보유의 직접 근거. CAS 번호가 성분별로 모두 기재되어 있고 합계 100%로 맞으며, MSDS SECTION 3 및 NMPA 조성표와 정확히 일치한다.**
 **참고: 유효성분인 흰목이버섯 다당체가 0.1%뿐이고 나머지는 정제수(97.9%)와 방부 역할의 1,2-헥산디올(2%)이다 — 배합 시 유효성분 실질 함량을 감안해야 한다.**` },
-                { files:["(612551) ND MUSHROOM PS_Origin_v1.0_20260128.pdf"], title:"**Origin of Raw Materials — 제조국·성분별 유래·원산지국(버섯 다당체는 중국산)**", date:"v1.0_2026-01-28",
+                { files:["제조원 노디너리/(612551) ND MUSHROOM PS_Origin_v1.0_20260128.pdf"], title:"**Origin of Raw Materials — 제조국·성분별 유래·원산지국(버섯 다당체는 중국산)**", date:"v1.0_2026-01-28",
                   fullText:`NORDINARY **STATEMENT — Origin of Raw Materials** / v1.0_2026.01.28
 • Product Name: **ND MUSHROOM PS**
 • INCI Name: Water(Aqua), 1,2-Hexanediol, Tremella Fuciformis Polysaccharide
@@ -17109,7 +17202,7 @@ Approved by Moon Ki, BAEK — Chief Technology Director | Technical Research Cen
 **판정 근거: Origin과 원산지증명서(제조국) 두 항목의 근거. 문서 본문이 '대한민국에서 노디너리가 제조한다'고 명시하므로 별도 원산지증명서 없이도 제조국이 확인된다(공급사 체크리스트는 원산지증명서를 'Origin 서류로 갈음'으로 X 표기했으나, 본문 근거가 있으므로 보유로 등록했다).**
 **추출부위확인서는 확인필요: 'Source (Used Part)' 열이 마련되어 있으나 흰목이버섯 다당체가 'Mushroom'으로만 기재되어 사용 부위(자실체·균사체 등)가 특정되지 않는다 — 612272 HYDRAMUNE COMPLEX에서 민들레잎추출물의 Used Part가 성분명으로만 표현되어 확인필요 처리된 것과 같은 유형이다.**
 **주의: 유효성분인 흰목이버섯 다당체의 원산지가 중국이므로 원물 관리 이력(재배지·수확·가공)이 필요하면 추가 확인이 필요하다.**` },
-                { files:["(612551) ND MUSHROOM PS_Process Flow Chart_v1.0_20260128.pdf"], title:"MANUFACTURING PROCESS (용제·원료·가공물 투입 지점 표시)", date:"v1.0_2026-01-28",
+                { files:["제조원 노디너리/(612551) ND MUSHROOM PS_Process Flow Chart_v1.0_20260128.pdf"], title:"MANUFACTURING PROCESS (용제·원료·가공물 투입 지점 표시)", date:"v1.0_2026-01-28",
                   fullText:`NORDINARY **MANUFACTURING PROCESS** — v1.0_2026.01.28 / Product Name: **ND MUSHROOM PS**
 - **Solvent heating**(용제 가열) ← **A) Solvents : Purified water**(정제수)
 - **Mixing**(혼합) ← **B) Raw materials : 1) Tremella fuciformis**(흰목이버섯)
@@ -17121,7 +17214,7 @@ Approved by Moon Ki, BAEK — Chief Technology Director | Technical Research Cen
 
 **판정 근거: Flow Chart 보유의 직접 근거. 투입 물질을 A)용제 B)원물 C)가공물 세 군으로 구분하고 각 투입 지점을 화살표로 표시해 공정 이해가 쉽다.**
 **참고: 정제수를 가열해 흰목이버섯을 추출·여과한 뒤 1,2-헥산디올(방부 역할)을 혼합·여과해 포장하는 단순 추출 공정이다 — NMPA 문서의 복배 사유 '仅添加必要溶剂'(필요 용제만 첨가)와 정합적이다.**` },
-                { files:["(612551) ND MUSHROOM PS_NMPA(130827-08196-8502).pdf"], title:"化妆品原料安全信息 — 중국 원료 보고코드 130827-08196-8502 (5페이지)", date:"일자 미기재",
+                { files:["제조원 노디너리/(612551) ND MUSHROOM PS_NMPA(130827-08196-8502).pdf"], title:"化妆品原料安全信息 — 중국 원료 보고코드 130827-08196-8502 (5페이지)", date:"일자 미기재",
                   fullText:`**化妆品原料安全信息 — 原料报送码: 130827-08196-8502**
 【一、基本信息和工艺简述】
 **原料商品名**: **ND MUSHROOM PS**
@@ -17133,7 +17226,7 @@ Approved by Moon Ki, BAEK — Chief Technology Director | Technical Research Cen
 
 **판정 근거: NMPA 보유의 직접 근거. 조성 3성분과 함량이 조성증명서·MSDS와 정확히 일치하고, 원료 출처를 '合成·藻类和大型真菌'(합성 및 조류·대형진균)으로 기재해 버섯(대형진균) 유래임이 반영되어 있다.**
 **주의: 공급사 체크리스트는 Annex 14를 'NMPA 서류로 갈음'으로 X 표기했으므로 Annex 14(중국 기사용 화장품원료목록) 문서는 별도로 없다.**` },
-                { files:["(612551) ND MUSHROOM PS_Reach statement_v1.0_20260128.pdf"], title:"Reach Statement (성분별 면제/등록번호 구분)", date:"v1.0_2026-01-28",
+                { files:["제조원 노디너리/(612551) ND MUSHROOM PS_Reach statement_v1.0_20260128.pdf"], title:"Reach Statement (성분별 면제/등록번호 구분)", date:"v1.0_2026-01-28",
                   fullText:`NORDINARY **Reach Statement** — v1.0_2026.01.28 / Product Name: ND MUSHROOM PS
 | INCI Name | CAS No. | **Exemption (Y or N)** | Evidence | **Pre-registration (Y or N / Deadline)** | **Registration No.** |
 | **Tremella Fuciformis Polysaccharide** | **778577-37-0** | **Y**(면제) | - | - | - |
@@ -17142,7 +17235,7 @@ Approved by Moon Ki, BAEK
 
 **판정 근거: REACH 보유의 직접 근거. 성분별로 면제 여부와 실제 등록번호를 구분해 제시했다 — 흰목이버섯 다당체는 천연물 면제, 1,2-헥산디올은 등록번호 01-2119987321-35-0000.**
 **참고: 612272 HYDRAMUNE COMPLEX의 REACH 문서에도 1,2-Hexanediol이 '01-2119987321-35-0017'로 기재되어 있었다 — 앞 12자리는 같고 개별 등록자 번호(뒤 4자리)만 다르므로 같은 물질의 서로 다른 등록자 번호로 보인다. 정제수(Annex IV 면제)가 이 표에 빠져 있는 점은 612272 문서와 다르다.**` },
-                { files:["(612551) ND MUSHROOM PS_Allergens Statement(80)_v1.0_20260128.pdf"], title:"**Allergens Statement(80) — (EU) 2023/1545 확대 목록 80종 전체 첨부, 전 항목 미함유**", date:"v1.0_2026-01-28",
+                { files:["제조원 노디너리/(612551) ND MUSHROOM PS_Allergens Statement(80)_v1.0_20260128.pdf"], title:"**Allergens Statement(80) — (EU) 2023/1545 확대 목록 80종 전체 첨부, 전 항목 미함유**", date:"v1.0_2026-01-28",
                   fullText:`NORDINARY **STATEMENT — Fragrance Allergen** / v1.0_2026.01.28
 • Product Name: **ND MUSHROOM PS**
 • INCI Name: Water(Aqua), 1,2-Hexanediol, Tremella Fuciformis Polysaccharide
@@ -17153,7 +17246,7 @@ Approved by Moon Ki, BAEK
 
 **판정 근거: Allergen (26)·Allergen (81+) 두 항목 보유의 근거. (EU) 2023/1545 확대 목록을 명시적으로 인용하고 별지에 80종 전체를 CAS·EC번호·그룹명과 함께 첨부했으므로 26종 목록도 당연히 포함된다(공급사 체크리스트는 26종을 '81+ 서류로 갈음'으로 X 표기).**
 **평가: 농도란이 '100% W/W' 기준으로 마련되어 있고 전 항목이 '/'(해당 없음)으로 표기되어 있어, 함유 성분이 있는 향료 원료(612527 LEMON E28530은 6종 함유)와 달리 표시 의무 검토가 불필요하다.**` },
-                { files:["(612551) ND MUSHROOM PS_Food Allergen Statement_v1.0_20260128.pdf","(612551) ND MUSHROOM PS_Heavy Metal Statement_v1.0_20260128.pdf","(612551) ND MUSHROOM PS_Impurity Statement_v1.0_20260128.pdf","(612551) ND MUSHROOM PS_Manufacturer’s Statement_v1.0_20260128.pdf"], title:"**Food Allergen(Nut Free 근거) / Heavy Metal(수치) / Impurity / Manufacturer's Statement(Furocoumarin·PFAS)**", date:"v1.0_2026-01-28",
+                { files:["제조원 노디너리/(612551) ND MUSHROOM PS_Food Allergen Statement_v1.0_20260128.pdf","제조원 노디너리/(612551) ND MUSHROOM PS_Heavy Metal Statement_v1.0_20260128.pdf","제조원 노디너리/(612551) ND MUSHROOM PS_Impurity Statement_v1.0_20260128.pdf","제조원 노디너리/(612551) ND MUSHROOM PS_Manufacturer’s Statement_v1.0_20260128.pdf"], title:"**Food Allergen(Nut Free 근거) / Heavy Metal(수치) / Impurity / Manufacturer's Statement(Furocoumarin·PFAS)**", date:"v1.0_2026-01-28",
                   fullText:`모두 NORDINARY 발행, v1.0_2026.01.28, 승인 Moon Ki, BAEK.
 
 **① Food Allergen Statement**
@@ -17173,7 +17266,7 @@ Approved by Moon Ki, BAEK
 
 **판정 근거: ①Nut Free(견과류 명시) ②Heavy Metal(수치 제시 — 규격서·COA와 일치) ③Impurity(6종 물질군) ④Furocoumarin·PFAS 두 항목 — 합계 다섯 항목의 근거.**
 **평가: ④가 '의도적 미사용'에 더해 '제품에 존재하지도 않는다'는 진술까지 포함해 근거가 강하다 — PFAS 확인서가 없던 다른 원료들과 달리 이 항목이 채워진 점이 강점이다. 반면 ③의 목록에 SVHC가 한 줄 포함될 뿐 전용 SVHC 문서가 없어 SVHC는 확인필요로 등록했다(체크리스트도 'Impurity 자료로 갈음'). ①의 대두 미함유는 EUDR 확인서와도 정합적이다.**` },
-                { files:["(612551) ND MUSHROOM PS_EU Regulation 20231115 (EUDR) Statement_v1.0_20260128.pdf","(612551) ND MUSHROOM PS_RSPO statement(미함유)_v1.0_20260128.pdf"], title:"**EUDR Statement(2023/1115·7대 품목 명시) / RSPO Statement(팜유 무관)**", date:"v1.0_2026-01-28",
+                { files:["제조원 노디너리/(612551) ND MUSHROOM PS_EU Regulation 20231115 (EUDR) Statement_v1.0_20260128.pdf","제조원 노디너리/(612551) ND MUSHROOM PS_RSPO statement(미함유)_v1.0_20260128.pdf"], title:"**EUDR Statement(2023/1115·7대 품목 명시) / RSPO Statement(팜유 무관)**", date:"v1.0_2026-01-28",
                   fullText:`NORDINARY, v1.0_2026.01.28, 승인 Moon Ki, BAEK.
 
 **① EU Regulation 2023/1115 (EUDR) Statement**
@@ -17185,7 +17278,7 @@ Approved by Moon Ki, BAEK
 
 **판정 근거: ①EUDR 보유, ②RSPO 해당없음(na)의 근거.**
 **평가: ①규정번호를 2023/1115로 정확히 인용하고 7대 규제 품목을 개별 열거했다 — 팜유 유래 성분을 함유해 EUDR 확인이 절실했던 612316 S_AQUA PE·612520 Polyaldo·612527 LEMON E28530에는 정작 이 문서가 없었던 것과 대조된다. 파일명이 'EU Regulation 20231115'로 슬래시가 빠져 있을 뿐 본문은 정확하다. ②조성(정제수·1,2-헥산디올·버섯 다당체)에 팜유 계열이 없으므로 RSPO는 '해당없음'으로 처리했다.**` },
-                { files:["612551_ND MUSHROOM PS_Vegan statement_v1.0_20260128.pdf","(612551) ND MUSHROOM PS_Non Animal Test_v1.0_20260128.pdf","(612551) ND MUSHROOM PS_Pork Free Statement_v1.0_20251124.pdf"], title:"Vegan / Non-Animal Testing / Pork Free (Animal Free 근거 포함)", date:"v1.0_2026-01-28 / Pork Free는 2025-11-24",
+                { files:["제조원 노디너리/612551_ND MUSHROOM PS_Vegan statement_v1.0_20260128.pdf","제조원 노디너리/(612551) ND MUSHROOM PS_Non Animal Test_v1.0_20260128.pdf","제조원 노디너리/(612551) ND MUSHROOM PS_Pork Free Statement_v1.0_20251124.pdf"], title:"Vegan / Non-Animal Testing / Pork Free (Animal Free 근거 포함)", date:"v1.0_2026-01-28 / Pork Free는 2025-11-24",
                   fullText:`NORDINARY, 승인 Moon Ki, BAEK.
 
 **① Vegan Statement(v1.0_2026.01.28)**
@@ -17201,7 +17294,7 @@ Approved by Moon Ki, BAEK
 **판정 근거: VEGAN·Animal Free·Non Animal Test·PORK FREE 네 항목의 근거.**
 **중요: 공급사 체크리스트는 Animal Free를 'Vegan 서류로 갈음'으로 X 표기했으나, ①의 본문이 '모든 성분이 어떠한 종류의 동물유래 성분으로도 배합되지 않았다'고 직접 진술하므로 Animal Free를 보유로 등록했다. 같은 공급사의 612272 HYDRAMUNE COMPLEX는 이전 세션에서 체크리스트 표기를 그대로 따라 미보유로 등록했으므로 기준 재검토가 필요하다.**
 **참고: '효소 처리·발효·배양 유래'까지 배제한 문안은 612272·612541에서도 확인된 국내 바이오 원료사 표준 문안이다. Pork Free만 발행일이 2025.11.24로 나머지(2026.01.28)보다 이르다.**` },
-                { files:["(612551) ND MUSHROOM PS_BSE(TSE) Free Statement_v1.0_20260128.pdf","(612551) ND MUSHROOM PS_CITES Statement_v1.0_20260128.pdf","(612551) ND MUSHROOM PS_CMR Free Statement_v1.0_20260128.pdf","(612551) ND MUSHROOM PS_GMO Free Statement_v1.0_20260128.pdf","(612551) ND MUSHROOM PS_Gluten free Statement_v1.0_20260128.pdf","(612551) ND MUSHROOM PS_Microplastics Statement_v1.0_20260128.pdf","(612551) ND MUSHROOM PS_Non nano Statement_v1.0_20260128.pdf","(612551) ND MUSHROOM PS_ETHANOL Free Statement_v1.0_20260128.pdf","(612551) ND MUSHROOM PS_Proposition 65 Statement_v1.0_20260128.pdf"], title:"규제 확인서 9종 (BSE/TSE·CITES·CMR·GMO·Gluten·Microplastic·Nano·Ethanol Free·Prop65)", date:"v1.0_2026-01-28",
+                { files:["제조원 노디너리/(612551) ND MUSHROOM PS_BSE(TSE) Free Statement_v1.0_20260128.pdf","제조원 노디너리/(612551) ND MUSHROOM PS_CITES Statement_v1.0_20260128.pdf","제조원 노디너리/(612551) ND MUSHROOM PS_CMR Free Statement_v1.0_20260128.pdf","제조원 노디너리/(612551) ND MUSHROOM PS_GMO Free Statement_v1.0_20260128.pdf","제조원 노디너리/(612551) ND MUSHROOM PS_Gluten free Statement_v1.0_20260128.pdf","제조원 노디너리/(612551) ND MUSHROOM PS_Microplastics Statement_v1.0_20260128.pdf","제조원 노디너리/(612551) ND MUSHROOM PS_Non nano Statement_v1.0_20260128.pdf","제조원 노디너리/(612551) ND MUSHROOM PS_ETHANOL Free Statement_v1.0_20260128.pdf","제조원 노디너리/(612551) ND MUSHROOM PS_Proposition 65 Statement_v1.0_20260128.pdf"], title:"규제 확인서 9종 (BSE/TSE·CITES·CMR·GMO·Gluten·Microplastic·Nano·Ethanol Free·Prop65)", date:"v1.0_2026-01-28",
                   fullText:`모두 NORDINARY 발행, v1.0_2026.01.28, 승인 **Moon Ki, BAEK**(Chief Technology Director | Technical Research Center | Nordinary Inc.). 각 문서에 제품명과 INCI명(Water(Aqua), 1,2-Hexanediol, Tremella Fuciformis Polysaccharide)이 공통 기재.
 
 **① BSE/TSE Free** — "The above mentioned product **does not contain any materials derived from ruminants and is therefore BSE/TSE free with respect to source.**"(반추동물 유래 물질 미함유이므로 원료 측면에서 BSE/TSE free)
@@ -17216,7 +17309,7 @@ Approved by Moon Ki, BAEK
 
 **판정 근거: TSE·BSE·CITES·CMR·GMO·Gluten Free·Microplastic·Nano·Alcohol Free·Proposition 65 열 항목의 근거.**
 **평가: ⑥미세플라스틱이 최신 규정 (EU) 2023/2055를, ⑦나노가 화장품규정 (EC) No 1223/2009의 정의(1~100nm)와 자연발생 사례(화산재·산불 그을음)까지 인용해 상세하다(612272 HYDRAMUNE COMPLEX와 동일한 노디너리 표준 문안). ①BSE/TSE가 '반추동물 유래'로 대상을 특정한 점도 명확하다. 다만 ⑧ETHANOL Free는 '의도적 미사용'까지만 진술해 미량 잔류 가능성을 완전히 배제하지는 않으며, ⑨Prop 65는 목록 버전(기준일)이 기재되어 있지 않다.**` },
-                { files:["[노디너리] 원료 필수 서류 리스트_ND MUSHROOM PS-260128.xlsx"], title:"**공급사 자체 43종 체크리스트 (검토 완료일 2026-01-28) — '갈음' 표기가 많아 실제 보유보다 X가 많음**", date:"2026-01-28",
+                { files:["제조원 노디너리/[노디너리] 원료 필수 서류 리스트_ND MUSHROOM PS-260128.xlsx"], title:"**공급사 자체 43종 체크리스트 (검토 완료일 2026-01-28) — '갈음' 표기가 많아 실제 보유보다 X가 많음**", date:"2026-01-28",
                   fullText:`[노디너리 원료 요청리스트] — **원료명 ND MUSHROOM PS / 제조원 ㈜노디너리 / 공급처 ㈜노디너리**(제조원과 공급처 동일)
 취합여부 — MSDS O / Composition O / **TDS X — 'SPEC 서류로 갈음'** / SPEC O / Origin O / **원산지증명서(제조국) X — 'Origin 서류로 갈음'** / **Animal Free X — 'Vegan 서류로 갈음'** / Non Animal Test O / **추출부위확인서 X — 'Origin 서류로 갈음'** / Flow Chart O / GMO O / Nano O / TSE O / BSE O / CMR O / NMPA O / **Annex 14 X — 'NMPA 서류로 갈음'** / **RSPO O** / VEGAN O / REACH O / CITES O / **Alcohol Free O** / **HS CODE O — 3824.99-9090** / PORK FREE O / **HALAL X — 미해당(미인증)** / **Allergen(26) X — 'Allergen (81+) 서류로 갈음'** / Allergen(81+) O / **IFRA 51th X — 미해당** / **소개자료 X — 미해당** / **임상자료 X — 미해당** / **특허증 X — 미해당** / **ISO 16128 X — 미해당** / Heavy Metal O / Impurity O / Proposition 65 O / **EUDR O** / **Nut Free X — 'Food Allergen 첨부'** / Gluten Free O / **SVHC X — 'Impurity 자료로 갈음'** / **Furocoumarin X — 'Manufacturer's Statement 첨부'** / **PFAS X — 'Manufacturer's Statement 첨부'** / 미세플라스틱 O
 **검토 완료일 2026-01-28**
@@ -17243,7 +17336,7 @@ Approved by Moon Ki, BAEK
           country:"미국(Regulatory Certificate — 'Product - Made in USA from ingredients sourced from USA and EU', 제조소 뉴저지 Elmwood Park). **다만 글리세린은 아르헨티나산 식물 유래**(Dossier 기재)",
           views:0, regs:{}, fileCount:12,
           detail:{
-            code:"612555", classification:"폴리메틸실세스퀴옥산(구형 실리콘 파우더) 글리세린 분산액", hsCode:null,
+            code:"612555", dir:"(612555) GRANHYDROSIL PSQ-W-GL(HD)", classification:"폴리메틸실세스퀴옥산(구형 실리콘 파우더) 글리세린 분산액", hsCode:null,
             packaging:"20 kg 페일 / 180 kg 드럼(SPEC)",
             composition:[
                 {item:"Glycerin(글리세린, 甘油)", cas:"56-81-5", pct:"**47 ~ 51 %** — EINECS 200-289-5, **USP 등급(최고 화장품 등급), 디에틸렌글리콜(DEG) 불검출**, 아르헨티나산 식물 유래"},
@@ -17517,7 +17610,7 @@ Approved by **April Gormley, Manager of Regulatory Affairs**
           country:"대한민국(Origin 문서 — 'Launderma Water is manufactured in South Korea by Nordinary'). **성분별 원산지는 정제수·편백잎추출물·벤조산칼륨·1,2-헥산디올 한국 / 오레가노잎추출물·해수 프랑스 / 글리세린 EU**",
           views:0, regs:{}, fileCount:32,
           detail:{
-            code:"612560", classification:"오레가노잎추출물 기반 보습 수용액(편백잎추출물·해수 함유)", hsCode:"3824.99-9090(**공급사 체크리스트에만 기재**)",
+            code:"612560", dir:"(612560) LAUNDERMA WATER", classification:"오레가노잎추출물 기반 보습 수용액(편백잎추출물·해수 함유)", hsCode:"3824.99-9090(**공급사 체크리스트에만 기재**)",
             packaging:null,
             composition:[
                 {item:"Water(Aqua, 水)", cas:"7732-18-5", pct:"**88.6850 %**(v2.1 최신본) / 2020년판 87.710% — EC 231-791-2"},
@@ -17836,7 +17929,7 @@ Approved by Moon, BAEK
           country:"**미확인** — 제조국을 명시한 문서 없음. COA 발행사 LIPOTEC S.A.U.의 주소가 스페인 바르셀로나 Gavà로 기재되어 있을 뿐",
           views:0, regs:{}, fileCount:1,
           detail:{
-            code:"612584", classification:"미확인(제품명상 펩타이드 용액으로 추정되나 조성 문서 없음)", hsCode:null, packaging:null,
+            code:"612584", dir:"(612584) ARGIRELINE AMPLIFIED PEPTIDE SOLUTION C", classification:"미확인(제품명상 펩타이드 용액으로 추정되나 조성 문서 없음)", hsCode:null, packaging:null,
             composition:[
                 {item:"**조성 문서 없음 — INCI·CAS 미확인**", cas:null, pct:"COA에 제품 코드(P06-PD310)와 배치번호(F471/25)만 기재"}
             ],
@@ -17938,7 +18031,7 @@ BATCH: **F471/25**
           country:"**미확인** — 제조국을 확인할 수 있는 문서 없음",
           views:0, regs:{}, fileCount:0,
           detail:{
-            code:"612592", classification:"미확인(제품명상 일라이트 계열 점토광물로 추정되나 원문 근거 없음)", hsCode:null, packaging:null,
+            code:"612592", dir:"(612592) 일라이트 HD", classification:"미확인(제품명상 일라이트 계열 점토광물로 추정되나 원문 근거 없음)", hsCode:null, packaging:null,
             composition:[
                 {item:"**문서 없음 — INCI·CAS·조성 전부 미확인**", cas:null, pct:"폴더에 파일 0개"}
             ],
@@ -17970,7 +18063,7 @@ BATCH: **F471/25**
           country:"대한민국(Certificate of Origin(Manufacture) 2024.09.04). **성분별 원산지는 유산균 발효물 한국, 펜틸렌글라이콜 남아프리카공화국(사탕수수 줄기), 카프릴릴글라이콜 말레이시아(팜·코코넛 과실)**",
           views:0, regs:{}, fileCount:25,
           detail:{
-            code:"612649", classification:"유산균(Lactobacillus) 발효물 95.8% 액상 원료 — 마이크로바이옴 계열", hsCode:null, packaging:null,
+            code:"612649", dir:"(612649) Lactobiome DLP38-F", classification:"유산균(Lactobacillus) 발효물 95.8% 액상 원료 — 마이크로바이옴 계열", hsCode:null, packaging:null,
             composition:[
                 {item:"**Lactobacillus Ferment(락토바실러스 발효물)**", cas:"2380025-37-4", pct:"**95.80 %**"},
                 {item:"Pentylene Glycol(펜틸렌글라이콜)", cas:"5343-92-0", pct:"**4.00 %** — EINECS 226-285-3, **남아프리카공화국산 사탕수수 줄기 유래**, 방부 역할"},
@@ -18196,7 +18289,7 @@ Authorized by ChulGu Kim(Manager, Marketing Team Leader) / Last Update: Septembe
           country:"대한민국(Certificate of Origin 2022.06.28 — Origin of Product: Korea, 제조소 충북 청주 오창). **원료별로는 부틸렌글라이콜만 미국산이고 나머지 펩타이드 12종과 정제수는 모두 한국산**",
           views:0, regs:{}, fileCount:17,
           detail:{
-            code:"612657", classification:"펩타이드 12종 복합 액상 원료(부틸렌글라이콜 40% 베이스)", hsCode:"3824.99.9090(**0바이트 txt 파일의 파일명에만 기재 — 정식 문서 아님**)",
+            code:"612657", dir:"(612657) PEPTIDE 12 COMPLEX", classification:"펩타이드 12종 복합 액상 원료(부틸렌글라이콜 40% 베이스)", hsCode:"3824.99.9090(**0바이트 txt 파일의 파일명에만 기재 — 정식 문서 아님**)",
             packaging:null,
             composition:[
                 {item:"WATER(정제수)", cas:"7732-18-5", pct:"**59.88 %** — EINECS 231-791-2, 한국산"},
@@ -18476,7 +18569,7 @@ J2KBIO — 50-3, Dureungyuri-ro, Ochang, Cheongwon, Cheongju, Chungbuk, 28104 Ko
           country:"대한민국(Certificate of Origin 2026.01.02 — Country: KOREA / Dossier 'Country of Manufacture: Republic of Korea'). **원료별로는 카프릴릴글라이콜·1,2-헥산다이올이 합성(Synthetic), 프로판다이올·팔각회향 추출물이 식물(Plant)이며 개별 원산지국은 미기재**",
           views:0, regs:{}, fileCount:30,
           detail:{
-            code:"612658", classification:"화장품용 광범위 항균 방부제(용제 혼합계 + 식물 추출물)", hsCode:"**문서 없음** — 폴더 30개 파일 어디에도 HS 코드 기재 없음",
+            code:"612658", dir:"(612658) NCARE-TRIOL", classification:"화장품용 광범위 항균 방부제(용제 혼합계 + 식물 추출물)", hsCode:"**문서 없음** — 폴더 30개 파일 어디에도 HS 코드 기재 없음",
             packaging:null,
             composition:[
                 {item:"CAPRYLYL GLYCOL(카프릴릴글라이콜) — 합성", cas:"1117-86-8", pct:"52.5 %"},
@@ -18981,7 +19074,7 @@ Certified by: **QC Manager** / 2025.11.20
           country:"대한민국(Certificate of Origin 2022.09.13 — Origin of Product: Korea, 제조소 충북 청주 오창). **원료별로는 가수분해대두단백만 중국산이고 유산균 발효물과 1,2-헥산다이올은 한국산**",
           views:0, regs:{}, fileCount:12,
           detail:{
-            code:"612680", classification:"유산균 발효물 + 가수분해 대두단백 액상 원료", hsCode:"**문서 없음** — 폴더 12개 파일 어디에도 HS 코드 기재 없음",
+            code:"612680", dir:"(612680) Lacto-Protein Solution™", classification:"유산균 발효물 + 가수분해 대두단백 액상 원료", hsCode:"**문서 없음** — 폴더 12개 파일 어디에도 HS 코드 기재 없음",
             packaging:null,
             composition:[
                 {item:"WATER(정제수) — **MSDS 3항에는 이 항목 자체가 없다**", cas:"7732-18-5", pct:"96.999 %"},
@@ -20637,6 +20730,8 @@ Approved by: J2KBIO
     function renderAdmin() {
         const el = document.getElementById('adm-checks');
         if (!el) return;
+        const linked = MATERIALS.reduce((s,m)=>s + (m.detail.documents||[]).reduce((a,g)=>a+(g.files||[]).length,0), 0);
+        const pl = document.getElementById('pdf-linked'); if (pl) pl.textContent = linked.toLocaleString();
         const checks = admChecks().map(c=>({...c, hits: MATERIALS.filter(c.pick)}));
         document.getElementById('adm-asof').textContent =
             `기준일 ${new Date().toLocaleDateString('ko-KR')} · 등록 ${MATERIALS.length}건`;
@@ -21051,6 +21146,29 @@ Approved by: J2KBIO
         /* 코드는 있으나 '정식 문서 아님' 같은 단서가 붙은 경우가 있어 흐리게 표시하고 툴팁으로 원문을 남긴다 */
         return { code: m[0].replace(/\s+/g,''), ok: !/없음|아님|미기재|불명|추정/.test(t) };
     }
+    /* 원본 PDF 링크 — 폴더/파일명을 URL 인코딩해 새 탭에서 연다.
+       파일은 index.html과 같은 위치의 '14. AI 활용 …' 폴더에 있으므로 상대경로로 접근된다. */
+    const PDF_ROOT = '14. AI 활용 (원료파트)(원료자료)';
+    function pdfHref(dir, rel) {
+        if (!dir || !rel) return null;
+        return [PDF_ROOT, dir, ...String(rel).split('/')].map(encodeURIComponent).join('/');
+    }
+    function docFileLinks(dir, files) {
+        const arr = files || [];
+        if (!arr.length) return '<span style="color:var(--ink-faint)">-</span>';
+        return arr.map(f=>{
+            const href = pdfHref(dir, f);
+            const name = String(f).split('/').pop();
+            const ico = /\.pdf$/i.test(name) ? 'bi-file-earmark-pdf'
+                      : /\.(xlsx?|csv)$/i.test(name) ? 'bi-file-earmark-spreadsheet' : 'bi-file-earmark';
+            if (!href) return escHtml(name);
+            return `<a href="${href}" target="_blank" rel="noopener" title="${escHtml(f)}"
+                style="display:inline-flex;align-items:center;gap:4px;margin:2px 6px 2px 0;padding:2px 7px;border-radius:6px;
+                       background:var(--paper);border:1px solid var(--line-soft);color:var(--rouge-700);text-decoration:none;font-size:.73rem">
+                <i class="bi ${ico}"></i>${escHtml(name)}</a>`;
+        }).join('');
+    }
+
     function matCard(m) {
         const key = matKey(m);
         const fav = favs.has(key);
@@ -21932,7 +22050,7 @@ Approved by: J2KBIO
                 const docItems = d.documents.map(doc=>`
                     <details class="doc-entry" style="border:1px solid var(--line);border-radius:8px;margin-top:6px;padding:6px 10px">
                         <summary style="cursor:pointer;font-weight:700;color:var(--ink-soft)">${mdBold(doc.title)} <span style="font-weight:400;color:var(--ink-faint);font-size:.76rem">— ${doc.date||''}</span></summary>
-                        <div style="font-size:.74rem;color:var(--ink-faint);margin:6px 0">원본 파일: ${(doc.files||[]).join(', ')}</div>
+                        <div style="font-size:.74rem;color:var(--ink-faint);margin:6px 0">원본 파일: ${docFileLinks(d.dir, doc.files)}</div>
                         <pre style="white-space:pre-wrap;word-break:break-word;font-family:inherit;max-height:280px;overflow-y:auto;background:var(--paper);border:1px solid var(--line-soft);border-radius:6px;padding:8px 10px;font-size:.76rem;color:var(--ink-soft);margin:0">${mdBold(doc.fullText||'')}</pre>
                     </details>`).join('');
                 secDocs.push(`<div><b>원본 문서 전문 보관함 (전체 ${d.documents.length}건 — 중복 파일 제거)</b>
@@ -22030,11 +22148,13 @@ Approved by: J2KBIO
             row.style.cssText='display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px';
             row.innerHTML=`<i class="bi ${ico}" style="color:${col};font-size:1.3rem"></i>
                 <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${f.name}</div>
-                <div style="font-size:.72rem;color:var(--ink-faint)">${(f.size/1024).toFixed(0)} KB · 업로드 대기</div></div>
-                <i class="bi bi-check-circle-fill" style="color:var(--ok)"></i>`;
+                <div style="font-size:.72rem;color:var(--warn)">${(f.size/1024).toFixed(0)} KB · <b>저장되지 않음</b></div></div>
+                <i class="bi bi-exclamation-triangle-fill" style="color:var(--warn)"></i>`;
             box.appendChild(row);
         });
-        toast(`${files.length}개 파일 추가됨 (Firebase Storage 연동 시 자동 업로드)`);
+        /* 실제 업로드 기능은 없다 — 목록만 표시한다. 원본 PDF는 '14. AI 활용 …' 폴더에 직접 넣고
+           원료 데이터(documents[].files)에 파일명을 등록해야 상세창에서 열린다. */
+        toast(`${files.length}개 파일은 화면에만 표시됩니다 — 실제 저장은 되지 않습니다`);
     };
 
     /* ---- 문서 자동 생성 (NMPA / BOM) ---- */
