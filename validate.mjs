@@ -86,8 +86,28 @@ for (const [label, get, keys] of ROWS)
     });
   }
 
+// 7) 유효기한 정규화 필드 — 형식·정합성 점검
+let expOk = 0, expNull = 0;
+for (const [code, st] of Object.entries(DOC43_STATUS)) {
+  const s = st.storage;
+  if (!s) { err.push(`${code}: storage 블록 없음`); continue; }
+  if (!("expiryDate" in s)) { err.push(`${code}: storage.expiryDate 필드 누락`); continue; }
+  const v = s.expiryDate;
+  if (v === null) { expNull++;
+    if (!s.expirySrc) err.push(`${code}: expiryDate가 null인데 expirySrc(사유)가 없음`);
+    continue; }
+  if (typeof v !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(v))
+    { err.push(`${code}: expiryDate 형식 오류 "${v}" (YYYY-MM-DD 필요)`); continue; }
+  const d = new Date(v + "T00:00:00");
+  if (isNaN(d)) { err.push(`${code}: expiryDate가 실재하지 않는 날짜 "${v}"`); continue; }
+  if (d.getFullYear() < 2015 || d.getFullYear() > 2040)
+    err.push(`${code}: expiryDate 연도 이상 "${v}"`);
+  expOk++;
+}
+
 console.log(`DEMO ${DEMO.length}건 / DEMO_AUTO ${DEMO_AUTO.length}건 / DOC43_STATUS ${stCodes.length}건`);
 const t = c => { const s = DOC43_STATUS[c]; return (s.have||[]).length; };
 console.log(`612252 have=${t("612252")} / 612272 have=${t("612272")}`);
+console.log(`유효기한 확정 ${expOk}건 / 미기록 ${expNull}건`);
 console.log(err.length ? "오류 " + err.length + "건:\n- " + err.join("\n- ") : "오류 0건");
 
