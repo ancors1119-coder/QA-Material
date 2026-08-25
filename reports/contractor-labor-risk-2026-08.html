@@ -1,0 +1,522 @@
+<title>도급사 노무 리스크 진단</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=Noto+Serif+KR:wght@500;600;700&display=swap">
+<style>
+:root{
+  --ground:#F4F6F7; --surface:#FFFFFF; --surface-2:#EDF0F2;
+  --ink:#14181C; --ink-2:#39424D; --muted:#606B79; --faint:#8C97A4;
+  --rule:#DBE0E5; --rule-strong:#B9C2CB;
+  --accent:#1E3A5C; --accent-soft:#E3EAF2;
+  --crit:#A32219; --crit-bg:#FAEBE9;
+  --warn:#8A5D08; --warn-bg:#FBF1DE;
+  --ok:#26614A; --ok-bg:#E6F0EA;
+  --barA:#1E3A5C; --barB:#8A6A3C;
+  --shadow:0 1px 2px rgba(20,24,28,.06),0 8px 24px -16px rgba(20,24,28,.28);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#111418; --surface:#191D23; --surface-2:#20252C;
+    --ink:#E8ECF1; --ink-2:#C2CAD4; --muted:#96A1AE; --faint:#6E7986;
+    --rule:#2A3038; --rule-strong:#3C444E;
+    --accent:#8FB3DC; --accent-soft:#1D2A3A;
+    --crit:#F0918A; --crit-bg:#2E1A18;
+    --warn:#DFAA55; --warn-bg:#2C2317;
+    --ok:#77C39B; --ok-bg:#16261F;
+    --barA:#8FB3DC; --barB:#C9A26B;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#111418; --surface:#191D23; --surface-2:#20252C;
+  --ink:#E8ECF1; --ink-2:#C2CAD4; --muted:#96A1AE; --faint:#6E7986;
+  --rule:#2A3038; --rule-strong:#3C444E;
+  --accent:#8FB3DC; --accent-soft:#1D2A3A;
+  --crit:#F0918A; --crit-bg:#2E1A18;
+  --warn:#DFAA55; --warn-bg:#2C2317;
+  --ok:#77C39B; --ok-bg:#16261F;
+  --barA:#8FB3DC; --barB:#C9A26B;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans KR",-apple-system,"Malgun Gothic",sans-serif;
+  font-weight:400; font-size:15px; line-height:1.72;
+  -webkit-font-smoothing:antialiased;
+}
+.page{max-width:1120px;margin:0 auto;padding:0 28px 96px}
+h1,h2,h3,.serif{font-family:"Noto Serif KR","IBM Plex Sans KR",serif;text-wrap:balance}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- masthead ---------- */
+.mast{padding:56px 0 26px;border-bottom:2px solid var(--ink)}
+.eyebrow{
+  font-size:11.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent);display:flex;gap:12px;align-items:center;flex-wrap:wrap
+}
+.eyebrow .sep{width:26px;height:1px;background:var(--rule-strong)}
+h1{font-size:clamp(30px,4.6vw,46px);font-weight:700;line-height:1.24;margin:16px 0 10px;letter-spacing:-.015em}
+.dek{font-size:16.5px;color:var(--ink-2);max-width:62ch;margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:0 34px;margin-top:26px;font-size:13px;color:var(--muted)}
+.meta div{display:flex;gap:8px}
+.meta b{color:var(--ink-2);font-weight:600}
+
+/* ---------- section frame ---------- */
+section{padding-top:52px}
+.shead{display:grid;grid-template-columns:70px 1fr;gap:20px;align-items:baseline;
+  border-bottom:1px solid var(--rule-strong);padding-bottom:12px;margin-bottom:26px}
+.snum{font-family:"Noto Serif KR",serif;font-size:13px;font-weight:600;color:var(--accent);
+  letter-spacing:.1em;padding-top:4px}
+.shead h2{font-size:23px;font-weight:600;margin:0;letter-spacing:-.01em}
+.shead p{grid-column:2;margin:6px 0 0;font-size:13.5px;color:var(--muted)}
+.body{display:grid;grid-template-columns:70px 1fr;gap:20px}
+.body>.gutter{font-size:11.5px;color:var(--faint);letter-spacing:.06em;line-height:1.5}
+.body>.col{min-width:0}
+@media(max-width:780px){
+  .shead,.body{grid-template-columns:1fr}
+  .shead p{grid-column:1}
+  .body>.gutter{display:none}
+}
+
+/* ---------- verdict ---------- */
+.verdict{background:var(--surface);border:1px solid var(--rule);border-top:3px solid var(--crit);
+  padding:26px 28px;box-shadow:var(--shadow)}
+.verdict h3{margin:0 0 12px;font-size:19px;font-weight:600;line-height:1.45}
+.verdict p{margin:0 0 12px;color:var(--ink-2)}
+.verdict p:last-child{margin-bottom:0}
+.verdict strong{color:var(--ink);font-weight:600}
+.mark{background:var(--crit-bg);color:var(--crit);padding:.05em .35em;font-weight:600;border-radius:2px}
+
+/* ---------- score cards ---------- */
+.scores{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:760px){.scores{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--rule);padding:24px;box-shadow:var(--shadow);position:relative}
+.card .co{font-size:12px;letter-spacing:.1em;color:var(--muted);font-weight:600;text-transform:uppercase}
+.card h3{font-size:22px;font-weight:700;margin:6px 0 2px;letter-spacing:-.01em}
+.card .sub{font-size:13px;color:var(--muted);margin:0 0 18px}
+.scoreline{display:flex;align-items:flex-end;gap:12px;border-top:1px solid var(--rule);padding-top:16px}
+.big{font-family:"Noto Serif KR",serif;font-size:56px;font-weight:700;line-height:.92;letter-spacing:-.03em}
+.of{font-size:14px;color:var(--faint);padding-bottom:7px}
+.grade{margin-left:auto;text-align:right;padding-bottom:4px}
+.grade .g{font-family:"Noto Serif KR",serif;font-size:30px;font-weight:700;line-height:1}
+.grade .gl{font-size:12px;font-weight:600;letter-spacing:.08em}
+.g-e{color:var(--crit)} .g-d{color:var(--warn)} .g-c{color:var(--ok)}
+.card ul{margin:16px 0 0;padding:0;list-style:none;border-top:1px solid var(--rule);padding-top:14px}
+.card li{font-size:13.5px;color:var(--ink-2);padding-left:15px;position:relative;margin-bottom:7px;line-height:1.6}
+.card li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;background:var(--rule-strong)}
+.card li:last-child{margin-bottom:0}
+
+/* ---------- bars ---------- */
+.bars{background:var(--surface);border:1px solid var(--rule);padding:24px 26px;box-shadow:var(--shadow)}
+.legend{display:flex;gap:22px;font-size:12.5px;color:var(--muted);margin-bottom:22px;
+  padding-bottom:14px;border-bottom:1px solid var(--rule);flex-wrap:wrap}
+.legend span{display:flex;align-items:center;gap:7px}
+.sw{width:11px;height:11px;display:inline-block}
+.swa{background:var(--barA)} .swb{background:var(--barB)}
+.brow{display:grid;grid-template-columns:210px 1fr;gap:18px;align-items:center;margin-bottom:16px}
+@media(max-width:640px){.brow{grid-template-columns:1fr;gap:6px}}
+.blab{font-size:13.5px;color:var(--ink-2)}
+.blab em{font-style:normal;color:var(--faint);font-size:12px;margin-left:6px}
+.btrack{display:grid;gap:5px}
+.bline{display:grid;grid-template-columns:1fr 62px;gap:10px;align-items:center}
+.bbg{background:var(--surface-2);height:15px;position:relative}
+.bfill{height:100%;display:block}
+.bval{font-size:12.5px;color:var(--muted);text-align:right}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto;border:1px solid var(--rule);background:var(--surface);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:660px;font-size:13.5px}
+th{background:var(--surface-2);text-align:left;font-weight:600;font-size:12px;letter-spacing:.05em;
+  color:var(--ink-2);padding:12px 14px;border-bottom:1px solid var(--rule-strong);white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--ink-2)}
+tbody tr:last-child td{border-bottom:none}
+tr.total td{background:var(--surface-2);font-weight:600;color:var(--ink);border-top:2px solid var(--rule-strong)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.item{color:var(--ink);font-weight:500}
+
+/* ---------- risk register ---------- */
+.risk{display:grid;grid-template-columns:96px 1fr;gap:22px;padding:22px 0;border-bottom:1px solid var(--rule)}
+.risk:last-child{border-bottom:none}
+@media(max-width:700px){.risk{grid-template-columns:1fr;gap:10px}}
+.rid{font-size:12px;color:var(--faint);letter-spacing:.08em;font-weight:600}
+.pill{display:inline-block;margin-top:8px;font-size:11px;font-weight:600;letter-spacing:.07em;
+  padding:3px 9px;border-radius:2px;white-space:nowrap}
+.p-crit{background:var(--crit-bg);color:var(--crit)}
+.p-warn{background:var(--warn-bg);color:var(--warn)}
+.p-ok{background:var(--ok-bg);color:var(--ok)}
+.risk h3{margin:0 0 8px;font-size:17px;font-weight:600;line-height:1.45}
+.risk p{margin:0 0 10px;color:var(--ink-2);font-size:14px}
+.risk p:last-child{margin-bottom:0}
+.who{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px}
+.tag{font-size:11.5px;font-weight:500;padding:2px 8px;background:var(--surface-2);
+  color:var(--muted);border-radius:2px}
+.tag.a{background:var(--accent-soft);color:var(--accent)}
+.basis{font-size:12.5px;color:var(--muted);border-left:2px solid var(--rule-strong);
+  padding:2px 0 2px 12px;margin-top:12px}
+.basis b{color:var(--ink-2);font-weight:600}
+
+/* ---------- callout ---------- */
+.note{background:var(--surface-2);border:1px solid var(--rule);padding:18px 20px;font-size:13px;
+  color:var(--muted);line-height:1.7}
+.note b{color:var(--ink-2);font-weight:600;display:block;margin-bottom:6px;font-size:12.5px;letter-spacing:.05em}
+.note ol{margin:8px 0 0;padding-left:20px}
+.note li{margin-bottom:5px}
+
+footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--rule);
+  font-size:12.5px;color:var(--faint);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){
+  .bfill{animation:grow .8s cubic-bezier(.2,.7,.3,1) both}
+  @keyframes grow{from{transform:scaleX(0);transform-origin:left}to{transform:scaleX(1)}}
+}
+</style>
+
+<div class="page">
+
+<header class="mast">
+  <div class="eyebrow"><span>경영진 보고</span><span class="sep"></span><span>인사노무 · 대외비</span></div>
+  <h1>도급사 2개사 노무 운영 진단 및 리스크 보고</h1>
+  <p class="dek">㈜나이스피플 · ㈜벨르코스메틱이 회신한 「인사·노무 현황 자체진단 체크리스트」를 기준으로 운영 수준을 계량 평가하고, 원청에 전이될 수 있는 법적·재무적 리스크를 정리했습니다.</p>
+  <div class="meta">
+    <div><b>진단 기준일</b><span>2026. 08. 25.</span></div>
+    <div><b>회신 자료</b><span>나이스피플 08.20 / 벨르코스메틱 08.18</span></div>
+    <div><b>대상 인원</b><span class="num">588명 (도급 2개사 합계)</span></div>
+    <div><b>평가 항목</b><span class="num">6개 영역 · 42개 문항</span></div>
+  </div>
+</header>
+
+<section>
+  <div class="shead">
+    <div class="snum">Ⅰ</div>
+    <h2>결론 요약</h2>
+    <p>보고를 한 줄로 줄이면 — 두 도급사 모두 계약이행 가능 수준이나, 지금 상태로는 원청이 사용자 책임을 함께 지게 될 구조입니다.</p>
+  </div>
+  <div class="body">
+    <div class="gutter">EXECUTIVE<br>SUMMARY</div>
+    <div class="col">
+      <div class="verdict">
+        <h3>양사 모두 기준 미달이며, 성격이 다른 두 종류의 리스크가 동시에 존재합니다.</h3>
+        <p><strong>㈜나이스피플 63.5점 (D · 주의)</strong> — 인사·급여·근태 등 <em>서류상 관리체계는 비교적 갖춰져 있으나</em>, 야간조(28명)에 자사 관리자가 없어 <span class="mark">벨르코스메틱 관리자가 대신 관리</span>하고 있고 인원이 <span class="mark">혼재</span>되어 관리직 1인당 인원 산출조차 불가한 상태로 회신했습니다. 이는 도급의 독립성이 성립하지 않는다는 자백에 가까우며, 본 보고서에서 가장 시급한 단일 리스크입니다.</p>
+        <p><strong>㈜벨르코스메틱 47.0점 (E · 취약)</strong> — 463명 규모임에도 안전관리자·보건관리자·관리감독자를 <span class="mark">1인이 전부 겸직</span>하고, 위험성평가·특수건강진단·산업안전보건위원회가 모두 미실시·미설치입니다. 최근 3년 내 고용노동부 근로감독 시정지시(컨베이어벨트 안전조치) 이력까지 있어 산업안전 축이 구조적으로 비어 있습니다.</p>
+        <p><strong>공통</strong> — 야간작업 특수건강진단 대상 <span class="num">158명</span>(나이스 28 + 벨르 130) 전원 미실시. 이는 해석의 여지가 크지 않은 명백한 법정 의무 미이행이며, 두 회사 모두 "검토중 / 진행예정"으로 회신했습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="snum">Ⅱ</div>
+    <h2>평가 결과</h2>
+    <p>6개 영역 100점 만점. 회신 내용의 구체성·법정기준 충족 여부·근거자료 제시 여부를 함께 반영했습니다.</p>
+  </div>
+  <div class="body">
+    <div class="gutter">SCORE<br>CARD</div>
+    <div class="col">
+
+      <div class="scores">
+        <div class="card">
+          <div class="co">도급사 A</div>
+          <h3>㈜나이스피플</h3>
+          <p class="sub">주간 97명 / 야간 28명 · 계 125명 · 작성 이상권 선임</p>
+          <div class="scoreline">
+            <span class="big num g-d">63.5</span><span class="of">/ 100</span>
+            <span class="grade"><span class="g g-d">D</span><br><span class="gl g-d">주의</span></span>
+          </div>
+          <ul>
+            <li><b>강점</b> — 근태 이중기록(지문+GPS), 휴게시간 구체 부여, 수당 산정기준 명시, 노무리스크 이력 무</li>
+            <li><b>약점</b> — 야간조 자사 관리자 부재, 법정 선임 3종 전부 "예정", 성희롱 예방교육 미실시</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="co">도급사 B</div>
+          <h3>㈜벨르코스메틱</h3>
+          <p class="sub">주간 333명 / 야간 130명 · 계 463명 · 작성 이혜란 계장</p>
+          <div class="scoreline">
+            <span class="big num g-e">47.0</span><span class="of">/ 100</span>
+            <span class="grade"><span class="g g-e">E</span><br><span class="gl g-e">취약</span></span>
+          </div>
+          <ul>
+            <li><b>강점</b> — 취업규칙·노사협의회·성희롱교육 등 문서 기반 의무는 최근 시점으로 이행</li>
+            <li><b>약점</b> — 안전보건 4개 항목 사실상 공백, 관리직 현황 무응답, 장애인 의무고용 미이행</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bars" style="margin-top:18px">
+        <div class="legend">
+          <span><i class="sw swa"></i>㈜나이스피플</span>
+          <span><i class="sw swb"></i>㈜벨르코스메틱</span>
+          <span style="margin-left:auto;color:var(--faint)">영역별 배점 대비 획득점수</span>
+        </div>
+
+        <div class="brow"><div class="blab">Ⅰ 조직·인력 현황<em>20점</em></div><div class="btrack">
+          <div class="bline"><div class="bbg"><i class="bfill" style="width:55%;background:var(--barA)"></i></div><div class="bval num">11.0</div></div>
+          <div class="bline"><div class="bbg"><i class="bfill" style="width:40%;background:var(--barB)"></i></div><div class="bval num">8.0</div></div>
+        </div></div>
+
+        <div class="brow"><div class="blab">Ⅱ 교대제·근로시간<em>20점</em></div><div class="btrack">
+          <div class="bline"><div class="bbg"><i class="bfill" style="width:75%;background:var(--barA)"></i></div><div class="bval num">15.0</div></div>
+          <div class="bline"><div class="bbg"><i class="bfill" style="width:30%;background:var(--barB)"></i></div><div class="bval num">6.0</div></div>
+        </div></div>
+
+        <div class="brow"><div class="blab">Ⅲ 인사노무 체계<em>20점</em></div><div class="btrack">
+          <div class="bline"><div class="bbg"><i class="bfill" style="width:75%;background:var(--barA)"></i></div><div class="bval num">15.0</div></div>
+          <div class="bline"><div class="bbg"><i class="bfill" style="width:77.5%;background:var(--barB)"></i></div><div class="bval num">15.5</div></div>
+        </div></div>
+
+        <div class="brow"><div class="blab">Ⅳ 안전보건 체계<em>20점</em></div><div class="btrack">
+          <div class="bline"><div class="bbg"><i class="bfill" style="width:62.5%;background:var(--barA)"></i></div><div class="bval num">12.5</div></div>
+          <div class="bline"><div class="bbg"><i class="bfill" style="width:35%;background:var(--barB)"></i></div><div class="bval num">7.0</div></div>
+        </div></div>
+
+        <div class="brow"><div class="blab">Ⅴ 법정 의무 이행<em>15점</em></div><div class="btrack">
+          <div class="bline"><div class="bbg"><i class="bfill" style="width:40%;background:var(--barA)"></i></div><div class="bval num">6.0</div></div>
+          <div class="bline"><div class="bbg"><i class="bfill" style="width:46.7%;background:var(--barB)"></i></div><div class="bval num">7.0</div></div>
+        </div></div>
+
+        <div class="brow" style="margin-bottom:0"><div class="blab">Ⅵ 노무리스크 이력<em>5점</em></div><div class="btrack">
+          <div class="bline"><div class="bbg"><i class="bfill" style="width:80%;background:var(--barA)"></i></div><div class="bval num">4.0</div></div>
+          <div class="bline"><div class="bbg"><i class="bfill" style="width:70%;background:var(--barB)"></i></div><div class="bval num">3.5</div></div>
+        </div></div>
+      </div>
+
+      <div class="tw" style="margin-top:18px">
+        <table>
+          <thead><tr>
+            <th>평가 영역</th><th class="n">배점</th>
+            <th class="n">나이스피플</th><th class="n">벨르코스메틱</th>
+            <th>주요 감점 사유</th>
+          </tr></thead>
+          <tbody>
+            <tr><td class="item">Ⅰ 조직·인력 현황</td><td class="n">20</td><td class="n">11.0</td><td class="n">8.0</td>
+              <td>A: 야간조 관리자 0명·인원 혼재 / B: 관리직 배치·1인당 인원 무응답</td></tr>
+            <tr><td class="item">Ⅱ 교대제·근로시간</td><td class="n">20</td><td class="n">15.0</td><td class="n">6.0</td>
+              <td>A: 인수인계 기록 부재(회신 상호모순) / B: 인수인계·휴게시간·연속야간 기준 전무</td></tr>
+            <tr><td class="item">Ⅲ 인사노무 체계</td><td class="n">20</td><td class="n">15.0</td><td class="n">15.5</td>
+              <td>양사 공통: 퇴직연금 미도입(퇴직금제도만 운영) / A: 급여를 원청 계약기준으로 산정</td></tr>
+            <tr><td class="item">Ⅳ 안전보건 체계</td><td class="n">20</td><td class="n">12.5</td><td class="n">7.0</td>
+              <td>양사 공통: 야간 특수건강진단 미실시 / B: 위험성평가 미실시·안전보건 1인 겸직</td></tr>
+            <tr><td class="item">Ⅴ 법정 의무 이행</td><td class="n">15</td><td class="n">6.0</td><td class="n">7.0</td>
+              <td>A: 안전·보건관리자·산안위 3종 "선임예정" / B: 산안위 무응답·장애인 의무고용 미이행</td></tr>
+            <tr><td class="item">Ⅵ 노무리스크 이력</td><td class="n">5</td><td class="n">4.0</td><td class="n">3.5</td>
+              <td>A: 외국인 G비자 취업적격 확인 필요 / B: 근로감독 시정지시 이력 보유</td></tr>
+            <tr class="total"><td>합계</td><td class="n">100</td><td class="n">63.5</td><td class="n">47.0</td>
+              <td>D (주의) &nbsp;/&nbsp; E (취약)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note" style="margin-top:16px">
+        <b>등급 기준</b>
+        90점 이상 A(우수) · 80–89 B(양호) · 70–79 C(보통) · 60–69 D(주의) · 60점 미만 E(취약).
+        70점 미만은 시정계획 제출 및 재점검이 필요한 수준으로 봅니다.
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="snum">Ⅲ</div>
+    <h2>리스크 등록부</h2>
+    <p>원청으로 책임이 전이될 수 있는 순서대로 배열했습니다. R-1은 나머지 전부보다 우선합니다.</p>
+  </div>
+  <div class="body">
+    <div class="gutter">RISK<br>REGISTER</div>
+    <div class="col">
+
+      <div class="risk">
+        <div class="rid">R-1<span class="pill p-crit">최우선</span></div>
+        <div>
+          <h3>도급 독립성 결여 — 위장도급 / 불법파견 판단 리스크</h3>
+          <div class="who"><span class="tag a">나이스피플</span><span class="tag a">벨르코스메틱</span><span class="tag">원청 직접 노출</span></div>
+          <p>나이스피플은 야간조 관리직 배치를 <b>"주간 4명 / 야간 : 벨르 관리자관리"</b>로, 관리직 1인당 인원을 <b>"혼재되어 합산불가"</b>로 회신했습니다. 야간 28명에 대해 자사의 지휘·명령 라인이 존재하지 않으며 타 도급사 인력과 물리적으로 섞여 근무 중이라는 의미입니다.</p>
+          <p>도급의 성립 요건인 <b>업무의 독립적 수행·자체 노무지휘·인력의 구분</b>이 모두 충족되지 않습니다. 분쟁 발생 시 근로자파견으로 판단될 가능성이 높고, 그 경우 원청에 <b>직접고용 의무(파견법 제6조의2)</b>가 발생합니다. 노동위원회 제소 이력이 없다는 것은 아직 문제가 제기되지 않았다는 뜻이지 구조가 안전하다는 뜻이 아닙니다.</p>
+          <div class="basis"><b>근거 회신</b> — 나이스피플 Ⅰ-3, Ⅰ-4 / <b>재무영향</b> 직접고용 시 인건비 상승 + 소급 차액 정산 + 과태료</div>
+        </div>
+      </div>
+
+      <div class="risk">
+        <div class="rid">R-2<span class="pill p-crit">최우선</span></div>
+        <div>
+          <h3>야간작업 특수건강진단 전면 미실시 (대상 158명)</h3>
+          <div class="who"><span class="tag a">나이스피플</span><span class="tag a">벨르코스메틱</span><span class="tag">즉시 시정 가능</span></div>
+          <p>나이스피플 야간 21:00~08:00(28명), 벨르코스메틱 야간 21:00~06:00(130명) — 양사 모두 0시~5시대를 포함하는 야간작업으로 <b>배치 전 및 6개월 이내 주기의 특수건강진단 대상</b>입니다. 회신은 각각 <b>"현재없음(검토중)"</b>, <b>"진행예정"</b>으로, 전원 미실시 상태입니다.</p>
+          <p>해석 여지가 거의 없는 명백한 미이행이며, 근로감독 시 대상자 1인당 과태료가 누적 부과됩니다. 반대로 <b>가장 빠르고 확실하게 해소 가능한 항목</b>이기도 합니다 — 검진기관 지정과 일정 확정만으로 수주 내 종결됩니다.</p>
+          <div class="basis"><b>근거 회신</b> — 나이스피플 Ⅳ-4 / 벨르코스메틱 Ⅳ-4 · Ⅰ-1 · Ⅰ-2</div>
+        </div>
+      </div>
+
+      <div class="risk">
+        <div class="rid">R-3<span class="pill p-crit">최우선</span></div>
+        <div>
+          <h3>안전보건 관리조직 붕괴 — 463명을 1인이 겸직</h3>
+          <div class="who"><span class="tag a">벨르코스메틱</span><span class="tag">중대재해처벌법 연동</span></div>
+          <p>벨르코스메틱은 관리감독자·안전관리자·보건관리자를 <b>모두 이혜란 계장 1인</b>으로 회신했고, 산업안전보건위원회 항목은 <b>공란</b>입니다. 여기에 위험성평가는 <b>"진행예정"</b>으로 미실시입니다.</p>
+          <p>상시 463명 제조 사업장의 선임기준(인원수·전담 여부)을 충족하지 못할 가능성이 매우 높으며, 최근 3년 내 <b>고용노동부 시정지시(컨베이어벨트 안전조치)</b> 이력이 이미 존재합니다. 사업장 내에서 중대재해가 발생할 경우 <b>도급인의 안전보건 확보의무(산안법 제63조, 중대재해처벌법)</b>에 따라 원청 경영책임자가 직접 수사 대상이 됩니다. 위험성평가 미실시 기록은 그 국면에서 원청에 가장 불리한 증거로 작동합니다.</p>
+          <div class="basis"><b>근거 회신</b> — 벨르코스메틱 Ⅳ-1 · Ⅳ-3 · Ⅴ-3 · Ⅴ-4 · Ⅴ-5 · Ⅵ-2</div>
+        </div>
+      </div>
+
+      <div class="risk">
+        <div class="rid">R-4<span class="pill p-warn">높음</span></div>
+        <div>
+          <h3>법정 선임의무 3종 미이행 — "도급계약 후 선임예정"</h3>
+          <div class="who"><span class="tag a">나이스피플</span></div>
+          <p>안전관리자·보건관리자·산업안전보건위원회 세 항목 모두 <b>"최근 도급계약으로 선임예정(통합 후)"</b>으로 회신했습니다. 선임 의무는 계약 체결 여부가 아니라 <b>상시근로자 수와 업종</b>에서 발생하므로, 통합 시점을 기다리는 동안의 공백은 그대로 미이행 기간으로 남습니다.</p>
+          <p>추가로 성희롱 예방교육이 <b>"실시예정"</b>입니다. 연 1회 의무이므로 연내 이행은 가능하나, 8월 기준 미실시이며 회차 관리가 되고 있지 않다는 신호로 봅니다.</p>
+          <div class="basis"><b>근거 회신</b> — 나이스피플 Ⅴ-3 · Ⅴ-4 · Ⅴ-5 · Ⅴ-7</div>
+        </div>
+      </div>
+
+      <div class="risk">
+        <div class="rid">R-5<span class="pill p-warn">높음</span></div>
+        <div>
+          <h3>주 52시간 초과 소지 — 주간조 실근로 10.5시간</h3>
+          <div class="who"><span class="tag a">나이스피플</span></div>
+          <p>주간조 근무시간대가 <b>08:30~21:00(12.5시간, 비고 "잔업포함")</b>, 휴게가 <b>오전·오후 각 15분 + 중식 60분 + 석식 30분 = 120분</b>으로 회신되었습니다. 차감 시 <b>1일 실근로 10.5시간</b>이며, 주 5일 기준 <b>52.5시간</b>으로 법정 한도를 초과합니다.</p>
+          <p>주간조 97명 전체에 적용되는 구조적 사안이므로, 실제 주 근무일수와 근태 데이터를 확인해 실근로시간 산출 자료를 받아야 합니다. 초과가 확인되면 연장수당 소급 정산 부담이 함께 발생합니다.</p>
+          <div class="basis"><b>근거 회신</b> — 나이스피플 Ⅰ-1 · Ⅰ-2 · Ⅱ-4 (교차 산출)</div>
+        </div>
+      </div>
+
+      <div class="risk">
+        <div class="rid">R-6<span class="pill p-warn">높음</span></div>
+        <div>
+          <h3>근로시간·휴게 관리 기준 부재</h3>
+          <div class="who"><span class="tag a">벨르코스메틱</span></div>
+          <p>휴게시간 부여 현황이 <b>공란</b>입니다. 야간조는 21:00~06:00으로 9시간 근무이므로 <b>1시간 이상의 휴게</b>가 반드시 부여되어야 하나, 부여 사실을 입증할 회신이 없습니다. 교대 인수인계 절차는 <b>"해당없음"</b>, 연속 야간근무 제한 기준은 <b>"주5일근무"</b>라는 답변뿐으로 관리 기준 자체가 존재하지 않습니다.</p>
+          <p>또한 주간 08:30~17:30, 야간 21:00~06:00 사이 <b>17:30~21:00 3.5시간의 공백</b>이 설명되지 않습니다. 실제 교대 형태를 재확인해야 합니다.</p>
+          <div class="basis"><b>근거 회신</b> — 벨르코스메틱 Ⅱ-1 · Ⅱ-2 · Ⅱ-4 · Ⅰ-1</div>
+        </div>
+      </div>
+
+      <div class="risk">
+        <div class="rid">R-7<span class="pill p-warn">높음</span></div>
+        <div>
+          <h3>장애인 의무고용 미이행 — 부담금 확정 발생</h3>
+          <div class="who"><span class="tag a">벨르코스메틱</span></div>
+          <p>상시 463명 규모에서 <b>"고용예정"</b>으로 회신했습니다. 의무고용률 3.1% 적용 시 약 14명 수준이 필요하며, 100명 이상 사업장은 미달 인원에 대해 <b>장애인 고용부담금</b>이 부과됩니다. 리스크가 아니라 <b>이미 발생 중인 확정 비용</b>이며, 도급단가 협상 시 재무 건전성 항목으로 검토가 필요합니다.</p>
+          <div class="basis"><b>근거 회신</b> — 벨르코스메틱 Ⅴ-6 · Ⅰ-2</div>
+        </div>
+      </div>
+
+      <div class="risk">
+        <div class="rid">R-8<span class="pill p-warn">중간</span></div>
+        <div>
+          <h3>외국인 근로자 체류자격 적법성 — G비자 운영</h3>
+          <div class="who"><span class="tag a">나이스피플</span><span class="tag">벨르: F비자, 상대적 안전</span></div>
+          <p>나이스피플이 <b>"F비자/G비자 운영"</b>으로 회신했습니다. F계열(F-2·F-4·F-5·F-6 등)은 취업활동에 제한이 적으나, <b>G-1은 원칙적으로 취업활동이 허용되지 않는 체류자격</b>으로 체류자격 외 활동허가가 없으면 불법고용에 해당합니다. 적발 시 도급사뿐 아니라 <b>사업장을 제공한 원청도 조사 대상</b>이 됩니다.</p>
+          <p>비자 종류별 인원과 활동허가서 사본을 즉시 징구해야 하는 항목입니다. 벨르코스메틱은 F비자만 회신하여 상대적으로 위험도가 낮습니다.</p>
+          <div class="basis"><b>근거 회신</b> — 나이스피플 Ⅵ-4 / 벨르코스메틱 Ⅵ-4</div>
+        </div>
+      </div>
+
+      <div class="risk">
+        <div class="rid">R-9<span class="pill p-warn">중간</span></div>
+        <div>
+          <h3>퇴직급여 사외적립 미비 — 양사 모두 퇴직금제도만 운영</h3>
+          <div class="who"><span class="tag a">나이스피플</span><span class="tag a">벨르코스메틱</span></div>
+          <p>양사 모두 퇴직연금(DB·DC) 미가입, <b>사내 퇴직금제도</b>만 운영 중입니다. 도급사 경영 악화 시 퇴직급여가 사외에 적립되어 있지 않아 <b>체불로 직결</b>되며, 588명 규모에서는 원청이 도의적·실무적 수습 부담을 지게 됩니다. 특히 벨르코스메틱은 463명 × 근속연수만큼의 미적립 채무를 보유한 셈입니다.</p>
+          <div class="basis"><b>근거 회신</b> — 나이스피플 Ⅲ-9 / 벨르코스메틱 Ⅲ-9</div>
+        </div>
+      </div>
+
+      <div class="risk">
+        <div class="rid">R-10<span class="pill p-warn">중간</span></div>
+        <div>
+          <h3>회신 자체의 신뢰도 — 무응답 4건 및 내부 모순 1건</h3>
+          <div class="who"><span class="tag a">벨르코스메틱</span><span class="tag a">나이스피플</span></div>
+          <p>벨르코스메틱은 <b>관리직 배치(Ⅰ-3)·1인당 관리인원(Ⅰ-4)·휴게시간(Ⅱ-4)·산업안전보건위원회(Ⅴ-5) 4개 항목을 공란</b>으로 회신했습니다. 지침상 "해당없음" 기재가 요구된 항목의 공란은, 해당 현황을 파악하지 못하고 있을 가능성을 시사합니다.</p>
+          <p>나이스피플은 Ⅰ-1에서 주간·야간 교대 시간대를 명시해놓고 Ⅱ-1에서 <b>"교대근무 미 운영"</b>이라고 회신해 상호 모순됩니다. 또한 인수인계를 <b>"관리 채팅방 보고"</b>로만 수행해 공식 기록이 존재하지 않습니다.</p>
+          <p>두 회신 모두 <b>자체진단·자기신고 자료</b>라는 점을 감안해야 합니다. 본 평가 점수는 회신 내용을 사실로 전제한 값이며, <b>실사(現場 실사)로 검증되지 않았습니다</b>.</p>
+          <div class="basis"><b>근거 회신</b> — 벨르코스메틱 Ⅰ-3 · Ⅰ-4 · Ⅱ-4 · Ⅴ-5 / 나이스피플 Ⅰ-1 vs Ⅱ-1</div>
+        </div>
+      </div>
+
+      <div class="risk">
+        <div class="rid">R-11<span class="pill p-ok">양호</span></div>
+        <div>
+          <h3>참고 — 확인된 강점</h3>
+          <div class="who"><span class="tag a">나이스피플</span><span class="tag a">벨르코스메틱</span></div>
+          <p>양사 모두 <b>최근 3년 노동위원회 제소·진정 및 임금체불 이력이 없고</b>, 최근 1년 산업재해도 발생하지 않았습니다. 취업규칙과 노사협의회(나이스 2026.06.26 / 벨르 2026.06.12)는 정상 운영 중이며, 4대보험·근로계약서·임금명세서 교부 등 기본 인사 인프라는 갖춰져 있습니다.</p>
+          <p>나이스피플의 <b>근태 이중기록 체계(KT 지문인식 + 시프티 모바일 GPS)</b>는 근로시간 분쟁 시 방어력이 있는 수준으로, 벨르코스메틱에도 동일 수준을 요구할 근거가 됩니다.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="snum">Ⅳ</div>
+    <h2>조치 계획 및 승인 요청</h2>
+    <p>기한은 진단 기준일(2026.08.25)로부터 산정했습니다.</p>
+  </div>
+  <div class="body">
+    <div class="gutter">ACTION<br>PLAN</div>
+    <div class="col">
+      <div class="tw">
+        <table>
+          <thead><tr>
+            <th>연계</th><th>조치 사항</th><th>대상</th><th>기한</th><th>주관</th>
+          </tr></thead>
+          <tbody>
+            <tr><td class="item">R-2</td><td>야간작업 특수건강진단 실시 — 대상 158명 명단·검진기관·일정 확정 후 결과 제출</td><td>양사</td><td class="n">~09.30 (5주)</td><td>도급사 / 원청 확인</td></tr>
+            <tr><td class="item">R-1</td><td>야간조 지휘·명령 라인 분리 — 나이스피플 야간 전담 관리자 즉시 배치, 작업구역·인력 구분 실사</td><td>나이스피플</td><td class="n">~09.15 (3주)</td><td>원청 주관</td></tr>
+            <tr><td class="item">R-3</td><td>위험성평가 실시 및 산업안전보건위원회 구성, 안전·보건관리자 선임기준 충족 여부 법률검토</td><td>벨르코스메틱</td><td class="n">~10.24 (2개월)</td><td>도급사 / 노무법인</td></tr>
+            <tr><td class="item">R-4</td><td>안전관리자·보건관리자·산안위 선임 완료 — "통합 후" 대기 불가, 현 시점 기준 이행</td><td>나이스피플</td><td class="n">~10.24 (2개월)</td><td>도급사</td></tr>
+            <tr><td class="item">R-8</td><td>외국인 근로자 비자 종류별 인원 및 체류자격외 활동허가서 사본 징구</td><td>양사</td><td class="n">~09.08 (2주)</td><td>원청 주관</td></tr>
+            <tr><td class="item">R-5·R-6</td><td>최근 3개월 근태 원자료 제출 — 실근로시간·휴게 부여 검증, 벨르 교대 시간대 공백(17:30~21:00) 소명</td><td>양사</td><td class="n">~09.15 (3주)</td><td>원청 주관</td></tr>
+            <tr><td class="item">R-10</td><td>무응답 4개 항목 재회신 및 나이스피플 교대제 모순 항목 정정 요청</td><td>양사</td><td class="n">~09.08 (2주)</td><td>원청 주관</td></tr>
+            <tr><td class="item">R-7·R-9</td><td>장애인 고용부담금 부과내역 및 퇴직급여 충당금 적립 현황 제출 — 도급단가 협상 자료로 반영</td><td>벨르 / 양사</td><td class="n">~10.24 (2개월)</td><td>구매 / 재무</td></tr>
+            <tr><td class="item">전체</td><td>시정계획서 징구 후 재점검 실시 — 70점 미만 유지 시 계약조건 재검토</td><td>양사</td><td class="n">~11.24 (3개월)</td><td>원청 주관</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note" style="margin-top:18px">
+        <b>승인 요청 사항</b>
+        <ol>
+          <li>도급계약서에 <b>노무 컴플라이언스 준수 확약 및 위반 시 손해 구상 조항</b> 신설 — 원청 책임 전이에 대한 최소한의 계약적 방어선.</li>
+          <li><b>반기 1회 정기 노무 실사</b> 정례화 — 본 진단은 자기신고 기반이며 검증 절차가 없습니다.</li>
+          <li>R-1(도급 독립성) 건에 대한 <b>외부 노무법인 법률검토 발주</b> 승인 — 사내 판단만으로 종결하기에 위험이 큽니다.</li>
+          <li>재점검 결과 70점 미달 시 적용할 <b>계약 연장·단가 조정 기준</b> 사전 확정.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead">
+    <div class="snum">Ⅴ</div>
+    <h2>평가 방법 및 한계</h2>
+  </div>
+  <div class="body">
+    <div class="gutter">METHOD</div>
+    <div class="col">
+      <div class="note">
+        <b>산출 방식</b>
+        체크리스트 6개 영역 42개 문항을 영역별 배점(Ⅰ~Ⅳ 각 20점, Ⅴ 15점, Ⅵ 5점)으로 가중해 100점 환산했습니다. 문항별로 ① 법정기준 충족 여부 ② 회신의 구체성(수치·일자·근거자료 제시) ③ "예정·검토중" 등 미이행 상태 표기 여부를 반영했으며, 무응답 항목은 0점 처리했습니다. "해당없음"이 사실상 적절한 항목(노동조합 등)은 배점에서 제외했습니다.
+      </div>
+      <div class="note" style="margin-top:14px">
+        <b>한계 — 반드시 함께 보고되어야 할 사항</b>
+        본 진단은 <b>도급사가 스스로 작성한 자기신고 자료만을 근거</b>로 합니다. 현장 실사, 증빙서류 대조, 근태 원자료 검증을 거치지 않았으므로 실제 이행 수준은 본 점수보다 낮을 수 있습니다. 또한 안전관리자·보건관리자 선임기준 및 산업안전보건위원회 설치기준은 <b>업종과 상시근로자 수에 따라 달라지므로</b>, 본 보고서의 미이행 판단은 사실관계 확인 및 법률검토를 전제로 한 잠정 의견입니다. 법적 결론은 노무법인 검토를 거쳐 확정하시기 바랍니다.
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>인사노무팀 · 도급사 자체진단 체크리스트 회신자료 기반</span>
+  <span>대외비 — 내부 검토 목적 한정</span>
+</footer>
+
+</div>
