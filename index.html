@@ -392,7 +392,9 @@
             /* MSDS 상세: 항목명 고정폭(190px)이 좁은 화면에서 넘치므로 세로 배치 */
             #msds-detail > div > div > div { flex-direction: column; gap: 2px !important; }
             #msds-detail > div > div > div > span:first-child { flex: 1 1 auto !important; }
-            #msds-cnd, #msds-q { width: 100% !important; }
+            #msds-cnd, #msds-q, #keco-gubun, #keco-q, #cas-q { width: 100% !important; }
+            #cas-msds > div > div > div { flex-direction: column; gap: 2px !important; }
+            #cas-msds > div > div > div > span:first-child { flex: 1 1 auto !important; }
 
             /* 공급사 카드 1열 — 1fr의 암묵적 최소값(min-content)이 열을 밀어내므로 minmax(0,1fr) */
             .sup-grid { grid-template-columns: minmax(0,1fr) !important; }
@@ -468,9 +470,11 @@
         </ul>
         <div class="nav-label">공공데이터 검색</div>
         <ul class="nav-menu">
+            <li><a href="#" onclick="showView('cas',this);return false"><i class="bi bi-upc-scan"></i> CAS 통합조회 <span class="count" style="background:var(--rouge-50);color:var(--rouge-700)">통합</span></a></li>
             <li><a href="#" onclick="showView('mfdsIngr',this);return false"><i class="bi bi-droplet-half"></i> 원료성분정보 <span class="count" style="background:var(--info-bg);color:var(--info)">API</span></a></li>
             <li><a href="#" onclick="showView('mfdsRegl',this);return false"><i class="bi bi-globe-americas"></i> 화장품 규제정보 <span class="count" style="background:var(--info-bg);color:var(--info)">API</span></a></li>
             <li><a href="#" onclick="showView('msds',this);return false"><i class="bi bi-exclamation-triangle"></i> 물질안전보건자료 <span class="count" style="background:var(--info-bg);color:var(--info)">API</span></a></li>
+            <li><a href="#" onclick="showView('keco',this);return false"><i class="bi bi-hexagon"></i> 화학물질정보 <span class="count" style="background:var(--info-bg);color:var(--info)">API</span></a></li>
         </ul>
     </div>
 
@@ -1071,6 +1075,43 @@
     </section>
 
     <!-- ============ 공공데이터: 화장품 원료성분정보 ============ -->
+    <section id="cas-view" class="view">
+        <div class="page">
+            <div class="page-head">
+                <div class="eyebrow">Open API · 통합</div>
+                <div class="page-title">CAS 통합조회</div>
+                <div class="page-sub">CAS 하나로 환경공단 화학물질정보와 공단 MSDS를 동시에 조회합니다</div>
+            </div>
+
+            <div class="card-s mb-3">
+                <div class="card-head"><h5><i class="bi bi-upc-scan" style="color:var(--rouge-600)"></i> CAS 번호</h5>
+                    <span class="pill" style="background:var(--paper);color:var(--ink-faint)" id="cas-mine">-</span></div>
+                <div class="cbody">
+                    <div class="d-flex gap-2 flex-wrap">
+                        <input class="form-control mono" id="cas-q" placeholder="예: 56-81-5" style="flex:1;min-width:200px" onkeyup="if(event.key==='Enter')casRun()">
+                        <button class="btn-rouge" type="button" onclick="casRun()"><i class="bi bi-search"></i> 조회</button>
+                    </div>
+                    <div style="font-size:.74rem;color:var(--ink-faint);margin-top:8px;line-height:1.7">
+                        두 기관의 DB는 <b>수록 물질이 서로 다릅니다</b>. 사내 원료 CAS 109건 기준 양쪽 모두 수록 66건 · 환경공단만 2건 · MSDS만 5건 · <b>양쪽 모두 미수록 36건</b>입니다.
+                        미수록은 오류가 아니라 해당 기관이 관리하지 않는 물질이라는 뜻입니다(추출물·혼합물이 특히 많이 빠집니다).
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-s mb-3">
+                <div class="card-head"><h5><i class="bi bi-hexagon" style="color:var(--rouge-600)"></i> 환경공단 화학물질정보</h5>
+                    <span class="pill" style="background:var(--paper);color:var(--ink-faint)" id="cas-keco-state">대기</span></div>
+                <div class="cbody" id="cas-keco"><div class="empty" style="padding:20px">CAS 번호를 입력하고 조회하세요.</div></div>
+            </div>
+
+            <div class="card-s">
+                <div class="card-head"><h5><i class="bi bi-exclamation-triangle" style="color:var(--rouge-600)"></i> 공단 MSDS</h5>
+                    <span class="pill" style="background:var(--paper);color:var(--ink-faint)" id="cas-msds-state">대기</span></div>
+                <div class="cbody" id="cas-msds"><div class="empty" style="padding:20px">CAS 번호를 입력하고 조회하세요.</div></div>
+            </div>
+        </div>
+    </section>
+
     <section id="mfdsIngr-view" class="view">
         <div class="page">
             <div class="page-head">
@@ -1210,6 +1251,54 @@
                 <div class="card-head"><h5><i class="bi bi-file-earmark-text" style="color:var(--rouge-600)"></i> <span id="msds-detail-title">MSDS</span></h5>
                     <button class="btn-ghost" type="button" onclick="msdsCloseDetail()"><i class="bi bi-x-lg"></i> 닫기</button></div>
                 <div class="cbody" id="msds-detail"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="keco-view" class="view">
+        <div class="page">
+            <div class="page-head">
+                <div class="eyebrow">Open API · 한국환경공단</div>
+                <div class="page-title">화학물질정보 조회</div>
+                <div class="page-sub">분자식·분자량·KE번호와 화평법/화관법 물질분류 — 유독물질·제한물질·사고대비물질·중점관리물질</div>
+            </div>
+
+            <div class="card-s mb-3">
+                <div class="card-head"><h5><i class="bi bi-search" style="color:var(--rouge-600)"></i> 물질 검색</h5>
+                    <span class="pill" style="background:var(--paper);color:var(--ink-faint)">인증키 연동됨</span></div>
+                <div class="cbody">
+                    <div class="d-flex gap-2 flex-wrap">
+                        <select class="form-select" id="keco-gubun" style="width:auto;min-width:120px">
+                            <option value="2">CAS번호</option>
+                            <option value="1">영문명</option>
+                            <option value="3">고유번호</option>
+                        </select>
+                        <input class="form-control" id="keco-q" placeholder="예: 56-81-5 / Glycerol" style="flex:1;min-width:200px" onkeyup="if(event.key==='Enter')kecoSearch(1)">
+                        <button class="btn-rouge" type="button" onclick="kecoSearch(1)"><i class="bi bi-search"></i> 조회</button>
+                    </div>
+                    <div style="font-size:.74rem;color:var(--ink-faint);margin-top:8px;line-height:1.7">
+                        검색어는 <b>필수</b>이며 <b>국문명 검색은 지원되지 않습니다</b>(CAS번호·영문명·고유번호만). CAS번호 검색이 가장 정확합니다.
+                        물질분류의 <b>함량 기준</b>은 그 함량 이상 함유한 혼합물이 규제 대상임을 뜻하므로, 원료 조성비와 대조해 판단하세요.
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-s">
+                <div class="card-head"><h5><i class="bi bi-table" style="color:var(--rouge-600)"></i> 조회 결과</h5>
+                    <span class="pill" style="background:var(--paper);color:var(--ink-faint)" id="keco-count">대기</span></div>
+                <div class="card-body p-0" style="padding:8px 6px 6px!important">
+                    <div class="table-responsive"><table class="tbl">
+                        <thead><tr>
+                            <th style="min-width:150px">물질명(국문)</th><th style="min-width:180px">영문명</th>
+                            <th style="min-width:104px">CAS번호</th><th style="min-width:96px">KE번호</th>
+                            <th style="min-width:96px">분자식</th><th style="min-width:70px">분자량</th>
+                            <th style="min-width:300px">물질분류 · 함량기준</th>
+                            <th style="text-align:center;white-space:nowrap;width:64px" title="사내 등록 원료 113건과 CAS가 일치하면 표시">사내</th>
+                        </tr></thead>
+                        <tbody id="keco-list"><tr><td colspan="8" class="empty" style="padding:32px">검색어를 입력하고 조회하세요.</td></tr></tbody>
+                    </table></div>
+                    <div id="keco-pager" style="display:flex;gap:6px;justify-content:center;padding:12px"></div>
+                </div>
             </div>
         </div>
     </section>
@@ -22043,26 +22132,23 @@ Approved by: J2KBIO
         /* CAS가 여러 개인 항목이 흔하다("551-37-1 ,18917-89-0", 수화물/광학이성질체 병기).
            전체를 한 링크로 묶으면 첫 번째만 조회되면서 전부 눌리는 것처럼 보이므로 각각 건다. */
         return escHtml(t).replace(/\d{2,7}-\d{2}-\d/g, m =>
-            `<a href="#" onclick="mfdsToMsds('${m}');return false" title="${m} 로 MSDS 조회 — 분자량·물성·법적 규제현황"
+            `<a href="#" onclick="casLookup('${m}');return false" title="${m} 통합조회 — 환경공단 화학물질정보 + 공단 MSDS를 함께 조회"
                 style="color:var(--rouge-700);text-decoration:none;border-bottom:1px dotted var(--rouge-300)">${m}</a>`);
     }
-    window.mfdsToMsds = (cas) => {
-        const link = [...document.querySelectorAll('#sidebar .nav-menu a')].find(a=>a.textContent.includes('물질안전보건자료'));
-        showView('msds', link);
-        document.getElementById('msds-cnd').value = '1';
-        document.getElementById('msds-q').value = cas;
-        msdsSearch(1);
-    };
     /* '이 원료는 다음의 구조를 갖는 …' — 원문(화장품 원료 기준)에는 이 문장 아래에 구조식
        그림이 있지만 API는 텍스트만 개방한다. 그림을 기대하고 헤매지 않도록 표시해 둔다. */
-    function originText(v){
+    function originText(v, cas){
         const t = String(v||'').trim();
         if(!t) return '<span style="color:var(--ink-faint)">-</span>';
         const body = escHtml(t.slice(0,400));
         if(!/다음의?\s*구조/.test(t)) return body;
-        return body + ` <span title="원문(화장품 원료 기준)에는 이 문장 아래에 구조식 그림이 있으나, 공공데이터 API는 텍스트만 제공합니다. 구조식은 대한화장품협회 화장품성분사전에서 확인하세요."
-            style="cursor:help;color:var(--warn);font-size:.72rem;white-space:nowrap">
-            <i class="bi bi-info-circle"></i> 구조식 미제공</span>`;
+        const c = (String(cas||'').match(/\d{2,7}-\d{2}-\d/)||[])[0];
+        const tip = '원문(화장품 원료 기준)에는 이 문장 아래에 구조식 그림이 있으나, 공공데이터 API는 텍스트만 제공합니다. 구조식 그림은 대한화장품협회 화장품성분사전에서 확인하세요.';
+        /* CAS가 있으면 그림 대신 분자식이라도 볼 수 있게 환경공단 화학물질정보로 보낸다. */
+        if(!c) return body + ` <span title="${tip}" style="cursor:help;color:var(--warn);font-size:.72rem;white-space:nowrap"><i class="bi bi-info-circle"></i> 구조식 미제공</span>`;
+        return body + ` <a href="#" onclick="casLookup('${c}');return false" title="${tip}&#10;&#10;클릭하면 이 CAS의 분자식·분자량을 통합조회합니다."
+            style="color:var(--warn);font-size:.72rem;white-space:nowrap;text-decoration:none;border-bottom:1px dotted var(--warn)">
+            <i class="bi bi-info-circle"></i> 구조식 미제공 · 분자식 보기</a>`;
     }
 
     /* 사내 보유 원료 CAS 인덱스 — 검색 결과와 대조 */
@@ -22134,7 +22220,7 @@ Approved by: J2KBIO
                     <td style="font-weight:700">${escHtml(it.INGR_KOR_NAME||'-')}</td>
                     <td style="font-size:.82rem">${escHtml(it.INGR_ENG_NAME||'-')}</td>
                     <td class="mono" style="font-size:.8rem;line-height:1.6">${casToMsdsLink(it.CAS_NO)}</td>
-                    <td style="font-size:.8rem;color:var(--ink-soft);max-width:340px">${originText(it.ORIGIN_MAJOR_KOR_NAME)}</td>
+                    <td style="font-size:.8rem;color:var(--ink-soft);max-width:340px">${originText(it.ORIGIN_MAJOR_KOR_NAME, it.CAS_NO)}</td>
                     <td style="font-size:.8rem;color:var(--ink-faint);max-width:200px">${escHtml(String(it.INGR_SYNONYM||'-').slice(0,200))}</td>
                     <td style="text-align:center">${mfdsMineBadge(it.CAS_NO, it.INGR_ENG_NAME)}</td>
                 </tr>`).join('')
@@ -22292,21 +22378,25 @@ Approved by: J2KBIO
         }
     };
     window.msdsCloseDetail = () => { document.getElementById('msds-detail-card').style.display='none'; };
+    /* 16개 오퍼레이션을 한 번에 부르면 요청이 과하다. 아코디언 펼칠 때 그 항목만 부른다.
+       pfx는 같은 문서에 아코디언이 둘 이상 있을 때 id 충돌을 막는다(msds 메뉴 / CAS 통합조회). */
+    function msdsAccordion(chemId, pfx){
+        return MSDS_SECTIONS.map(([n,t])=>`
+            <div style="border:1px solid var(--line-soft);border-radius:8px;margin-bottom:6px;overflow:hidden">
+                <button class="btn-ghost" type="button" style="width:100%;display:flex;align-items:center;justify-content:flex-start;text-align:left;gap:8px;padding:9px 12px;border:none;border-radius:0;font-size:.84rem;font-weight:700"
+                    onclick="msdsSection('${chemId}','${n}',this,'${pfx}')">
+                    <i class="bi bi-chevron-right" style="font-size:.7rem"></i><span>${n}. ${escHtml(t)}</span></button>
+                <div id="msds-sec-${pfx}-${n}" style="display:none;padding:4px 12px 12px"></div>
+            </div>`).join('');
+    }
     window.msdsOpen = (chemId) => {
         document.getElementById('msds-detail-title').textContent = `${_msdsNames.get(chemId)||chemId} — MSDS 16개 항목`;
         document.getElementById('msds-detail-card').style.display = '';
-        /* 16개 오퍼레이션을 한 번에 부르면 요청이 과하다. 아코디언 펼칠 때 그 항목만 부른다. */
-        document.getElementById('msds-detail').innerHTML = MSDS_SECTIONS.map(([n,t])=>`
-            <div style="border:1px solid var(--line-soft);border-radius:8px;margin-bottom:6px;overflow:hidden">
-                <button class="btn-ghost" type="button" style="width:100%;display:flex;align-items:center;justify-content:flex-start;text-align:left;gap:8px;padding:9px 12px;border:none;border-radius:0;font-size:.84rem;font-weight:700"
-                    onclick="msdsSection('${chemId}','${n}',this)">
-                    <i class="bi bi-chevron-right" style="font-size:.7rem"></i><span>${n}. ${escHtml(t)}</span></button>
-                <div id="msds-sec-${n}" style="display:none;padding:4px 12px 12px"></div>
-            </div>`).join('');
+        document.getElementById('msds-detail').innerHTML = msdsAccordion(chemId, 'a');
         document.getElementById('msds-detail-card').scrollIntoView({behavior:'smooth', block:'start'});
     };
-    window.msdsSection = async (chemId, n, btn) => {
-        const box = document.getElementById('msds-sec-'+n);
+    window.msdsSection = async (chemId, n, btn, pfx) => {
+        const box = document.getElementById(`msds-sec-${pfx||'a'}-${n}`);
         const ico = btn.querySelector('i');
         if(box.style.display !== 'none'){ box.style.display='none'; ico.className='bi bi-chevron-right'; return; }
         box.style.display=''; ico.className='bi bi-chevron-down';
@@ -22326,6 +22416,159 @@ Approved by: J2KBIO
                 : `<div style="color:var(--ink-faint);font-size:.8rem;padding:6px 0">제공되는 내용이 없습니다.</div>`;
             box.dataset.loaded = '1';
         }catch(e){ box.innerHTML = `<div style="color:var(--stop);font-size:.8rem;padding:6px 0">${escHtml(e.message)}</div>`; }
+    };
+
+    /* ── ④ 화학물질정보 · 한국환경공단 ─────────────────────────────────
+       분자식·분자량과 화평법/화관법 물질분류를 준다. 식약처·KOSHA에 없는 정보다.
+       ⚠ 정상 resultCode가 '200' 이다 (식약처는 '00'). */
+    const KECO_API = 'https://apis.data.go.kr/B552584/kecoapi/ncissbstn/chemSbstnList';
+    const KECO_ROWS = 15;
+    /* 규제 강도에 따라 색을 달리한다 — '기존화학물질'은 등재 사실일 뿐 규제가 아니다. */
+    const KECO_TYPE_TONE = (nm) => /금지|제한|사고대비|중점관리|허가/.test(nm) ? 'stop'
+                                 : /유해|유독|유출/.test(nm) ? 'warn' : 'muted';
+    async function kecoFetch(params){
+        const qs = Object.entries(params).map(([k,v])=>k+'='+encodeURIComponent(v)).join('&');
+        let r;
+        try{ r = await fetch(`${KECO_API}?serviceKey=${MFDS_KEY}&returnType=JSON&${qs}`); }
+        catch(e){ throw new Error('네트워크 오류 — 인터넷 연결 또는 사내 방화벽을 확인하세요.'); }
+        const text = await r.text();
+        let j;
+        try{ j = JSON.parse(text); }
+        catch(e){
+            const m = text.match(/<returnAuthMsg>([^<]+)<\/returnAuthMsg>|<errMsg>([^<]+)<\/errMsg>/);
+            throw new Error('API 오류: ' + (m ? (m[1]||m[2]) : text.slice(0,120)));
+        }
+        const gw = j.OpenAPI_ServiceResponse && j.OpenAPI_ServiceResponse.cmmMsgHeader;
+        if(gw) throw new Error(`API 인증 오류: ${gw.returnAuthMsg||gw.errMsg} (코드 ${gw.returnReasonCode||'-'})` +
+            (String(gw.returnReasonCode)==='30' ? ' — 이 데이터셋 활용신청이 필요합니다.' : ''));
+        const code = j.header && j.header.resultCode;
+        if(code && !['200','00'].includes(String(code)))
+            throw new Error(`API 오류: ${(j.header&&j.header.resultMsg)||''} (코드 ${code})`);
+        const body = j.body || {};
+        let items = body.items;
+        if(items && !Array.isArray(items)) items = [items];
+        return { items: items || [], total: +body.totalCount || 0 };
+    }
+    window.kecoSearch = async (page) => {
+        const listEl = document.getElementById('keco-list'), cntEl = document.getElementById('keco-count');
+        const q = (document.getElementById('keco-q').value||'').trim();
+        const gubun = document.getElementById('keco-gubun').value;
+        if(!q){ toast('검색어를 입력하세요 — 이 API는 전체 목록 조회를 제공하지 않습니다'); return; }
+        listEl.innerHTML = `<tr><td colspan="8" class="empty" style="padding:26px"><i class="bi bi-arrow-repeat"></i> 조회 중…</td></tr>`;
+        try{
+            const r = await kecoFetch({pageNo:page, numOfRows:KECO_ROWS, searchGubun:gubun, searchNm:q});
+            cntEl.textContent = `총 ${r.total.toLocaleString()}건 · ${page}페이지`;
+            const dash = '<span style="color:var(--ink-faint)">-</span>';
+            listEl.innerHTML = r.items.length ? r.items.map(it=>`
+                <tr>
+                    <td style="font-weight:700">${escHtml(it.sbstnNmKor||'')||dash}</td>
+                    <td style="font-size:.8rem">${escHtml(String(it.sbstnNmEng||'').slice(0,120))||dash}</td>
+                    <td class="mono" style="font-size:.8rem;line-height:1.6">${casToMsdsLink(it.casNo)}</td>
+                    <td class="mono" style="font-size:.78rem">${escHtml(it.korexst||'')||dash}</td>
+                    <td class="mono" style="font-size:.82rem;font-weight:700;color:var(--rouge-700)">${escHtml(it.mlcfrm||'')||dash}</td>
+                    <td class="mono" style="font-size:.8rem">${escHtml(it.mlcwgt||'')||dash}</td>
+                    <td>${kecoTypes(it.typeList)}</td>
+                    <td style="text-align:center">${mfdsMineBadge(it.casNo, null)}</td>
+                </tr>`).join('')
+                : `<tr><td colspan="8" class="empty" style="padding:26px">검색 결과가 없습니다.</td></tr>`;
+            mfdsPager('keco-pager', page, Math.ceil(r.total/KECO_ROWS), 'kecoSearch');
+        }catch(e){
+            cntEl.textContent = '오류';
+            listEl.innerHTML = `<tr><td colspan="8" class="empty" style="padding:26px;color:var(--stop)"><i class="bi bi-exclamation-octagon"></i> ${escHtml(e.message)}</td></tr>`;
+            document.getElementById('keco-pager').innerHTML = '';
+        }
+    };
+    function kecoTypes(list){
+        const arr = Array.isArray(list) ? list : (list ? [list] : []);
+        if(!arr.length) return '<span style="color:var(--ink-faint)">-</span>';
+        return arr.map(t=>{
+            const nm = String(t.sbstnClsfTypeNm||'').trim();
+            const tone = KECO_TYPE_TONE(nm);
+            const bg = tone==='stop' ? 'var(--stop-bg)' : tone==='warn' ? 'var(--warn-bg)' : 'var(--paper)';
+            const fg = tone==='stop' ? 'var(--stop)'    : tone==='warn' ? 'var(--warn)'    : 'var(--ink-faint)';
+            const bits = [];
+            if(t.contInfo) bits.push('함량 ' + t.contInfo);
+            if(t.excpInfo) bits.push('예외 ' + t.excpInfo);
+            if(t.ancmntInfo) bits.push(t.ancmntInfo);
+            return `<div style="margin:2px 0;line-height:1.5">
+                <span class="tag" style="background:${bg};color:${fg};font-weight:700">${escHtml(nm)}</span>
+                ${t.unqNo ? `<span class="mono" style="font-size:.7rem;color:var(--ink-faint)">${escHtml(t.unqNo)}</span>` : ''}
+                ${bits.length ? `<div style="font-size:.74rem;color:var(--ink-soft);padding-left:2px">${escHtml(bits.join(' · '))}</div>` : ''}
+            </div>`;
+        }).join('');
+    }
+
+    /* ── CAS 통합조회 ────────────────────────────────────────────────
+       두 기관 DB는 수록 물질이 다르고(사내 109건 중 양쪽 66 / 한쪽만 7 / 양쪽 미수록 36),
+       내용도 겹치지 않는다(환경공단=분자식·화평법 분류, KOSHA=MSDS 16개 항목).
+       그래서 CAS 클릭은 한 곳으로 보내지 않고 둘을 한 번에 조회한다. */
+    window.casRun = async () => {
+        const cas = (document.getElementById('cas-q').value||'').trim();
+        if(!cas){ toast('CAS 번호를 입력하세요'); return; }
+        const kBox = document.getElementById('cas-keco'), mBox = document.getElementById('cas-msds');
+        const kSt = document.getElementById('cas-keco-state'), mSt = document.getElementById('cas-msds-state');
+        const loading = '<div style="color:var(--ink-faint);font-size:.82rem;padding:14px 0"><i class="bi bi-arrow-repeat"></i> 조회 중…</div>';
+        kBox.innerHTML = loading; mBox.innerHTML = loading;
+        kSt.textContent = '조회 중'; mSt.textContent = '조회 중';
+        kSt.style.color = mSt.style.color = 'var(--ink-faint)';
+
+        /* 사내 보유 여부 */
+        const mine = mfdsMineOf(cas, null);
+        const mineEl = document.getElementById('cas-mine');
+        mineEl.textContent = mine ? `사내 보유 · ${mine.name}` : '사내 미보유';
+        mineEl.style.color = mine ? 'var(--ok)' : 'var(--ink-faint)';
+
+        const none = (who) => `<div class="empty" style="padding:18px">${who}에 수록되지 않은 CAS입니다.</div>`;
+        const setSt = (el, ok, txt) => { el.textContent = txt; el.style.color = ok ? 'var(--ok)' : 'var(--ink-faint)'; };
+
+        const [k, m] = await Promise.allSettled([
+            kecoFetch({pageNo:1, numOfRows:5, searchGubun:2, searchNm:cas}),
+            msdsFetch('getChemList', {searchWrd:cas, searchCnd:1, numOfRows:5, pageNo:1})
+        ]);
+
+        if(k.status === 'rejected'){ kBox.innerHTML = `<div style="color:var(--stop);font-size:.82rem;padding:14px 0"><i class="bi bi-exclamation-octagon"></i> ${escHtml(k.reason.message)}</div>`; setSt(kSt,false,'오류'); }
+        else if(!k.value.items.length){ kBox.innerHTML = none('환경공단 화학물질정보'); setSt(kSt,false,'미수록'); }
+        else {
+            setSt(kSt, true, `${k.value.items.length}건`);
+            const dash = '<span style="color:var(--ink-faint)">-</span>';
+            kBox.innerHTML = k.value.items.map(it=>`
+                <div style="padding:10px 0;border-bottom:1px solid var(--line-soft)">
+                    <div style="font-weight:800;margin-bottom:4px">${escHtml(it.sbstnNmKor||it.sbstnNmEng||'-')}</div>
+                    <div style="font-size:.8rem;color:var(--ink-soft);margin-bottom:6px">${escHtml(String(it.sbstnNmEng||'').slice(0,140))}</div>
+                    <div class="d-flex flex-wrap" style="gap:6px 20px;font-size:.82rem;margin-bottom:6px">
+                        <span>분자식 <b class="mono" style="color:var(--rouge-700)">${escHtml(it.mlcfrm||'')||'미제공'}</b></span>
+                        <span>분자량 <b class="mono">${escHtml(it.mlcwgt||'')||'미제공'}</b></span>
+                        <span>KE번호 <b class="mono">${escHtml(it.korexst||'')||'-'}</b></span>
+                    </div>
+                    ${it.sbstnNm2Kor ? `<div style="font-size:.76rem;color:var(--ink-faint);margin-bottom:6px">이명: ${escHtml(String(it.sbstnNm2Kor).slice(0,220))}</div>` : ''}
+                    <div>${kecoTypes(it.typeList)}</div>
+                </div>`).join('');
+        }
+
+        if(m.status === 'rejected'){ mBox.innerHTML = `<div style="color:var(--stop);font-size:.82rem;padding:14px 0"><i class="bi bi-exclamation-octagon"></i> ${escHtml(m.reason.message)}</div>`; setSt(mSt,false,'오류'); }
+        else if(!m.value.items.length){ mBox.innerHTML = none('공단 MSDS'); setSt(mSt,false,'미수록'); }
+        else {
+            setSt(mSt, true, `${m.value.items.length}건`);
+            const it = m.value.items[0];
+            _msdsNames.set(it.chemId, it.name);
+            mBox.innerHTML = `
+                <div style="font-weight:800;margin-bottom:4px">${escHtml(it.name||'-')}</div>
+                <div class="d-flex flex-wrap" style="gap:6px 20px;font-size:.82rem;margin-bottom:10px;color:var(--ink-soft)">
+                    <span>CAS <b class="mono">${escHtml(it.cas||'-')}</b></span>
+                    <span>UN <b class="mono">${escHtml(it.un||'-')}</b></span>
+                    <span>KE <b class="mono">${escHtml(it.ke||'-')}</b></span>
+                    <span>최종갱신 <b>${escHtml(it.last||'-')}</b></span>
+                </div>
+                ${m.value.items.length>1 ? `<div style="font-size:.76rem;color:var(--ink-faint);margin-bottom:8px">같은 CAS로 ${m.value.items.length}건이 검색되어 첫 번째 물질을 표시합니다. 나머지는 물질안전보건자료 메뉴에서 확인하세요.</div>` : ''}
+                ${msdsAccordion(it.chemId, 'b')}`;
+        }
+    };
+    /* CAS 링크의 단일 진입점 — 어느 화면에서 눌러도 여기로 온다. */
+    window.casLookup = (cas) => {
+        const link = [...document.querySelectorAll('#sidebar .nav-menu a')].find(a=>a.textContent.includes('CAS 통합조회'));
+        showView('cas', link);
+        document.getElementById('cas-q').value = cas;
+        casRun();
     };
 
     /* 초기화 — 키 배지·캐시 배지 (DOMContentLoaded가 이미 지난 시점에도 동작하도록) */
