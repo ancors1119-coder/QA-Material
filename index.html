@@ -461,6 +461,11 @@
         <ul class="nav-menu">
             <li><a href="#" onclick="showView('reports',this);return false"><i class="bi bi-graph-up"></i> 통계 · 리포트</a></li>
         </ul>
+        <div class="nav-label">공공데이터 검색</div>
+        <ul class="nav-menu">
+            <li><a href="#" onclick="showView('mfdsIngr',this);return false"><i class="bi bi-droplet-half"></i> 원료성분정보 <span class="count" style="background:var(--info-bg);color:var(--info)">API</span></a></li>
+            <li><a href="#" onclick="showView('mfdsRegl',this);return false"><i class="bi bi-globe-americas"></i> 화장품 규제정보 <span class="count" style="background:var(--info-bg);color:var(--info)">API</span></a></li>
+        </ul>
     </div>
 
     <div class="sidebar-foot">
@@ -1054,6 +1059,100 @@
                         <div class="card-head"><h5><i class="bi bi-globe2" style="color:var(--rouge-600)"></i> 제조국별 현황</h5></div>
                         <div class="cbody" id="report-func"></div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 공공데이터: 화장품 원료성분정보 ============ -->
+    <section id="mfdsIngr-view" class="view">
+        <div class="page">
+            <div class="page-head">
+                <div class="eyebrow">Open API · 식품의약품안전처</div>
+                <div class="page-title">화장품 원료성분정보 검색</div>
+                <div class="page-sub">공공데이터포털 API 실시간 조회 — 표준명·영문명·CAS No·기원및정의·이명</div>
+            </div>
+
+            <div class="card-s mb-3">
+                <div class="card-head"><h5><i class="bi bi-search" style="color:var(--rouge-600)"></i> 검색</h5>
+                    <span class="pill" id="mfds-key-state" style="background:var(--paper);color:var(--ink-faint)">-</span></div>
+                <div class="cbody">
+                    <div class="d-flex gap-2 flex-wrap">
+                        <input class="form-control" id="mfds-ingr-q" placeholder="성분 표준명 (예: 나이아신아마이드) — 비워두면 전체 목록" style="flex:1;min-width:220px" onkeyup="if(event.key==='Enter')mfdsIngrSearch(1)">
+                        <button class="btn-rouge" type="button" onclick="mfdsIngrSearch(1)"><i class="bi bi-search"></i> 조회</button>
+                    </div>
+                    <div style="font-size:.74rem;color:var(--ink-faint);margin-top:8px;line-height:1.7">
+                        표준명 검색은 API 서버에서 <b>부분일치</b>로 수행됩니다(예: "글리세린" → 64건, "추출물" → 5,758건).
+                        결과의 CAS No가 사내 등록 원료와 일치하면 <span class="pill ok" style="font-size:.68rem">보유</span> 배지가 표시됩니다.
+                        인증키는 앱에 내장되어 별도 등록 없이 바로 조회됩니다. 만료예정일 <b>2028-08-25</b> 이후에는 공공데이터포털에서 연장 신청이 필요합니다.
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-s">
+                <div class="card-head"><h5><i class="bi bi-table" style="color:var(--rouge-600)"></i> 조회 결과</h5>
+                    <span class="pill" style="background:var(--paper);color:var(--ink-faint)" id="mfds-ingr-count">대기</span></div>
+                <div class="card-body p-0" style="padding:8px 6px 6px!important">
+                    <div class="table-responsive"><table class="tbl">
+                        <thead><tr><th>표준명</th><th>영문명</th><th style="white-space:nowrap">CAS No</th><th>기원 및 정의</th><th>이명</th><th style="text-align:center;white-space:nowrap;width:64px" title="사내 등록 원료 113건과 성분명이 일치하면 표시">사내</th></tr></thead>
+                        <tbody id="mfds-ingr-list"><tr><td colspan="6" class="empty" style="padding:32px">인증키 저장 후 조회하세요.</td></tr></tbody>
+                    </table></div>
+                    <div id="mfds-ingr-pager" style="display:flex;gap:6px;justify-content:center;padding:12px"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 공공데이터: 화장품 규제정보 ============ -->
+    <section id="mfdsRegl-view" class="view">
+        <div class="page">
+            <div class="page-head">
+                <div class="eyebrow">Open API · 식품의약품안전처</div>
+                <div class="page-title">화장품 규제정보 검색</div>
+                <div class="page-sub">성분별 금지국가·제한국가 조회 — API가 목록만 제공하므로 전체를 내려받아 검색합니다</div>
+            </div>
+
+            <div class="card-s mb-3">
+                <div class="card-head"><h5><i class="bi bi-cloud-download" style="color:var(--rouge-600)"></i> 데이터 동기화</h5>
+                    <span class="pill" id="mfds-regl-cache" style="background:var(--paper);color:var(--ink-faint)">-</span></div>
+                <div class="cbody">
+                    <div class="d-flex gap-2 flex-wrap align-items-center">
+                        <button class="btn-rouge" type="button" id="mfds-regl-load" onclick="mfdsReglLoad()"><i class="bi bi-cloud-download"></i> 전체 데이터 내려받기</button>
+                        <button class="btn-ghost" type="button" onclick="mfdsReglClearCache()"><i class="bi bi-trash"></i> 캐시 삭제</button>
+                        <span id="mfds-regl-progress" style="font-size:.8rem;color:var(--ink-soft)"></span>
+                    </div>
+                    <div style="font-size:.74rem;color:var(--ink-faint);margin-top:8px;line-height:1.7">
+                        이 API는 검색 파라미터를 제공하지 않아 전체 목록(7,257건)을 한 번 내려받은 뒤 화면에서 검색합니다.
+                        메뉴 진입 시 <b>자동으로 내려받으며 약 20초</b>가 걸리고, 이후에는 브라우저에 캐시되어 즉시 검색됩니다.
+                        식약처가 데이터를 갱신했을 때만 <b>캐시 삭제 후 다시 내려받기</b>를 하면 됩니다.
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-s mb-3">
+                <div class="card-head"><h5><i class="bi bi-search" style="color:var(--rouge-600)"></i> 검색 · 필터</h5></div>
+                <div class="cbody">
+                    <div class="d-flex gap-2 flex-wrap">
+                        <input class="form-control" id="mfds-regl-q" placeholder="표준명·영문명·국가명 검색 (예: 페녹시에탄올, Retinol, 중국)" style="flex:1;min-width:220px" oninput="mfdsReglRender(1)">
+                        <select class="form-select" id="mfds-regl-filter" onchange="mfdsReglRender(1)" style="width:auto">
+                            <option value="all">전체</option>
+                            <option value="proh">금지국가 있는 성분만</option>
+                            <option value="limit">제한국가 있는 성분만</option>
+                            <option value="mine">사내 보유 원료 관련만</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-s">
+                <div class="card-head"><h5><i class="bi bi-table" style="color:var(--rouge-600)"></i> 검색 결과</h5>
+                    <span class="pill" style="background:var(--paper);color:var(--ink-faint)" id="mfds-regl-count">대기</span></div>
+                <div class="card-body p-0" style="padding:8px 6px 6px!important">
+                    <div class="table-responsive"><table class="tbl">
+                        <thead><tr><th style="width:52px">순번</th><th>표준명</th><th>영문명</th><th>금지국가</th><th>제한국가</th><th style="text-align:center;white-space:nowrap;width:64px" title="사내 등록 원료 113건과 성분명이 일치하면 표시">사내</th></tr></thead>
+                        <tbody id="mfds-regl-list"><tr><td colspan="6" class="empty" style="padding:32px">전체 데이터를 내려받은 뒤 검색하세요.</td></tr></tbody>
+                    </table></div>
+                    <div id="mfds-regl-pager" style="display:flex;gap:6px;justify-content:center;padding:12px"></div>
                 </div>
             </div>
         </div>
@@ -21834,6 +21933,214 @@ Approved by: J2KBIO
             </div>`;}).join('');
     }
 
+    /* ══════════ 공공데이터포털(식약처) API 연동 ══════════
+       CORS 허용 실측 확인(2026-08-25) — 프록시 없이 브라우저에서 직접 호출한다.
+       ① 원료성분정보: 표준명(INGR_KOR_NAME) 서버 검색 지원
+       ② 규제정보: 검색 파라미터 없음 → 전체 내려받아 캐시 후 로컬 검색 */
+    const MFDS_API = {
+        ingr: 'https://apis.data.go.kr/1471000/CsmtcsIngdCpntInfoService01/getCsmtcsIngdCpntInfoService01',
+        regl: 'https://apis.data.go.kr/1471000/CsmtcsReglMaterialInfoService/getCsmtcsReglMaterialInfoService'
+    };
+    const MFDS_REGL_CACHE = 'mfds_regl_cache_v1';
+
+    /* 공공데이터포털 발급 인증키 (Encoding 판본, 두 API 공통 / 만료예정 2028-08-25).
+       키가 바뀌면 이 한 줄만 교체한다. */
+    const MFDS_KEY = 'V%2FqOLQ0IAeerr20nkQR9KYpMWoJETgREA1hmXu0CDDeQHnq%2FhrkIcjXTTlRzaqRX%2BIaXsPv4qFdNJhIvguYe6Q%3D%3D';
+    function mfdsKeyBadge(){
+        const el = document.getElementById('mfds-key-state'); if(!el) return;
+        el.textContent = '인증키 연동됨'; el.style.color = 'var(--ok)';
+    }
+
+    /* 응답 정규화 — 정상: {header,body} / 게이트웨이 오류: {OpenAPI_ServiceResponse:{cmmMsgHeader}} */
+    async function mfdsFetch(base, params){
+        const qs = Object.entries(params).map(([k,v])=>k+'='+encodeURIComponent(v)).join('&');
+        const url = `${base}?serviceKey=${MFDS_KEY}&type=json&${qs}`;
+        let r;
+        try{ r = await fetch(url); }
+        catch(e){ throw new Error('네트워크 오류 — 인터넷 연결 또는 사내 방화벽을 확인하세요.'); }
+        const text = await r.text();
+        let j;
+        try{ j = JSON.parse(text); }
+        catch(e){ // 게이트웨이 오류는 XML로 오는 경우가 있다
+            const m = text.match(/<returnAuthMsg>([^<]+)<\/returnAuthMsg>|<errMsg>([^<]+)<\/errMsg>/);
+            throw new Error('API 오류: ' + (m ? (m[1]||m[2]) : text.slice(0,120)));
+        }
+        const gw = j.OpenAPI_ServiceResponse && j.OpenAPI_ServiceResponse.cmmMsgHeader;
+        if(gw) throw new Error(`API 인증 오류: ${gw.returnAuthMsg||gw.errMsg} (코드 ${gw.returnReasonCode||'-'})` +
+            (String(gw.returnReasonCode)==='30' ? ' — 등록되지 않은 키입니다. Decoding 키를 다시 확인하세요.' : ''));
+        const header = j.header || (j.response && j.response.header) || {};
+        const body   = j.body   || (j.response && j.response.body)   || {};
+        if(header.resultCode && header.resultCode !== '00')
+            throw new Error(`API 오류: ${header.resultMsg||''} (코드 ${header.resultCode})`);
+        /* items는 배열(JSON) / {item:[...]}(XML 유래) / 단건 객체 — 세 형태 모두 대응 */
+        let items = body.items;
+        if(items && !Array.isArray(items) && items.item !== undefined) items = items.item;
+        if(items && !Array.isArray(items)) items = [items];
+        return { items: items || [], total: +body.totalCount || 0, pageNo: +body.pageNo || 1, numOfRows: +body.numOfRows || 0 };
+    }
+
+    /* 사내 보유 원료 CAS 인덱스 — 검색 결과와 대조 */
+    let _casIdx = null;
+    function mfdsCasIndex(){
+        if(_casIdx) return _casIdx;
+        _casIdx = new Map();
+        MATERIALS.forEach(m=>{
+            const cs = String(m.cas||'').replace(/\*\*/g,'').match(/\d{2,7}-\d{2}-\d/g) || [];
+            cs.forEach(c=>{ if(!_casIdx.has(c)) _casIdx.set(c, m); });
+        });
+        return _casIdx;
+    }
+    /* 사내 INCI 인덱스 — 전성분을 구분자로 쪼개 '성분 1개 = 키' 로 넣는다.
+       부분일치(includes)를 쓰면 'Copper'가 'Copper Tripeptide-1'에, 'Benzoate'가
+       'Sodium Benzoate'에 걸려 실제로 보유하지 않은 물질을 '보유'로 표시한다.
+       '보유'는 재고 사실 진술이므로 성분명 완전일치만 인정한다. */
+    let _inciIdx = null;
+    function mfdsInciIndex(){
+        if(_inciIdx) return _inciIdx;
+        _inciIdx = new Map();
+        MATERIALS.forEach(m=>String(m.inci||'').replace(/\*\*/g,'').split(/[,·/]/).forEach(s=>{
+            const t = s.trim().toLowerCase();
+            if(t.length > 3 && !_inciIdx.has(t)) _inciIdx.set(t, m);
+        }));
+        return _inciIdx;
+    }
+    /* 사내 대조 — CAS 우선, 없으면 INCI 완전일치. 배지와 '사내 보유' 필터가 같은 함수를 쓴다. */
+    function mfdsMineOf(casText, engName){
+        const cs = String(casText||'').match(/\d{2,7}-\d{2}-\d/g) || [];
+        for(const c of cs){ const m = mfdsCasIndex().get(c); if(m) return m; }
+        return mfdsInciIndex().get(String(engName||'').trim().toLowerCase()) || null;
+    }
+    function mfdsMineBadge(casText, engName){
+        const m = mfdsMineOf(casText, engName);
+        return m ? `<span class="pill ok" style="cursor:pointer;font-size:.68rem" title="사내 등록 원료: ${escHtml(m.name)}" onclick="openDetail('${matKey(m)}')">보유</span>`
+                 : '<span style="color:var(--ink-faint)">-</span>';
+    }
+    const mfdsPager = (elId, page, totalPages, fn) => {
+        const el = document.getElementById(elId); if(!el) return;
+        if(totalPages<=1){ el.innerHTML=''; return; }
+        const btn=(p,label,on)=>`<button class="btn-ghost" style="padding:4px 10px;font-size:.78rem;${on?'background:var(--rouge-50);color:var(--rouge-700);font-weight:800':''}" ${p?`onclick="${fn}(${p})"`:'disabled'}>${label}</button>`;
+        const parts=[btn(page>1?page-1:0,'이전')];
+        const s=Math.max(1,page-3), e=Math.min(totalPages,s+6);
+        for(let p=s;p<=e;p++) parts.push(btn(p,p,p===page));
+        parts.push(btn(page<totalPages?page+1:0,'다음'));
+        el.innerHTML=parts.join('');
+    };
+
+    /* ── ① 원료성분정보 ── */
+    const MFDS_INGR_ROWS = 20;
+    window.mfdsIngrSearch = async (page) => {
+        const listEl = document.getElementById('mfds-ingr-list');
+        const cntEl  = document.getElementById('mfds-ingr-count');
+        listEl.innerHTML = `<tr><td colspan="6" class="empty" style="padding:26px"><i class="bi bi-arrow-repeat"></i> 조회 중…</td></tr>`;
+        try{
+            const q = (document.getElementById('mfds-ingr-q').value||'').trim();
+            const params = { pageNo: page, numOfRows: MFDS_INGR_ROWS };
+            if(q) params.INGR_KOR_NAME = q;
+            const r = await mfdsFetch(MFDS_API.ingr, params);
+            cntEl.textContent = `총 ${r.total.toLocaleString()}건 · ${r.pageNo}페이지`;
+            listEl.innerHTML = r.items.length ? r.items.map(it=>`
+                <tr>
+                    <td style="font-weight:700">${escHtml(it.INGR_KOR_NAME||'-')}</td>
+                    <td style="font-size:.82rem">${escHtml(it.INGR_ENG_NAME||'-')}</td>
+                    <td class="mono" style="font-size:.8rem;white-space:nowrap">${escHtml(it.CAS_NO||'-')}</td>
+                    <td style="font-size:.8rem;color:var(--ink-soft);max-width:340px">${escHtml(String(it.ORIGIN_MAJOR_KOR_NAME||'-').slice(0,400))}</td>
+                    <td style="font-size:.8rem;color:var(--ink-faint);max-width:200px">${escHtml(String(it.INGR_SYNONYM||'-').slice(0,200))}</td>
+                    <td style="text-align:center">${mfdsMineBadge(it.CAS_NO, it.INGR_ENG_NAME)}</td>
+                </tr>`).join('')
+                : `<tr><td colspan="6" class="empty" style="padding:26px">검색 결과가 없습니다. 표준명 전체 명칭으로 다시 시도해 보세요.</td></tr>`;
+            mfdsPager('mfds-ingr-pager', r.pageNo, Math.ceil(r.total/MFDS_INGR_ROWS), 'mfdsIngrSearch');
+        }catch(e){
+            cntEl.textContent = '오류';
+            listEl.innerHTML = `<tr><td colspan="6" class="empty" style="padding:26px;color:var(--stop)"><i class="bi bi-exclamation-octagon"></i> ${escHtml(e.message)}</td></tr>`;
+            document.getElementById('mfds-ingr-pager').innerHTML='';
+        }
+    };
+
+    /* ── ② 규제정보: 전체 캐시 → 로컬 검색 ── */
+    let _reglData = null;
+    function mfdsReglGetCache(){
+        if(_reglData) return _reglData;
+        try{ const raw = localStorage.getItem(MFDS_REGL_CACHE);
+            if(raw){ const o = JSON.parse(raw); _reglData = o.rows; mfdsReglCacheBadge(o.at, o.rows.length); return _reglData; } }
+        catch(e){}
+        return null;
+    }
+    function mfdsReglCacheBadge(at, n){
+        const el = document.getElementById('mfds-regl-cache'); if(!el) return;
+        el.textContent = n ? `캐시 ${n.toLocaleString()}건 · ${at||''}` : '캐시 없음';
+        el.style.color = n ? 'var(--ok)' : 'var(--ink-faint)';
+    }
+    window.mfdsReglClearCache = () => { _reglData=null; try{ localStorage.removeItem(MFDS_REGL_CACHE); }catch(e){}
+        mfdsReglCacheBadge(null,0); mfdsReglRender(1); toast('규제정보 캐시를 삭제했습니다'); };
+    window.mfdsReglLoad = async () => {
+        const btn = document.getElementById('mfds-regl-load');
+        const prog = document.getElementById('mfds-regl-progress');
+        btn.disabled = true;
+        try{
+            const ROWS = 500;   /* API 상한 — 초과 시 resultCode 11 */
+            prog.textContent = '전체 건수 확인 중…';
+            const first = await mfdsFetch(MFDS_API.regl, { pageNo:1, numOfRows:ROWS });
+            const total = first.total;
+            const pages = Math.max(1, Math.ceil(total/ROWS));
+            let rows = first.items.slice();
+            for(let p=2; p<=pages; p++){
+                prog.textContent = `내려받는 중… ${rows.length.toLocaleString()} / ${total.toLocaleString()}건`;
+                const r = await mfdsFetch(MFDS_API.regl, { pageNo:p, numOfRows:ROWS });
+                rows = rows.concat(r.items);
+            }
+            /* 필요한 필드만 남겨 캐시 크기를 줄인다 */
+            rows = rows.map(it=>({ n:it.INGR_STD_NAME||'', e:it.INGR_ENG_NAME||'',
+                                   p:it.PROH_NATIONAL||'', l:it.LIMIT_NATIONAL||'' }));
+            _reglData = rows;
+            const at = new Date().toLocaleDateString('ko-KR');
+            try{ localStorage.setItem(MFDS_REGL_CACHE, JSON.stringify({at, rows})); }
+            catch(e){ toast('브라우저 저장 용량 초과 — 이번 세션에서만 유지됩니다'); }
+            mfdsReglCacheBadge(at, rows.length);
+            prog.textContent = `완료 — ${rows.length.toLocaleString()}건`;
+            mfdsReglRender(1);
+        }catch(e){ prog.textContent=''; toast(e.message); }
+        finally{ btn.disabled = false; }
+    };
+    const MFDS_REGL_ROWS = 30;
+    window.mfdsReglRender = (page) => {
+        const listEl = document.getElementById('mfds-regl-list');
+        const cntEl  = document.getElementById('mfds-regl-count');
+        const data = mfdsReglGetCache();
+        if(!data){ cntEl.textContent='대기';
+            listEl.innerHTML = `<tr><td colspan="6" class="empty" style="padding:32px">전체 데이터를 내려받은 뒤 검색하세요.</td></tr>`;
+            document.getElementById('mfds-regl-pager').innerHTML=''; return; }
+        const q = (document.getElementById('mfds-regl-q').value||'').trim().toLowerCase();
+        const f = document.getElementById('mfds-regl-filter').value;
+        let rows = data;
+        if(f==='proh')  rows = rows.filter(r=>r.p && r.p.trim() && r.p.trim()!=='-');
+        if(f==='limit') rows = rows.filter(r=>r.l && r.l.trim() && r.l.trim()!=='-');
+        if(f==='mine') rows = rows.filter(r=>mfdsMineOf(null, r.e));
+        if(q) rows = rows.filter(r=>(r.n+' '+r.e+' '+r.p+' '+r.l).toLowerCase().includes(q));
+        cntEl.textContent = `${rows.length.toLocaleString()}건 검색됨 / 전체 ${data.length.toLocaleString()}건`;
+        const totalPages = Math.max(1, Math.ceil(rows.length/MFDS_REGL_ROWS));
+        page = Math.min(Math.max(1, page||1), totalPages);
+        const slice = rows.slice((page-1)*MFDS_REGL_ROWS, page*MFDS_REGL_ROWS);
+        const nat = (s, color) => { const t=String(s||'').trim();
+            if(!t || t==='-') return '<span style="color:var(--ink-faint)">-</span>';
+            return t.split(/[,、]/).map(x=>x.trim()).filter(Boolean).map(x=>`<span class="tag" style="background:${color==='stop'?'var(--stop-bg)':'var(--warn-bg)'};color:${color==='stop'?'var(--stop)':'var(--warn)'};margin:1px 2px 1px 0">${escHtml(x)}</span>`).join(''); };
+        listEl.innerHTML = slice.length ? slice.map((r,i)=>`
+            <tr>
+                <td style="color:var(--ink-faint);font-size:.78rem">${(page-1)*MFDS_REGL_ROWS+i+1}</td>
+                <td style="font-weight:700">${escHtml(r.n||'-')}</td>
+                <td style="font-size:.82rem">${escHtml(r.e||'-')}</td>
+                <td>${nat(r.p,'stop')}</td>
+                <td>${nat(r.l,'warn')}</td>
+                <td style="text-align:center">${mfdsMineBadge(null, r.e)}</td>
+            </tr>`).join('')
+            : `<tr><td colspan="6" class="empty" style="padding:26px">검색 결과가 없습니다.</td></tr>`;
+        mfdsPager('mfds-regl-pager', page, totalPages, 'mfdsReglRender');
+    };
+
+    /* 초기화 — 키 배지·캐시 배지 (DOMContentLoaded가 이미 지난 시점에도 동작하도록) */
+    (function mfdsInit(){ const run=()=>{ mfdsKeyBadge(); if(!mfdsReglGetCache()) mfdsReglCacheBadge(null,0); };
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+        else run(); })();
+
     function updateCounts() {
         document.getElementById('nav-count').textContent = MATERIALS.length;
         document.getElementById('fav-count').textContent = favs.size;
@@ -22198,7 +22505,12 @@ Approved by: J2KBIO
         document.querySelectorAll('#sidebar .nav-menu li').forEach(li=>li.classList.remove('active'));
         if (el) el.parentElement.classList.add('active');
         closeSidebar(); window.scrollTo(0,0);
+        /* 공공데이터 메뉴는 진입 즉시 1회 자동 조회 — 사용자가 버튼을 누를 필요 없게 */
+        if(name==='mfdsIngr' && !mfdsAuto.ingr){ mfdsAuto.ingr = true; mfdsIngrSearch(1); }
+        if(name==='mfdsRegl' && !mfdsAuto.regl){ mfdsAuto.regl = true;
+            if(mfdsReglGetCache()) mfdsReglRender(1); else mfdsReglLoad(); }
     };
+    const mfdsAuto = { ingr:false, regl:false };
     window.openSidebar=()=>{document.getElementById('sidebar').classList.add('open');document.getElementById('backdrop').classList.add('show');};
     window.closeSidebar=()=>{document.getElementById('sidebar').classList.remove('open');document.getElementById('backdrop').classList.remove('show');};
     window.toggleTheme=()=>{ const h=document.documentElement; const dark=h.getAttribute('data-bs-theme')==='dark';
