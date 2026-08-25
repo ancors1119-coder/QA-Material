@@ -1100,7 +1100,7 @@
                     <span class="pill" style="background:var(--paper);color:var(--ink-faint)" id="mfds-ingr-count">대기</span></div>
                 <div class="card-body p-0" style="padding:8px 6px 6px!important">
                     <div class="table-responsive"><table class="tbl">
-                        <thead><tr><th>표준명</th><th>영문명</th><th style="white-space:nowrap">CAS No</th><th>기원 및 정의</th><th>이명</th><th style="text-align:center;white-space:nowrap;width:64px" title="사내 등록 원료 113건과 성분명이 일치하면 표시">사내</th></tr></thead>
+                        <thead><tr><th style="min-width:140px">표준명</th><th style="min-width:170px">영문명</th><th style="white-space:nowrap;min-width:104px">CAS No</th><th style="min-width:280px">기원 및 정의</th><th style="min-width:110px">이명</th><th style="text-align:center;white-space:nowrap;width:64px" title="사내 등록 원료 113건과 성분명이 일치하면 표시">사내</th></tr></thead>
                         <tbody id="mfds-ingr-list"><tr><td colspan="6" class="empty" style="padding:32px">인증키 저장 후 조회하세요.</td></tr></tbody>
                     </table></div>
                     <div id="mfds-ingr-pager" style="display:flex;gap:6px;justify-content:center;padding:12px"></div>
@@ -22035,6 +22035,36 @@ Approved by: J2KBIO
         return { items: items || [], total: +body.totalCount || 0, pageNo: +body.pageNo || 1, numOfRows: +body.numOfRows || 0 };
     }
 
+    /* CAS를 누르면 같은 CAS로 MSDS 메뉴 조회로 넘어간다.
+       원료성분정보에는 분자량·물성이 없고, MSDS는 CAS 검색이 정확하므로 둘을 잇는다. */
+    function casToMsdsLink(cas){
+        const t = String(cas||'').trim();
+        if(!t || !/\d{2,7}-\d{2}-\d/.test(t)) return '<span style="color:var(--ink-faint)">-</span>';
+        /* CAS가 여러 개인 항목이 흔하다("551-37-1 ,18917-89-0", 수화물/광학이성질체 병기).
+           전체를 한 링크로 묶으면 첫 번째만 조회되면서 전부 눌리는 것처럼 보이므로 각각 건다. */
+        return escHtml(t).replace(/\d{2,7}-\d{2}-\d/g, m =>
+            `<a href="#" onclick="mfdsToMsds('${m}');return false" title="${m} 로 MSDS 조회 — 분자량·물성·법적 규제현황"
+                style="color:var(--rouge-700);text-decoration:none;border-bottom:1px dotted var(--rouge-300)">${m}</a>`);
+    }
+    window.mfdsToMsds = (cas) => {
+        const link = [...document.querySelectorAll('#sidebar .nav-menu a')].find(a=>a.textContent.includes('물질안전보건자료'));
+        showView('msds', link);
+        document.getElementById('msds-cnd').value = '1';
+        document.getElementById('msds-q').value = cas;
+        msdsSearch(1);
+    };
+    /* '이 원료는 다음의 구조를 갖는 …' — 원문(화장품 원료 기준)에는 이 문장 아래에 구조식
+       그림이 있지만 API는 텍스트만 개방한다. 그림을 기대하고 헤매지 않도록 표시해 둔다. */
+    function originText(v){
+        const t = String(v||'').trim();
+        if(!t) return '<span style="color:var(--ink-faint)">-</span>';
+        const body = escHtml(t.slice(0,400));
+        if(!/다음의?\s*구조/.test(t)) return body;
+        return body + ` <span title="원문(화장품 원료 기준)에는 이 문장 아래에 구조식 그림이 있으나, 공공데이터 API는 텍스트만 제공합니다. 구조식은 대한화장품협회 화장품성분사전에서 확인하세요."
+            style="cursor:help;color:var(--warn);font-size:.72rem;white-space:nowrap">
+            <i class="bi bi-info-circle"></i> 구조식 미제공</span>`;
+    }
+
     /* 사내 보유 원료 CAS 인덱스 — 검색 결과와 대조 */
     let _casIdx = null;
     function mfdsCasIndex(){
@@ -22103,8 +22133,8 @@ Approved by: J2KBIO
                 <tr>
                     <td style="font-weight:700">${escHtml(it.INGR_KOR_NAME||'-')}</td>
                     <td style="font-size:.82rem">${escHtml(it.INGR_ENG_NAME||'-')}</td>
-                    <td class="mono" style="font-size:.8rem;white-space:nowrap">${escHtml(it.CAS_NO||'-')}</td>
-                    <td style="font-size:.8rem;color:var(--ink-soft);max-width:340px">${escHtml(String(it.ORIGIN_MAJOR_KOR_NAME||'-').slice(0,400))}</td>
+                    <td class="mono" style="font-size:.8rem;line-height:1.6">${casToMsdsLink(it.CAS_NO)}</td>
+                    <td style="font-size:.8rem;color:var(--ink-soft);max-width:340px">${originText(it.ORIGIN_MAJOR_KOR_NAME)}</td>
                     <td style="font-size:.8rem;color:var(--ink-faint);max-width:200px">${escHtml(String(it.INGR_SYNONYM||'-').slice(0,200))}</td>
                     <td style="text-align:center">${mfdsMineBadge(it.CAS_NO, it.INGR_ENG_NAME)}</td>
                 </tr>`).join('')
