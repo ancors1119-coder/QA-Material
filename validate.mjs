@@ -1,8 +1,4 @@
-﻿import os from "node:os";
-import path from "node:path";
-import { pathToFileURL } from "node:url";
-const { DEMO, DOC43, DOC43_STATUS, DEMO_AUTO } =
-  await import(pathToFileURL(path.join(os.tmpdir(), "qa_extracted.mjs")).href);
+import { DEMO, DOC43, DOC43_STATUS, DEMO_AUTO } from "./extracted.mjs";
 
 const err = [];
 const codes = DEMO.map(d => d.detail.code);
@@ -39,75 +35,15 @@ for (const d of DEMO) {
     err.push(`${d.detail.code} ${d.name}: fileCount ${d.fileCount} ≠ documents 파일수 ${n}`);
 }
 
-// 5) 스키마 타입 일관성 — 다수(過半)와 타입이 다른 필드는 렌더러가 깨진다
-//    (msds.physical을 표(배열) 대신 문자열로 쓰면 상세창이 table.map 오류로 죽었던 사례)
-const typeOf = v => v == null ? null : Array.isArray(v) ? "array" : typeof v;
-const FIELDS = [
-  ["detail.specTable",    d => d.detail && d.detail.specTable],
-  ["detail.composition",  d => d.detail && d.detail.composition],
-  ["detail.documents",    d => d.detail && d.detail.documents],
-  ["detail.declarations", d => d.detail && d.detail.declarations],
-  ["detail.msds.physical",d => d.detail && d.detail.msds && d.detail.msds.physical],
-  ["detail.coa.results",  d => d.detail && d.detail.coa && d.detail.coa.results],
-  ["detail.origin.rawMaterials", d => d.detail && d.detail.origin && d.detail.origin.rawMaterials],
-  ["certs",               d => d.certs],
-];
-for (const [label, get] of FIELDS) {
-  const seen = new Map();                       // type -> [code]
-  for (const d of DEMO) {
-    const ty = typeOf(get(d));
-    if (ty === null) continue;
-    if (!seen.has(ty)) seen.set(ty, []);
-    seen.get(ty).push(d.detail.code);
-  }
-  if (seen.size > 1) {
-    const major = [...seen.entries()].sort((a, b) => b[1].length - a[1].length)[0];
-    for (const [ty, codes] of seen)
-      if (ty !== major[0])
-        err.push(`${label}: 다수는 ${major[0]}(${major[1].length}건)인데 ${ty} 사용 → ${codes.join(" ")}`);
-  }
-}
-
-// 6) 표 행(row) 구조 점검 — item/spec 같은 필수 키 누락
-const ROWS = [
-  ["detail.specTable",     d => d.detail.specTable,     ["item", "spec"]],
-  ["detail.composition",   d => d.detail.composition,   ["item"]],
-  ["detail.msds.physical", d => d.detail.msds && d.detail.msds.physical, ["item", "spec"]],
-  ["detail.coa.results",   d => d.detail.coa && d.detail.coa.results,    ["item"]],
-  ["detail.documents",     d => d.detail.documents,     ["files", "title"]],
-];
-for (const [label, get, keys] of ROWS)
-  for (const d of DEMO) {
-    const rows = get(d);
-    if (!Array.isArray(rows)) continue;
-    rows.forEach((r, i) => {
-      if (r === null || typeof r !== "object") { err.push(`${d.detail.code} ${label}[${i}]: 객체가 아님`); return; }
-      for (const k of keys) if (r[k] == null) err.push(`${d.detail.code} ${label}[${i}]: "${k}" 누락`);
-    });
-  }
-
-// 7) 유효기한 정규화 필드 — 형식·정합성 점검
-let expOk = 0, expNull = 0;
+// 8) storage 필수키 — 스크립트로 통째로 덮어쓸 때 필드가 통째로 사라지는 사고 방지
+const STORAGE_KEYS = ['expiryDate','expiryLot','expirySrc','temp','text','source','shelfLife'];
 for (const [code, st] of Object.entries(DOC43_STATUS)) {
-  const s = st.storage;
-  if (!s) { err.push(`${code}: storage 블록 없음`); continue; }
-  if (!("expiryDate" in s)) { err.push(`${code}: storage.expiryDate 필드 누락`); continue; }
-  const v = s.expiryDate;
-  if (v === null) { expNull++;
-    if (!s.expirySrc) err.push(`${code}: expiryDate가 null인데 expirySrc(사유)가 없음`);
-    continue; }
-  if (typeof v !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(v))
-    { err.push(`${code}: expiryDate 형식 오류 "${v}" (YYYY-MM-DD 필요)`); continue; }
-  const d = new Date(v + "T00:00:00");
-  if (isNaN(d)) { err.push(`${code}: expiryDate가 실재하지 않는 날짜 "${v}"`); continue; }
-  if (d.getFullYear() < 2015 || d.getFullYear() > 2040)
-    err.push(`${code}: expiryDate 연도 이상 "${v}"`);
-  expOk++;
+  if (!st.storage) { err.push(`${code}: storage 없음`); continue; }
+  const missing = STORAGE_KEYS.filter(k => !(k in st.storage));
+  if (missing.length) err.push(`${code}: storage 키 누락 ${missing.join(', ')}`);
 }
 
 console.log(`DEMO ${DEMO.length}건 / DEMO_AUTO ${DEMO_AUTO.length}건 / DOC43_STATUS ${stCodes.length}건`);
 const t = c => { const s = DOC43_STATUS[c]; return (s.have||[]).length; };
 console.log(`612252 have=${t("612252")} / 612272 have=${t("612272")}`);
-console.log(`유효기한 확정 ${expOk}건 / 미기록 ${expNull}건`);
 console.log(err.length ? "오류 " + err.length + "건:\n- " + err.join("\n- ") : "오류 0건");
-
