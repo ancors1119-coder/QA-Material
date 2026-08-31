@@ -47,18 +47,48 @@ NAME = re.compile(r'(유효기간|until|untill|valid|expiry|만료|\d{4}\.\d{2}\
 BENIGN = re.compile(r'valid\s+until\s+superseded', re.I)
 
 
+def split_docs(raw):
+    """추출본을 (문서명, 본문) 목록으로 나눈다.
+
+    구분자가 두 가지다 — 둘 다 받는다.
+      · `@@FILE: 이름` 한 줄            (2차 폴더 일괄 추출본)
+      · `====` 줄 사이의 `FILE: 이름`   (extract_pdfs.py 출력)
+    한쪽만 알면 다른 형식에서 조용히 0건을 반환해 버려 더 위험하다.
+
+    본문이 통째로 비어 있는 문서(스캔본 중 페이지 텍스트가 하나도 없는 것)도
+    반드시 빈 본문으로 돌려준다. 예전에는 이런 문서를 건너뛰는 바람에
+    '폴더에 60건인데 판독 대상은 51건'처럼 조용히 줄어들었고,
+    빠진 쪽이 하필 만료 COA 같은 중요한 문서였다.
+    """
+    if '@@FILE: ' in raw:
+        out = []
+        for b in raw.split('@@FILE: '):
+            if not b.strip():
+                continue
+            nl = b.index('\n')
+            out.append((b[:nl].strip(), b[nl + 1:]))
+        return out
+    out, pending, body = [], None, []
+    for p in re.split(r'^={20,}\s*$', raw, flags=re.M):
+        m = re.match(r'FILE:\s*(.+)$', p.strip())
+        if m and len(p.strip().splitlines()) == 1:
+            if pending is not None:
+                out.append((pending, ''.join(body)))
+            pending, body = m.group(1).strip(), []
+        elif pending is not None:
+            body.append(p)
+    if pending is not None:
+        out.append((pending, ''.join(body)))
+    return out
+
+
 def scan_file(path):
     """파일 하나에서 (문서명, 사유) 후보 목록을 뽑는다."""
     out = []
     raw = io.open(path, encoding='utf-8', errors='replace').read()
-    for block in raw.split('@@FILE: '):
-        if not block.strip():
-            continue
-        nl = block.index('\n')
-        name = block[:nl].strip()
+    for name, body in split_docs(raw):
         if DEP.search(name):
             continue
-        body = block[nl + 1:]
         for pat, label in BODY:
             m = pat.search(body)
             if not m:
@@ -117,12 +147,20 @@ def demo():
         ('basf_comp.pdf', 'This document is valid until superseded by a later version.'),
         ('plain_spec.pdf', 'pH 4.00 ~ 6.00 Specific Gravity 1.001 ~ 1.030'),
         ('사용X/old_coa.pdf', 'Expiry Date: 07/05/2023'),
+        ('scanned_coa(유효기간).pdf', ''),      # 스캔본 — 본문 텍스트가 하나도 없다
     ]
     body = ''.join('@@FILE: %s\n%s\n' % (n, t) for n, t in samples)
+    bar = '=' * 60
+    body2 = ''.join('%s\nFILE: %s\n%s\n%s\n' % (bar, n, bar, t) for n, t in samples)
     with tempfile.TemporaryDirectory() as d:
         p = os.path.join(d, '999999.txt')
         io.open(p, 'w', encoding='utf-8').write(body)
         rows = dict(scan_file(p))
+        io.open(p, 'w', encoding='utf-8').write(body2)
+        rows2 = dict(scan_file(p))
+    assert set(rows) == set(rows2), 'FILE: 형식 파싱 결과가 @@FILE: 과 다릅니다'
+    # 본문이 빈 스캔본도 목록에서 사라지면 안 된다 — 파일명 근거로 후보에 올라와야 한다
+    assert '(파일명에 기간 표기, 본문 미검출)' in rows['scanned_coa(유효기간).pdf']
     assert '1년 유효 조항' in rows['animal_testing.pdf']
     assert 'Valid till 명시' in rows['vegan.pdf']
     assert '인니 할랄 유효기간' in rows['halal_id.pdf']

@@ -1,4 +1,13 @@
-import { DEMO, DOC43, DOC43_STATUS, DEMO_AUTO } from "./extracted.mjs";
+/* extract_module.py 는 Temp 에 qa_extracted.mjs 를 쓴다.
+   예전에는 프로젝트 폴더의 extracted.mjs 를 읽었는데, 그 파일이 갱신되지 않아도
+   검증이 조용히 통과해 버렸다 — 최신본을 읽는지 경로로 못박는다. */
+import { tmpdir } from "node:os";
+import { pathToFileURL } from "node:url";
+import { statSync } from "node:fs";
+const SRC = tmpdir() + "/qa_extracted.mjs";
+if (Date.now() - statSync(SRC).mtimeMs > 10 * 60 * 1000)
+  console.warn("경고: " + SRC + " 가 10분 이상 지났습니다. python extract_module.py 를 먼저 실행하세요.");
+const { DEMO, DOC43, DOC43_STATUS, DEMO_AUTO } = await import(pathToFileURL(SRC).href);
 
 const err = [];
 const codes = DEMO.map(d => d.detail.code);
@@ -41,6 +50,22 @@ for (const [code, st] of Object.entries(DOC43_STATUS)) {
   if (!st.storage) { err.push(`${code}: storage 없음`); continue; }
   const missing = STORAGE_KEYS.filter(k => !(k in st.storage));
   if (missing.length) err.push(`${code}: storage 키 누락 ${missing.join(', ')}`);
+}
+
+/* 서로 다른 원료가 같은 이름을 쓰는 경우가 있다(611599/611941 SHEA BUTTER 등).
+   스텁을 이름으로 찾아 지우면 엉뚱한 원료가 사라지므로 미리 알려 준다. */
+const byName = new Map();
+for (const m of DEMO_AUTO) {
+  const n = m.name;
+  if (!byName.has(n)) byName.set(n, []);
+  byName.get(n).push(m.detail.code);
+}
+const dupNames = [...byName].filter(([, c]) => c.length > 1);
+if (dupNames.length) {
+  console.log(`
+주의: 이름이 겹치는 미검증 스텁 ${dupNames.length}쌍 — 정독 등록 시 반드시 code 로 스텁을 찾을 것`);
+  for (const [n, c] of dupNames) console.log(`  ${c.join(' / ')}  ${n}`);
+  console.log('');
 }
 
 console.log(`DEMO ${DEMO.length}건 / DEMO_AUTO ${DEMO_AUTO.length}건 / DOC43_STATUS ${stCodes.length}건`);
